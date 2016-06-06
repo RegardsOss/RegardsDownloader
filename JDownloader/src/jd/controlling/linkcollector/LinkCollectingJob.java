@@ -1,0 +1,81 @@
+package jd.controlling.linkcollector;
+
+import jd.controlling.linkcrawler.CrawledLinkModifier;
+
+public class LinkCollectingJob {
+
+    private String              jobContent;
+    private String              customSourceUrl;
+    private CrawledLinkModifier crawledLinkModifierPrePackagizer = null;
+
+    public CrawledLinkModifier getCrawledLinkModifierPrePackagizer() {
+        return crawledLinkModifierPrePackagizer;
+    }
+
+    public void setCrawledLinkModifierPrePackagizer(CrawledLinkModifier crawledLinkModifierPrePackagizer) {
+        this.crawledLinkModifierPrePackagizer = crawledLinkModifierPrePackagizer;
+    }
+
+    public CrawledLinkModifier getCrawledLinkModifierPostPackagizer() {
+        return crawledLinkModifierPostPackagizer;
+    }
+
+    public void setCrawledLinkModifierPostPackagizer(CrawledLinkModifier crawledLinkModifierPostPackagizer) {
+        this.crawledLinkModifierPostPackagizer = crawledLinkModifierPostPackagizer;
+    }
+
+    private CrawledLinkModifier crawledLinkModifierPostPackagizer = null;
+    private boolean             deepAnalyse;
+    private String              crawlerPassword                   = null;
+
+    public String getCrawlerPassword() {
+        return crawlerPassword;
+    }
+
+    public void setCrawlerPassword(String crawlerPassword) {
+        this.crawlerPassword = crawlerPassword;
+    }
+
+    public boolean isDeepAnalyse() {
+        return deepAnalyse;
+    }
+
+    public void setDeepAnalyse(boolean deepAnalyse) {
+        this.deepAnalyse = deepAnalyse;
+    }
+
+    public String getCustomSourceUrl() {
+        return customSourceUrl;
+    }
+
+    public void setCustomSourceUrl(String customSource) {
+        this.customSourceUrl = customSource;
+    }
+
+    public LinkCollectingJob(LinkOriginDetails origin) {
+        this(origin, null);
+    }
+
+    public LinkCollectingJob(LinkOriginDetails origin, String jobContent) {
+        if (origin == null) {
+            throw new IllegalArgumentException("origin is null");
+        }
+        this.jobContent = jobContent;
+        this.origin = origin;
+    }
+
+    public String getText() {
+        return jobContent;
+    }
+
+    public void setText(String text) {
+        this.jobContent = text;
+    }
+
+    private final LinkOriginDetails origin;
+
+    public LinkOriginDetails getOrigin() {
+        return origin;
+    }
+
+}

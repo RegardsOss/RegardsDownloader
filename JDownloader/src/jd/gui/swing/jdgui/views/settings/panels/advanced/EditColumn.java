@@ -1,0 +1,319 @@
+package jd.gui.swing.jdgui.views.settings.panels.advanced;
+
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.lang.reflect.Array;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Icon;
+
+import org.appwork.storage.JSonStorage;
+import org.appwork.swing.components.tooltips.ExtTooltip;
+import org.appwork.swing.exttable.ExtColumn;
+import org.appwork.swing.exttable.ExtDefaultRowSorter;
+import org.appwork.swing.exttable.columns.ExtTextColumn;
+import org.appwork.utils.swing.EDTHelper;
+import org.appwork.utils.swing.dialog.Dialog;
+import org.appwork.utils.swing.dialog.DialogCanceledException;
+import org.appwork.utils.swing.dialog.DialogClosedException;
+import org.jdownloader.gui.IconKey;
+import org.jdownloader.gui.views.components.MergedIcon;
+import org.jdownloader.images.AbstractIcon;
+import org.jdownloader.images.NewTheme;
+import org.jdownloader.settings.advanced.AdvancedConfigEntry;
+
+public class EditColumn extends ExtTextColumn<AdvancedConfigEntry> {
+    private static final long serialVersionUID = 1L;
+
+    static class InfoAction extends AbstractAction {
+        private static final long   serialVersionUID = 1L;
+        private AdvancedConfigEntry value;
+        private Icon                iconEnabled      = new AbstractIcon(IconKey.ICON_HELP, 16);
+        private Icon                iconDisabled     = NewTheme.I().getDisabledIcon(new AbstractIcon(IconKey.ICON_HELP, 16));
+
+        public InfoAction() {
+            super("Help", new AbstractIcon(IconKey.ICON_HELP, 16));
+        }
+
+        @Override
+        public boolean isEnabled() {
+            if (value == null) {
+                return false;
+            }
+            if (value.getDescription() != null) {
+                return true;
+            }
+            if (value.getDefault() != null) {
+                return true;
+            }
+            if (value.getValidator() != null) {
+                return true;
+            }
+            return false;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            if (!isEnabled()) {
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+
+            if (value.getDescription() != null) {
+                sb.append(value.getDescription());
+            }
+            if (value.getDefault() != null) {
+                if (sb.length() > 0) {
+                    sb.append("\r\n");
+                }
+                sb.append("Defaultvalue: " + JSonStorage.toString(value.getDefault()));
+            }
+            if (value.getValidator() != null) {
+                if (sb.length() > 0) {
+                    sb.append("\r\n\r\n");
+                }
+                sb.append(value.getValidator());
+            }
+            Dialog.getInstance().showMessageDialog(Dialog.STYLE_LARGE, value.getKey(), sb.toString());
+        }
+
+        public void setEntry(AdvancedConfigEntry value) {
+
+            this.value = value;
+            if (isEnabled()) {
+                putValue(Action.SMALL_ICON, iconEnabled);
+            } else {
+                putValue(Action.SMALL_ICON, iconDisabled);
+            }
+        }
+
+    }
+
+    class ResetAction extends AbstractAction {
+        private static final long   serialVersionUID = 1L;
+        private AdvancedConfigEntry value;
+        private final Icon          reset_no         = NewTheme.I().getIcon(IconKey.ICON_RESET, 16);
+        private final Icon          reset_yes        = NewTheme.I().getDisabledIcon(reset_no);
+        private boolean             resetable        = false;
+
+        public ResetAction() {
+            super("Reset to Default");
+            setEnabledIntern(true);
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            if (!resetable) {
+                return;
+            }
+            EditColumn.this.stopCellEditing();
+            new EDTHelper<Void>() {
+
+                @Override
+                public Void edtRun() {
+                    try {
+                        Dialog.getInstance().showConfirmDialog(0, "Reset to default?", "Really reset " + value.getKey() + " to " + value.getDefault());
+                        value.setValue(value.getDefault());
+                        EditColumn.this.getModel().getTable().repaint();
+                    } catch (DialogClosedException e1) {
+                        e1.printStackTrace();
+                    } catch (DialogCanceledException e1) {
+                        e1.printStackTrace();
+                    }
+                    return null;
+                }
+            }.start(true);
+
+        }
+
+        private boolean equals(Object x, Object y) {
+            if (x == null && y == null) {
+                return true;
+            } else if (x != null && y != null) {
+                if (x == y || x.equals(y)) {
+                    return true;
+                } else {
+                    if (x.getClass().isArray() && y.getClass().isArray()) {
+                        final int xL = Array.getLength(x);
+                        final int yL = Array.getLength(y);
+                        if (xL == yL) {
+                            for (int index = 0; index < xL; index++) {
+                                final Object xE = Array.get(x, index);
+                                final Object yE = Array.get(y, index);
+                                if (equals(xE, yE) == false) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public void setEntry(AdvancedConfigEntry value) {
+            final Object currentValue = value.getValue();
+            if (currentValue == null) {
+                setEnabledIntern(value.getKeyHandler().hasDefaultValue());
+            } else {
+                final Object defaultValue = value.getDefault();
+                final boolean isDefault = equals(currentValue, defaultValue);
+                setEnabledIntern(!isDefault);
+            }
+            this.value = value;
+        }
+
+        public void setEnabledIntern(boolean b) {
+            if (b) {
+                putValue(Action.SMALL_ICON, reset_no);
+            } else {
+                putValue(Action.SMALL_ICON, reset_yes);
+            }
+            resetable = b;
+            super.setEnabled(b);
+        }
+
+    }
+
+    public static final int SIZE = 16;
+
+    private InfoAction      editorInfo;
+    private InfoAction      rendererInfo;
+
+    private MergedIcon      iconDD;
+
+    private MergedIcon      iconED;
+
+    private MergedIcon      iconDE;
+
+    private MergedIcon      iconEE;
+
+    private InfoAction      info;
+
+    private ResetAction     reset;
+
+    public EditColumn() {
+        super("Actions");
+
+        iconDD = new MergedIcon(org.jdownloader.images.NewTheme.I().getDisabledIcon(new AbstractIcon(IconKey.ICON_HELP, 16)), org.jdownloader.images.NewTheme.I().getDisabledIcon(new AbstractIcon(IconKey.ICON_RESET, 16)));
+        iconED = new MergedIcon(new AbstractIcon(IconKey.ICON_HELP, 16), org.jdownloader.images.NewTheme.I().getDisabledIcon(new AbstractIcon(IconKey.ICON_RESET, 16)));
+        iconDE = new MergedIcon(org.jdownloader.images.NewTheme.I().getDisabledIcon(new AbstractIcon(IconKey.ICON_HELP, 16)), new AbstractIcon(IconKey.ICON_RESET, 16));
+        iconEE = new MergedIcon(new AbstractIcon(IconKey.ICON_HELP, 16), new AbstractIcon(IconKey.ICON_RESET, 16));
+        info = new InfoAction();
+        reset = new ResetAction();
+        setRowSorter(new ExtDefaultRowSorter<AdvancedConfigEntry>() {
+            @Override
+            public int compare(AdvancedConfigEntry o1, AdvancedConfigEntry o2) {
+                final Icon ic1 = getIcon(o1);
+                final Icon ic2 = getIcon(o2);
+                final int h1 = ic1 == null ? 0 : getIconID(ic1);
+                final int h2 = ic2 == null ? 0 : getIconID(ic2);
+                if (h1 == h2) {
+                    return 0;
+                }
+                if (this.getSortOrderIdentifier() == ExtColumn.SORT_ASC) {
+                    return h1 > h2 ? -1 : 1;
+                } else {
+                    return h2 > h1 ? -1 : 1;
+                }
+            }
+
+            private int getIconID(Icon ic) {
+                if (ic == iconDE) {
+                    return 1;
+                }
+                if (ic == iconEE) {
+                    return 2;
+                }
+                if (ic == iconED) {
+                    return 3;
+                }
+                if (ic == iconDD) {
+                    return 4;
+                }
+                return 0;
+            }
+        });
+    }
+
+    @Override
+    public int getMaxWidth() {
+        return getMinWidth();
+    }
+
+    @Override
+    public boolean isSortable(AdvancedConfigEntry obj) {
+        return true;
+    }
+
+    @Override
+    public int getMinWidth() {
+        return 45;
+    }
+
+    public ExtTooltip createToolTip(final Point p, final AdvancedConfigEntry obj) {
+        if (p.x - getBounds().x < getWidth() / 2) {
+            // left
+            this.tooltip.setTipText("Click to Open an infopanel");
+
+        } else {
+            // right
+            this.tooltip.setTipText("Click to reset to " + obj.getDefault());
+            System.out.println("RIGHT");
+        }
+
+        return this.tooltip;
+    }
+
+    @Override
+    public boolean onSingleClick(MouseEvent e, AdvancedConfigEntry obj) {
+        if (e.getPoint().x - getBounds().x < getWidth() / 2) {
+            // left
+            System.out.println("LEFT");
+            InfoAction info = new InfoAction();
+            info.setEntry(obj);
+            info.actionPerformed(null);
+        } else {
+            // right
+            System.out.println("RIGHT");
+            ResetAction reset = new ResetAction();
+            reset.setEntry(obj);
+            reset.actionPerformed(null);
+        }
+        return super.onSingleClick(e, obj);
+    }
+
+    @Override
+    protected String getTooltipText(AdvancedConfigEntry obj) {
+        return null;
+    }
+
+    @Override
+    public String getStringValue(AdvancedConfigEntry value) {
+        return null;
+    }
+
+    @Override
+    protected Icon getIcon(AdvancedConfigEntry value) {
+        info.setEntry(value);
+        reset.setEntry(value);
+        boolean resetable = reset.isEnabled();
+        boolean info = this.info.isEnabled();
+
+        if (resetable && info) {
+            return iconEE;
+        } else if (!resetable && info) {
+            return iconED;
+        } else if (!resetable && !info) {
+            return iconDD;
+        } else {
+            return iconDE;
+        }
+    }
+
+}

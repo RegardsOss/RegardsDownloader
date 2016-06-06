@@ -1,0 +1,1761 @@
+package jd.plugins.hoster;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Pattern;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
+import org.jdownloader.captcha.v2.challenge.recaptcha.v1.Recaptcha;
+import org.jdownloader.captcha.v2.challenge.recaptcha.v2.CaptchaHelperHostPluginRecaptchaV2;
+
+import jd.PluginWrapper;
+import jd.config.Property;
+import jd.http.Browser;
+import jd.http.Cookie;
+import jd.http.Cookies;
+import jd.http.Request;
+import jd.http.RequestHeader;
+import jd.http.URLConnectionAdapter;
+import jd.http.requests.PostRequest;
+import jd.nutils.Formatter;
+import jd.nutils.encoding.Encoding;
+import jd.parser.Regex;
+import jd.parser.html.Form;
+import jd.plugins.Account;
+import jd.plugins.AccountInfo;
+import jd.plugins.DownloadLink;
+import jd.plugins.DownloadLink.AvailableStatus;
+import jd.plugins.LinkStatus;
+import jd.plugins.PluginException;
+import jd.plugins.PluginForHost;
+import jd.plugins.components.PluginJSonUtils;
+import jd.utils.JDUtilities;
+
+/**
+ * Abstract class supporting keep2share/fileboom/publish2<br/>
+ * <a href="https://github.com/keep2share/api/">Github documentation</a>
+ *
+ * @author raztoki
+ *
+ */
+public abstract class K2SApi extends PluginForHost {
+
+    private String          authToken;
+    protected String        directlinkproperty;
+    protected int           chunks;
+    protected boolean       resumes;
+    protected boolean       isFree;
+    private final String    lng                    = getLanguage();
+    private final String    AUTHTOKEN              = "auth_token";
+    private int             authTokenFail          = 0;
+    private int             loginCaptchaFail       = -1;
+
+    // plugin config definition
+    protected final String  USE_API                = "USE_API_2";
+    protected final boolean default_USE_API        = true;
+    protected final String  SSL_CONNECTION         = "SSL_CONNECTION_2";
+    protected final boolean default_SSL_CONNECTION = true;
+
+    public K2SApi(PluginWrapper wrapper) {
+        super(wrapper);
+    }
+
+    /**
+     * sets domain the API will use!
+     *
+     */
+    protected abstract String getDomain();
+
+    /**
+     * Does the site enforce HTTPS? <br />
+     * Override this when incorrect<br />
+     * <b>NOTE:</b> When setting to true, make sure that supportsHTTPS is also set to true!
+     *
+     * @return
+     */
+    protected boolean enforcesHTTPS() {
+        return false;
+    }
+
+    /**
+     * returns API Revision number as long
+     *
+     * @author Jiaz
+     */
+    protected long getAPIRevision() {
+        return Math.max(0, Formatter.getRevision("$Revision: 33914 $"));
+    }
+
+    /**
+     * returns String in friendly format, to be used in logger outputs.
+     *
+     * @author raztoki
+     */
+    protected String getRevisionInfo() {
+        return "RevisionInfo: " + this.getClass().getSimpleName() + "=" + Math.max(super.getVersion(), 0) + ", K2SApi=" + getAPIRevision();
+    }
+
+    /**
+     * Does the site support HTTPS? <br />
+     * Override this when incorrect
+     *
+     * @return
+     */
+    protected boolean supportsHTTPS() {
+        return default_SSL_CONNECTION;
+    }
+
+    /**
+     * useAPI frame work? <br />
+     * Override this when incorrect
+     *
+     * @return
+     */
+    protected boolean useAPI() {
+        return getPluginConfig().getBooleanProperty(USE_API, default_USE_API);
+    }
+
+    protected boolean useRUA() {
+        return true;
+    }
+
+    protected String getApiUrl() {
+        return getProtocol() + getDomain() + "/api/v1";
+    }
+
+    /**
+     * Returns plugin specific user setting. <br />
+     * <b>NOTE:</b> public method, so that the decrypter can use it!
+     *
+     * @author raztoki
+     * @return
+     */
+    public String getProtocol() {
+        return (isSecure() ? "https://" : "http://");
+    }
+
+    protected boolean isSecure() {
+        if (enforcesHTTPS() && supportsHTTPS()) {
+            // prevent bad setter from enforcing secure
+            return true;
+        } else if (supportsHTTPS() && getPluginConfig().getBooleanProperty(SSL_CONNECTION, default_SSL_CONNECTION)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected String getFUID(final DownloadLink downloadLink) {
+        return getFUID(downloadLink.getDownloadURL());
+    }
+
+    public String getFUID(final String link) {
+        return new Regex(link, "/([a-z0-9]+)$").getMatch(0);
+    }
+
+    private static HashMap<String, String> antiDDoSCookies = new HashMap<String, String>();
+    private static AtomicReference<String> agent           = new AtomicReference<String>(null);
+    private boolean                        prepBrSet       = false;
+
+    @Override
+    public void init() {
+        try {
+            Browser.setRequestIntervalLimitGlobal(getDomain(), 3000, 20, 60000);
+        } catch (final Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    protected Browser prepBrowser(final Browser prepBr) {
+        // define custom browser headers and language settings.
+        // required for native cloudflare support, without the need to repeat requests.
+        try {
+            prepBr.addAllowedResponseCodes(new int[] { 429, 503, 520, 522 });
+        } catch (final Throwable t) {
+        }
+        synchronized (antiDDoSCookies) {
+            if (!antiDDoSCookies.isEmpty()) {
+                for (final Map.Entry<String, String> cookieEntry : antiDDoSCookies.entrySet()) {
+                    final String key = cookieEntry.getKey();
+                    final String value = cookieEntry.getValue();
+                    prepBr.setCookie(this.getHost(), key, value);
+                }
+            }
+        }
+        if (useRUA()) {
+            if (agent.get() == null) {
+                /* we first have to load the plugin, before we can reference it */
+                JDUtilities.getPluginForHost("mediafire.com");
+                agent.set(jd.plugins.hoster.MediafireCom.stringUserAgent());
+            }
+            prepBr.getHeaders().put("User-Agent", agent.get());
+        }
+        prepBr.getHeaders().put("Accept-Language", "en-gb, en;q=0.8");
+        prepBr.getHeaders().put("Accept-Charset", null);
+        // prepBr.getHeaders().put("Cache-Control", null);
+        prepBr.getHeaders().put("Pragma", null);
+        prepBrSet = true;
+        return prepBr;
+    }
+
+    private Browser prepAPI(final Browser prepBr) {
+        // prep site variables, this links back to prepADB from Override
+        prepBrowser(prepBr);
+        // api && dl server response codes
+        try {
+            prepBr.addAllowedResponseCodes(new int[] { 400, 401, 403, 406 });
+        } catch (final Throwable t) {
+        }
+        return prepBr;
+    }
+
+    /**
+     * sets DownloadLink LinkID property
+     *
+     * @param downloadLink
+     * @throws PluginException
+     */
+    protected void setFUID(final DownloadLink downloadLink) throws PluginException {
+        if (downloadLink.getSetLinkID() == null) {
+            String linkID = getFUID(downloadLink);
+            if (linkID != null) {
+                linkID = getDomain() + "://" + linkID;
+                try {
+                    downloadLink.setLinkID(linkID);
+                } catch (Throwable e) {
+                    // not in stable
+                    downloadLink.setProperty("LINKDUPEID", linkID);
+                }
+            } else {
+                throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+            }
+        }
+    }
+
+    public boolean checkLinks(final DownloadLink[] urls) {
+        // required to get overrides to work
+        final Browser br = prepAPI(newBrowser());
+        try {
+            final ArrayList<DownloadLink> links = new ArrayList<DownloadLink>();
+            int index = 0;
+            while (true) {
+                final StringBuilder sb = new StringBuilder();
+                while (true) {
+                    if (links.size() > 100 || index == urls.length) {
+                        break;
+                    }
+                    links.add(urls[index]);
+                    index++;
+                }
+                for (final DownloadLink dl : links) {
+                    sb.append("\"" + getFUID(dl) + "\"");
+                    sb.append(",");
+                }
+                // lets remove last ","
+                sb.delete(sb.length() - 1, sb.length());
+                postPageRaw(br, "/getfilesinfo", "{\"ids\":[" + sb.toString() + "]}", null);
+                for (final DownloadLink dl : links) {
+                    final String fuid = getFUID(dl);
+                    final String filter = br.getRegex("(\\{\"id\":\"" + fuid + "\",[^\\}]+\\})").getMatch(0);
+                    if (filter == null) {
+                        return false;
+                    }
+                    final String status = getJson(filter, "is_available");
+                    if (!"true".equalsIgnoreCase(status)) {
+                        dl.setAvailable(false);
+                    } else {
+                        dl.setAvailable(true);
+                    }
+                    final String name = getJson(filter, "name");
+                    final String size = getJson(filter, "size");
+                    final String md5 = getJson(filter, "md5");
+                    final String access = getJson(filter, "access");
+                    final String isFolder = getJson(filter, "is_folder");
+                    if (!inValidate(name)) {
+                        dl.setName(name);
+                    }
+                    if (!inValidate(size)) {
+                        dl.setVerifiedFileSize(Long.parseLong(size));
+                    }
+                    if (!inValidate(md5)) {
+                        dl.setMD5Hash(md5);
+                    }
+                    if (!inValidate(access)) {
+                        // access: ['public', 'private', 'premium']
+                        // public = everyone users
+                        // premium = restricted to premium
+                        // private = owner only..
+                        dl.setProperty("access", access);
+                        if ("premium".equalsIgnoreCase(access)) {
+                            try {
+                                dl.setComment(getErrorMessage(7));
+                            } catch (final Throwable t) {
+                            }
+                        } else if ("private".equalsIgnoreCase(access)) {
+                            try {
+                                dl.setComment(getErrorMessage(8));
+                            } catch (final Throwable t) {
+                            }
+                        }
+                    }
+                    if (!inValidate(isFolder) && "true".equalsIgnoreCase(isFolder)) {
+                        dl.setAvailable(false);
+                        try {
+                            dl.setComment(getErrorMessage(23));
+                        } catch (final Throwable t) {
+                        }
+                    }
+                    setFUID(dl);
+                }
+                if (index == urls.length) {
+                    break;
+                }
+            }
+        } catch (final Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    /*
+     * IMPORTANT: Current implementation seems to be correct - admin told us that there are no lifetime accounts (anymore)
+     */
+    public AccountInfo fetchAccountInfo(final Account account) throws Exception {
+        logger.info(getRevisionInfo());
+        final AccountInfo ai = new AccountInfo();
+        // required to get overrides to work
+        br = prepAPI(newBrowser());
+        postPageRaw(br, "/accountinfo", "{\"auth_token\":\"" + getAuthToken(account) + "\"}", account);
+        final String available_traffic = getJson("available_traffic");
+        final String account_expires = getJson("account_expires");
+        if ("false".equalsIgnoreCase(account_expires)) {
+            account.setProperty("free", true);
+            ai.setStatus("Free Account");
+        } else {
+            account.setProperty("free", false);
+            if (!inValidate(account_expires)) {
+                ai.setValidUntil(Long.parseLong(account_expires) * 1000l);
+            } else {
+                throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+            }
+            ai.setStatus("Premium Account");
+        }
+        if (!inValidate(available_traffic)) {
+            ai.setTrafficLeft(Long.parseLong(available_traffic));
+        }
+        resetAccountProperties(account);
+        setAccountLimits(account);
+        account.setValid(true);
+        return ai;
+    }
+
+    protected void setAccountLimits(final Account account) {
+    }
+
+    /**
+     * this resets temp values set elsewhere for clean start
+     *
+     * @param account
+     */
+    private void resetAccountProperties(final Account account) {
+        if (account != null) {
+            account.setProperty("PROPERTY_TEMP_DISABLED_TIMEOUT", Property.NULL);
+        }
+    }
+
+    public void handleDownload(final DownloadLink downloadLink, final Account account) throws Exception {
+        logger.info(getRevisionInfo());
+        resetAccountProperties(account);
+        // linkcheck here..
+        reqFileInformation(downloadLink);
+        String fuid = getFUID(downloadLink);
+        String dllink = downloadLink.getStringProperty(directlinkproperty, null);
+        // required to get overrides to work
+        br = prepAPI(newBrowser());
+        // because opening the link to test it, uses up the availability, then reopening it again = too many requests too quickly issue.
+        if (!inValidate(dllink)) {
+            final Browser obr = br.cloneBrowser();
+            logger.info("Reusing cached finallink!");
+            dl = jd.plugins.BrowserAdapter.openDownload(br, downloadLink, dllink, resumes, chunks);
+            if (dl.getConnection().getContentType().contains("html") || dl.getConnection().getLongContentLength() == -1 || dl.getConnection().getResponseCode() == 401) {
+                br.followConnection();
+                handleGeneralServerErrors(account, downloadLink);
+                // we now want to restore!
+                br = obr;
+                dllink = null;
+                downloadLink.setProperty(directlinkproperty, Property.NULL);
+            }
+        }
+        // if above has failed, dllink will be null
+        if (inValidate(dllink)) {
+            if ("premium".equalsIgnoreCase(downloadLink.getStringProperty("access", null)) && isFree) {
+                // download not possible
+                premiumDownloadRestriction(getErrorMessage(3));
+            } else if ("private".equalsIgnoreCase(downloadLink.getStringProperty("access", null)) && isFree) {
+                privateDownloadRestriction(getErrorMessage(8));
+            }
+            if (isFree) {
+                // free non account, and free account download method.
+                postPageRaw(br, "/requestcaptcha", "", account);
+                final String challenge = getJson("challenge");
+                final String captcha_url = getJson("captcha_url");
+                // Dependency
+                if (inValidate(challenge) || inValidate(captcha_url)) {
+                    throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+                }
+                final String code = getCaptchaCode(captcha_url, downloadLink);
+                if (inValidate(code)) {
+                    // captcha can't be blank! Why we don't return null I don't know!
+                    throw new PluginException(LinkStatus.ERROR_CAPTCHA);
+                }
+                postPageRaw(br, "/geturl", "{\"file_id\":\"" + fuid + "\",\"free_download_key\":null,\"captcha_challenge\":\"" + challenge + "\",\"captcha_response\":\"" + JSonUtils.escape(code) + "\"}", account);
+                final String free_download_key = getJson("free_download_key");
+                if (inValidate(free_download_key)) {
+                    throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+                }
+                if (!inValidate(getJson("time_wait"))) {
+                    sleep(Integer.parseInt(getJson("time_wait")) * 1001l, downloadLink);
+                } else {
+                    // fail over
+                    sleep(31 * 1001l, downloadLink);
+                }
+                postPageRaw(br, "/geturl", "{\"file_id\":\"" + fuid + "\",\"free_download_key\":\"" + free_download_key + "\",\"captcha_challenge\":null,\"captcha_response\":null}", account);
+            } else {
+                // premium download
+                postPageRaw(br, "/geturl", "{\"auth_token\":\"" + getAuthToken(account) + "\",\"file_id\":\"" + fuid + "\"}", account);
+                // private error files happen here, because we can't identify the owner until download sequence starts!
+            }
+            dllink = getJson("url");
+            if (inValidate(dllink)) {
+                throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+            }
+            logger.info("dllink = " + dllink);
+            dl = jd.plugins.BrowserAdapter.openDownload(br, downloadLink, dllink, resumes, chunks);
+            if (dl.getConnection().getContentType().contains("html")) {
+                logger.warning("The final dllink seems not to be a file!");
+                br.followConnection();
+                handleGeneralServerErrors(account, downloadLink);
+                throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+            }
+        }
+        downloadLink.setProperty(directlinkproperty, dllink);
+        // add download slot
+        controlSlot(+1, account);
+        try {
+            dl.startDownload();
+        } finally {
+            // remove download slot
+            controlSlot(-1, account);
+        }
+    }
+
+    /**
+     * We have to reinvent the wheel. With the help of @Override openPostConnection created us openRequestConnection in postRaw format.
+     *
+     * @author raztoki
+     * @return
+     */
+    protected Browser newBrowser() {
+        Browser nbr = new Browser() {
+
+            /**
+             * overrides openPostConnection and turns it into openPostRawConnection
+             *
+             * @author raztoki
+             */
+            @Override
+            public URLConnectionAdapter openPostConnection(final String url, final String post) throws IOException {
+                return this.openRequestConnection(this.createPostRawRequest(url, post));
+            }
+
+            /**
+             * creates new Post Raw Request! merge components from JD2 Browser stripped of Appwork references.
+             *
+             * @author raztoki
+             * @param url
+             * @param post
+             * @return
+             * @throws MalformedURLException
+             */
+            public Request createPostRawRequest(final String url, final String post) throws IOException {
+                final PostRequest request = new PostRequest(this.getURL(url));
+                request.setPostDataString(post);
+
+                String requestContentType = null;
+                final RequestHeader lHeaders = this.getHeaders();
+                if (lHeaders != null) {
+                    final String browserContentType = lHeaders.remove("Content-Type");
+                    if (requestContentType == null) {
+                        requestContentType = browserContentType;
+                    }
+                }
+                if (requestContentType == null) {
+                    requestContentType = "application/json";
+                }
+                request.setContentType(requestContentType);
+                return request;
+            }
+
+        };
+        return nbr;
+    }
+
+    protected static Object REQUESTLOCK = new Object();
+
+    /**
+     * general handling postPage requests! It's stable compliant with various response codes. It then passes to error handling!
+     *
+     * @param ibr
+     * @param url
+     * @param arg
+     * @param account
+     * @author raztoki
+     * @throws Exception
+     */
+    private void postPageRaw(final Browser ibr, final String url, final String arg, final Account account) throws Exception {
+        URLConnectionAdapter con = null;
+        synchronized (REQUESTLOCK) {
+            try {
+                con = ibr.openPostConnection(getApiUrl() + url, arg);
+                readConnection(con, ibr);
+                antiDDoS(ibr);
+                // only do captcha stuff on the login page.
+                if (url.endsWith("/login") && loginRequiresCaptcha(ibr)) {
+                    loginCaptchaFail++;
+                    if (loginCaptchaFail > 1) {
+                        throw new PluginException(LinkStatus.ERROR_CAPTCHA);
+                    }
+                    // we can assume that the previous user:pass is wrong, prompt user for new one!
+
+                    Browser cbr = new Browser();
+                    postPageRaw(cbr, "/requestcaptcha", "", account);
+                    final String challenge = getJson(cbr, "challenge");
+                    final String captcha_url = getJson(cbr, "captcha_url");
+                    // Dependency
+                    if (inValidate(challenge) || inValidate(captcha_url)) {
+                        throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+                    }
+                    // final dummy
+                    final DownloadLink dummyLink = new DownloadLink(null, "Account", getDomain(), br.getURL(), true);
+                    final String code = getCaptchaCode(captcha_url, dummyLink);
+                    if (inValidate(code)) {
+                        // captcha can't be blank! Why we don't return null I don't know!
+                        throw new PluginException(LinkStatus.ERROR_CAPTCHA);
+                    }
+                    String r = arg;
+                    if (!r.contains("captcha_challenge")) {
+                        r = arg.replaceFirst("\\}$", "") + ",\"captcha_challenge\":\"" + challenge + "\",\"captcha_response\":\"" + JSonUtils.escape(code) + "\"}";
+                    } else {
+                        final String jchallenge = getJson(r, "captcha_challenge");
+                        final String jresponse = getJson(r, "captcha_response");
+                        r = r.replace(jchallenge, challenge);
+                        r = r.replace(jresponse, JSonUtils.escape(code));
+                    }
+                    postPageRaw(ibr, url, r, account);
+                    return;
+                }
+                if (sessionTokenInvalid(account, ibr)) {
+                    // we retry once after failure!
+                    if (authTokenFail > 1) {
+                        // not sure what todo here.. not really plugin defect
+                        throw new PluginException(LinkStatus.ERROR_FATAL);
+                    }
+                    // lets retry
+                    // The arg contains auth_key, we need to update the original request with new auth_token
+                    if (arg.contains("\"auth_token\"")) {
+                        final String r = arg.replace(getJson(arg, "auth_token"), getAuthToken(account));
+                        // re-enter using new auth_token
+                        postPageRaw(ibr, url, r, account);
+                        // error handling has been done by above re-entry
+                        return;
+                    }
+                }
+                // we want to process handleErrors after each request. Lets hope centralised approach isn't used against us.
+                handleErrors(account, ibr);
+            } finally {
+                try {
+                    con.disconnect();
+                } catch (Throwable e) {
+                }
+            }
+        }
+    }
+
+    /**
+     * @author razotki
+     * @author jiaz
+     * @param con
+     * @param ibr
+     * @throws IOException
+     * @throws PluginException
+     */
+    private void readConnection(final URLConnectionAdapter con, final Browser ibr) throws IOException, PluginException {
+        InputStream is = null;
+        try {
+            /* beta */
+            try {
+                con.setAllowedResponseCodes(new int[] { con.getResponseCode() });
+            } catch (final Throwable e2) {
+            }
+            is = con.getInputStream();
+        } catch (IOException e) {
+            // stable fail over
+            is = con.getErrorStream();
+        }
+        final String t = readInputStream(is, ibr.getRequest().getCustomCharset());
+        if (t != null) {
+            logger.fine("\r\n" + t);
+            ibr.getRequest().setHtmlCode(t);
+        }
+    }
+
+    /**
+     * @author razotki
+     * @author jiaz
+     * @param is
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws IOException
+     */
+    private String readInputStream(final InputStream is, final String encoding) throws UnsupportedEncodingException, IOException {
+        BufferedReader f = null;
+        try {
+            f = new BufferedReader(new InputStreamReader(is, encoding == null ? "UTF-8" : encoding));
+            String line;
+            final StringBuilder ret = new StringBuilder();
+            final String sep = System.getProperty("line.separator");
+            while ((line = f.readLine()) != null) {
+                if (ret.length() > 0) {
+                    ret.append(sep);
+                }
+                ret.append(line);
+            }
+            return ret.toString();
+        } finally {
+            try {
+                is.close();
+            } catch (final Throwable e) {
+            }
+        }
+    }
+
+    private boolean loginRequiresCaptcha(final Browser ibr) {
+        final String status = getJson(ibr, "status");
+        final String errorCode = getJson(ibr, "errorCode");
+        if ("error".equalsIgnoreCase(status) && ("30".equalsIgnoreCase(errorCode))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean sessionTokenInvalid(final Account account, final Browser ibr) {
+        final String status = getJson(ibr, "status");
+        final String errorCode = getJson(ibr, "errorCode");
+        if ("error".equalsIgnoreCase(status) && ("10".equalsIgnoreCase(errorCode)) || ("11".equalsIgnoreCase(errorCode)) || ("75".equalsIgnoreCase(errorCode))) {
+            // expired sessionToken
+            dumpAuthToken(account);
+            authTokenFail++;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static Object ACCLOCK = new Object();
+
+    private String getAuthToken(final Account account) throws Exception {
+        synchronized (ACCLOCK) {
+            if (authToken == null) {
+                authToken = account.getStringProperty(AUTHTOKEN, null);
+                if (authToken == null) {
+                    // we don't want to pollute this.br
+                    Browser auth = prepBrowser(newBrowser());
+                    postPageRaw(auth, "/login", "{\"username\":\"" + JSonUtils.escape(account.getUser()) + "\",\"password\":\"" + JSonUtils.escape(account.getPass()) + "\"}", account);
+                    authToken = getJson(auth, "auth_token");
+                    if (authToken == null) {
+                        // problemo?
+                        logger.warning("problem in the old carel");
+                        throw new PluginException(LinkStatus.ERROR_FATAL);
+                    } else {
+                        account.setProperty(AUTHTOKEN, authToken);
+                    }
+                }
+            }
+            return authToken;
+        }
+    }
+
+    private void handleErrors(final Account account, final Browser ibr) throws PluginException {
+        handleErrors(account, ibr.toString(), false);
+    }
+
+    private void handleErrors(final Account account, final String iString, final boolean subErrors) throws PluginException {
+        if (inValidate(iString)) {
+            throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+        }
+        if ("success".equalsIgnoreCase(getJson(iString, "status")) && "200".equalsIgnoreCase(getJson(iString, "code")) && !subErrors) {
+            return;
+        }
+        // let the error handling begin!
+        String errCode = getJson(iString, "errorCode");
+        if (inValidate(errCode) && subErrors) {
+            // subErrors
+            errCode = getJson(iString, "code");
+        }
+        if (!inValidate(errCode) && errCode.matches("\\d+")) {
+            final int err = Integer.parseInt(errCode);
+            String msg = getErrorMessage(err);
+            try {
+                switch (err) {
+                case 1:
+                    // DOWNLOAD_COUNT_EXCEEDED = 1; "Download count files exceed"
+                    // assume non account/free account
+                    throw new PluginException(LinkStatus.ERROR_IP_BLOCKED, msg);
+                case 2:
+                    // DOWNLOAD_TRAFFIC_EXCEEDED = 2; "Traffic limit exceed"
+                    // assume all types
+                    if (account == null) {
+                        throw new PluginException(LinkStatus.ERROR_IP_BLOCKED, msg);
+                    } else {
+                        final AccountInfo ai = new AccountInfo();
+                        ai.setTrafficLeft(0);
+                        account.setAccountInfo(ai);
+                        throw new PluginException(LinkStatus.ERROR_RETRY, msg);
+                    }
+                case 3:
+                case 7:
+                    // DOWNLOAD_FILE_SIZE_EXCEEDED = 3; "Free user can't download large files. Upgrade to PREMIUM and forget about limits."
+                    // PREMIUM_ONLY = 7; "This download available only for premium users"
+                    // {"message":"Download not available","status":"error","code":406,"errorCode":42,"errors":[{"code":7}]}
+                    premiumDownloadRestriction(msg);
+                case 4:
+                    // DOWNLOAD_NO_ACCESS = 4; "You no can access to this file"
+                    // not sure about this...
+                    throw new PluginException(LinkStatus.ERROR_FATAL, msg);
+                case 5:
+                    // DOWNLOAD_WAITING = 5; "Please wait to download this file"
+                    // {"message":"Download not
+                    // available","status":"error","code":406,"errorCode":42,"errors":[{"code":5,"timeRemaining":"2521.000000"}]}
+                    // think timeRemaining is in seconds
+                    String time = getJson(iString, "timeRemaining");
+                    if (!inValidate(time) && time.matches("[\\d\\.]+")) {
+                        time = time.substring(0, time.indexOf("."));
+                        throw new PluginException(LinkStatus.ERROR_IP_BLOCKED, msg, Integer.parseInt(time) * 1000);
+                    } else {
+                        throw new PluginException(LinkStatus.ERROR_IP_BLOCKED, msg, 15 * 60 * 1000);
+                    }
+                case 6:
+                    // DOWNLOAD_FREE_THREAD_COUNT_TO_MANY = 6; "Free account does not allow to download more than one file at the same time"
+                    throw new PluginException(LinkStatus.ERROR_IP_BLOCKED, msg);
+                case 8:
+                    // PRIVATE_ONLY = 8; //'This is private file',
+                    privateDownloadRestriction(msg);
+                case 10:
+                case 11:
+                case 75:
+                    // ERROR_YOU_ARE_NEED_AUTHORIZED = 10;
+                    // ERROR_AUTHORIZATION_EXPIRED = 11;
+                    // ERROR_ILLEGAL_SESSION_IP = 75;
+                    // {"message":"This token not allow access from this IP address","status":"error","code":403,"errorCode":75}
+                    // this should never happen, as its handled within postPage and auth_token should be valid for download
+                    dumpAuthToken(account);
+                    throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+                case 20:
+                    // ERROR_FILE_NOT_FOUND = 20;
+                    throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND, msg);
+                case 21:
+                case 22:
+                    // ERROR_FILE_IS_NOT_AVAILABLE = 21;
+                    // {"message":"Download is not
+                    // available","status":"error","code":406,"errorCode":21,"errors":[{"code":2,"message":"Traffic limit exceed"}]}
+                    // sub error, pass it back into itself.
+                    handleErrors(account, getJsonArray(iString, "errors"), true);
+                    // ERROR_FILE_IS_BLOCKED = 22;
+                    // what does this mean? premium only link ? treating as 'file not found'
+                case 23:
+                    // {"message":"file_id is folder","status":"error","code":406,"errorCode":23}
+                    throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND, msg);
+                case 30:
+                    // ERROR_CAPTCHA_REQUIRED = 30;
+                    // this shouldn't happen in dl method.. beware website can contain captcha onlogin, api not of yet.
+                    if (account != null) {
+                        // {"message":"You need send request for free download with captcha
+                        // fields","status":"error","code":406,"errorCode":30}
+                        // false positive for invalid auth_token (work around)! dump cookies and retry
+                        dumpAuthToken(account);
+                        throw new PluginException(LinkStatus.ERROR_RETRY);
+                    }
+                    throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+                case 31:
+                    // ERROR_CAPTCHA_INVALID = 31;
+                    throw new PluginException(LinkStatus.ERROR_CAPTCHA, msg);
+                case 40:
+                    // ERROR_WRONG_FREE_DOWNLOAD_KEY = 40;
+                    throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT, msg);
+                case 41:
+                case 42:
+                    // ERROR_NEED_WAIT_TO_FREE_DOWNLOAD = 41;
+                    // ERROR_DOWNLOAD_NOT_AVAILABLE = 42;
+                    // {"message":"Download is not
+                    // available","status":"error","code":406,"errorCode":21,"errors":[{"code":2,"message":"Traffic limit exceed"}]}
+                    // {"message":"Download not available","status":"error","code":406,"errorCode":42,"errors":[{"code":3}]}
+                    // {"message":"Download not
+                    // available","status":"error","code":406,"errorCode":42,"errors":[{"code":5,"timeRemaining":"2521.000000"}]}
+                    // {"message":"Download is not available","status":"error","code":406,"errorCode":42,"errors":[{"code":6,"message":"
+                    // Free account does not allow to download more than one file at the same time"}]}
+                    // {"message":"Download not available","status":"error","code":406,"errorCode":42,"errors":[{"code":6}]}
+                    // {"message":"Download not available","status":"error","code":406,"errorCode":42,"errors":[{"code":7}]}
+                    // sub error, pass it back into itself.
+                    handleErrors(account, getJsonArray(iString, "errors"), true);
+                case 70:
+                case 72:
+                    // ERROR_INCORRECT_USERNAME_OR_PASSWORD = 70;
+                    // ERROR_ACCOUNT_BANNED = 72;
+                    dumpAuthToken(account);
+                    throw new PluginException(LinkStatus.ERROR_PREMIUM, "\r\n" + msg, PluginException.VALUE_ID_PREMIUM_DISABLE);
+                case 71:
+                    // ERROR_LOGIN_ATTEMPTS_EXCEEDED = 71;
+                    // This is actually a IP restriction!
+                    // 30min wait time.... since wait time isn't respected (throw new PluginException(LinkStatus.ERROR_PREMIUM, msg, time)),
+                    // we need to set value like this and then throw temp disable.
+                    // new one
+                    // {"message":"Login attempt was exceed, please wait or verify your request via captcha
+                    // challenge","status":"error","code":406,"errorCode":71}
+                    // ^^^ OLD they now switched to 30
+                    account.setProperty("PROPERTY_TEMP_DISABLED_TIMEOUT", 31 * 60 * 1000l);
+                    throw new PluginException(LinkStatus.ERROR_PREMIUM, "\r\n" + msg, PluginException.VALUE_ID_PREMIUM_TEMP_DISABLE);
+                case 73:
+                case 74:
+                    // ERROR_NO_ALLOW_ACCESS_FROM_NETWORK = 73;
+                    // ERROR_UNKNOWN_LOGIN_ERROR = 74;
+                    throw new PluginException(LinkStatus.ERROR_FATAL, msg);
+                case 76:
+                    // ERROR_ACCOUNT_STOLEN = 76;
+                    throw new PluginException(LinkStatus.ERROR_PREMIUM, msg, PluginException.VALUE_ID_PREMIUM_DISABLE);
+                default:
+                    throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+                }
+            } catch (final PluginException p) {
+                logger.warning(getRevisionInfo());
+                logger.warning("ERROR :: " + msg);
+                throw p;
+            }
+        } else if (errCode != null && !errCode.matches("\\d+")) {
+            logger.warning("WTF LIKE!!!");
+        } else {
+            logger.info("all is good!");
+        }
+    }
+
+    /**
+     * Provides translation service
+     *
+     * @param code
+     * @return
+     */
+    private String getErrorMessage(final int code) {
+        String msg = null;
+        if ("de".equalsIgnoreCase(lng)) {
+            if (code == 1) {
+                msg = "Du hast die maximale Anzahl an Dateien heruntergeladen.";
+            } else if (code == 2) {
+                msg = "Traffic limit erreicht!";
+            } else if (code == 3) {
+                msg = "Dateigrößenlimitierung";
+            } else if (code == 4) {
+                msg = "Du hast keinen Zugriff auf diese Datei!";
+            } else if (code == 5) {
+                msg = "Wartezeit entdeckt!";
+            } else if (code == 6) {
+                msg = "Maximale Anzahl paralleler Downloads erreicht!";
+            } else if (code == 7) {
+                msg = "Zugriffsbeschränkung - Nur Premiumbenutzer können diese Datei herunterladen!";
+            } else if (code == 8) {
+                msg = "Zugriffsbeschränkung - Nur der Besitzer dieser Datei darf sie herunterladen!";
+            } else if (code == 10) {
+                msg = "Du bist nicht berechtigt!";
+            } else if (code == 11) {
+                msg = "auth_token is abgelaufen!";
+            } else if (code == 21 || code == 42) {
+                msg = "Download momentan nicht möglich! Genereller Fehlercode mit Sub-Code!";
+            } else if (code == 23) {
+                msg = "Das ist ein Ordner - du kannst keine Ordner als Datei herunterladen!";
+            } else if (code == 30) {
+                msg = "Captchaeingabe benötigt!";
+            } else if (code == 31) {
+                msg = "Ungültiges Captcha";
+            } else if (code == 40) {
+                msg = "Falscher download key";
+            } else if (code == 41) {
+                msg = "Wartezeit entdeckt!";
+            } else if (code == 70) {
+                msg = "Ungültiger Benutzername oder ungültiges Passwort!\r\nDu bist dir sicher, dass dein eingegebener Benutzername und Passwort stimmen? Versuche folgendes:\r\n1. Falls dein Passwort Sonderzeichen enthält, ändere es (entferne diese) und versuche es erneut!\r\n2. Gib deine Zugangsdaten per Hand (ohne kopieren/einfügen) ein.";
+            } else if (code == 71) {
+                msg = "Zu viele Loginversuche!";
+            } else if (code == 72) {
+                msg = "Dein Account wurde gesperrt!";
+            } else if (code == 73) {
+                msg = "Du kannst dich mit deiner aktuellen Verbindung nicht zu " + getDomain() + " verbinden!";
+            } else if (code == 74) {
+                msg = "Unbekannter Login Fehler!";
+            }
+        } else if ("pt".equalsIgnoreCase(lng)) {
+            if (code == 1) {
+                msg = "Já descarregou a quantidade máxima de arquivos!";
+            } else if (code == 2) {
+                msg = "Limite de tráfego alcançado!";
+            } else if (code == 3) {
+                msg = "Limite do tamanho do ficheiro";
+            } else if (code == 4) {
+                msg = "Sem acesso a este ficheiro!";
+            } else if (code == 5) {
+                msg = "Detetado tempo de espera!";
+            } else if (code == 6) {
+                msg = "Alcançado o limite máximo de descargas paralelas!";
+            } else if (code == 7) {
+                msg = "Acesso Restrito - Só os possuidores de Contas Premium podem efetuar a descarga deste ficheiro!";
+            } else if (code == 8) {
+                msg = "Acesso Restrito - Só o proprietário deste ficheiro pode fazer esta descarga!";
+            } else if (code == 10) {
+                msg = "Não tem autorização!";
+            } else if (code == 11) {
+                msg = "auth_token - expirou!";
+            } else if (code == 21 || code == 42) {
+                msg = "Não é possível fazer a descarga! Erro no Código genérico da Sub-rotina!";
+            } else if (code == 23) {
+                msg = "Esta ligação (URL) é uma Pasta. Não pode descarregar a pasta como ficheiro!";
+            } else if (code == 30) {
+                msg = "Inserir Captcha!";
+            } else if (code == 31) {
+                msg = "Captcha inválido";
+            } else if (code == 40) {
+                msg = "Chave de descarga inválida";
+            } else if (code == 41) {
+                msg = "Detetado tempo de espera!";
+            } else if (code == 70) {
+                msg = "Invalido username/password!\r\nTem a certeza que o username e a password que introduziu estao corretos? Algumas dicas:\r\n1. Se a password contem caracteres especiais, altere (ou elimine) e tente novamente!\r\n2. Digite o username/password manualmente, não use copiar e colar.";
+            } else if (code == 71) {
+                msg = "Tentou esta ligação vezes demais!";
+            } else if (code == 72) {
+                msg = "A sua conta foi banida!";
+            } else if (code == 73) {
+                msg = "Não pode aceder " + getDomain() + " a partir desta ligação de NET!";
+            } else if (code == 74) {
+                msg = "Erro, Login desconhecido!";
+            }
+        } else if ("es".equalsIgnoreCase(lng)) {
+            if (code == 1) {
+                msg = "¡Ha descargado la cantidad máxima de archivos!";
+            } else if (code == 2) {
+                msg = "¡Límite de tráfico alcanzado!";
+            } else if (code == 3) {
+                msg = "Limitación del tamaño del archivo";
+            } else if (code == 4) {
+                msg = "¡No hay acceso a este archivo!";
+            } else if (code == 5) {
+                msg = "¡Tiempo de espera detectado!";
+            } else if (code == 6) {
+                msg = "¡Se alcanzó el número máximo de descargas paralelas!";
+            } else if (code == 7) {
+                msg = "Restricción de acceso - ¡Sólo los titulares de las cuentas premium pueden descargar este archivo!";
+            } else if (code == 8) {
+                msg = "Restricción de acceso - ¡La descarga Sólo está permitida para el propietario de este archivo!";
+            } else if (code == 10) {
+                msg = "¡No está autorizado!";
+            } else if (code == 11) {
+                msg = "¡auth_token ha expirado!";
+            } else if (code == 21 || code == 42) {
+                msg = "No es posible realizar la descarga en este momento. ¡Código de error genérico con subcódigo!";
+            } else if (code == 23) {
+                msg = "Este enlace es un folder. ¡Usted no puede descargar este folder como archivo!";
+            } else if (code == 30) {
+                msg = "Captcha requerida!";
+            } else if (code == 31) {
+                msg = "Captcha inválido";
+            } else if (code == 40) {
+                msg = "Clave de descarga incorrecta";
+            } else if (code == 41) {
+                msg = "¡Tiempo de espera detectado!";
+            } else if (code == 70) {
+                msg = "Usario/Contraseña inválida\r\n¿Está seguro que el usuario y la contraseña ingresados son correctos? Algunos consejos:\r\n1. Si su contraseña contiene carácteres especiales, cambiela (remuevala) e intente de nuevo.\r\n2. Escriba su usuario/contraseña manualmente en lugar de copiar y pegar.";
+            } else if (code == 71) {
+                msg = "¡Usted ha intentado iniciar sesión demasiadas veces!";
+            } else if (code == 72) {
+                msg = "¡Su cuenta ha sido baneada!";
+            } else if (code == 73) {
+                msg = "¡Usted no puede acceder " + getDomain() + " desde su conexión de red actual!";
+            } else if (code == 74) {
+                msg = "¡Error de inicio de sesión desconocido!";
+            }
+        } else if ("pl".equalsIgnoreCase(lng)) {
+            if (code == 1) {
+                msg = "Pobra³e¶ ju¿ maksymaln± liczbê plików!";
+            } else if (code == 2) {
+                msg = "Osi±gniêto limit pobierania!";
+            } else if (code == 3) {
+                msg = "Ograniczenie na rozmiar plików";
+            } else if (code == 4) {
+                msg = "Brak dostêpu do pliku!";
+            } else if (code == 5) {
+                msg = "Wykryto czas oczekiwania!";
+            } else if (code == 6) {
+                msg = "Osi±gniêto maksymaln± liczbê równoczesnych pobierañ!";
+            } else if (code == 7) {
+                msg = "Ograniczenia w dostêpie - tylko u¿ytkownicy Premium mog± pobraæ wybrany plik!";
+            } else if (code == 8) {
+                msg = "Ograniczenia w dostêpie - tylko w³a¶ciciel pliku mo¿e go pobraæ!";
+            } else if (code == 10) {
+                msg = "Brak dostêpu!";
+            } else if (code == 11) {
+                msg = "auth_token wygas³!";
+            } else if (code == 21 || code == 42) {
+                msg = "Pobieranie teraz niemo¿liwe! Ogólny Kod b³êdu z podkodem!";
+            } else if (code == 23) {
+                msg = "Wskazany URL to Katalog, nie mo¿na pobraæ Katalogu jako pliku!";
+            } else if (code == 30) {
+                msg = "wymagany kod Captcha!";
+            } else if (code == 31) {
+                msg = "B³êdny kod Captcha";
+            } else if (code == 40) {
+                msg = "Nieprawid³owy klucz pobierania";
+            } else if (code == 41) {
+                msg = "Wykryto czas oczekiwania!";
+            } else if (code == 70) {
+                msg = "Nieprawid³owa nazwa u¿ytkownika/has³o!\r\nJeste¶ pewien, ¿e wprowadzi³e¶ poprawne has³o i nazwê u¿ytkownika? Podpowied¼:\r\n1. Je¶li w twoim ha¶le wystêpuj± znaki specjalne, zmieñ je (usuñ) i spróbuj ponownie!\r\n2. Wprowad¼ has³o i nazwê u¿ytkownika rêcznie, bez u¿ywania <Kopiuj i Wklej>.";
+            } else if (code == 71) {
+                msg = "Zbyt wiele prób zalogowania!";
+            } else if (code == 72) {
+                msg = "Konto zosta³o zablokowane!";
+            } else if (code == 73) {
+                msg = "Nie mo¿na po³±czyæ siê z " + getDomain() + " u¿ywaj±c obecnych ustawieñ sieciowych!";
+            } else if (code == 74) {
+                msg = "Nieznany b³±d logowania!";
+            }
+        }
+        if (inValidate(msg)) {
+            // default english!
+            if (code == 1) {
+                msg = "You've downloaded the maximum amount of files!";
+            } else if (code == 2) {
+                msg = "Traffic limit reached!";
+            } else if (code == 3) {
+                msg = "File size limitation";
+            } else if (code == 4) {
+                msg = "No access to this file!";
+            } else if (code == 5) {
+                msg = "Wait time detected!";
+            } else if (code == 6) {
+                msg = "Maximum number parallel downloads reached!";
+            } else if (code == 7) {
+                msg = "Access Restriction - Only premium account holders can download this file!";
+            } else if (code == 8) {
+                msg = "Access Restriction - Only the owner of this file is allowed to download!";
+            } else if (code == 10) {
+                msg = "Your not authorised req: auth_token!";
+            } else if (code == 11) {
+                msg = "auth_token has expired!";
+            } else if (code == 21 || code == 42) {
+                msg = "Download not possible at this time! Generic Error code with subcode!";
+            } else if (code == 23) {
+                msg = "This URL is a Folder, you can not download folder as a file!";
+            } else if (code == 30) {
+                msg = "Captcha required!";
+            } else if (code == 31) {
+                msg = "Invalid Captcha";
+            } else if (code == 40) {
+                msg = "Wrong download key";
+            } else if (code == 41) {
+                msg = "Wait time detected!";
+            } else if (code == 70) {
+                msg = "Invalid username/password!\r\nYou're sure that the username and password you entered are correct? Some hints:\r\n1. If your password contains special characters, change it (remove them) and try again!\r\n2. Type in your username/password by hand without copy & paste.";
+            } else if (code == 71) {
+                msg = "You've tried logging in too many times!";
+            } else if (code == 72) {
+                msg = "Your account has been banned!";
+            } else if (code == 73) {
+                msg = "You can not access " + getDomain() + " from your current network connection!";
+            } else if (code == 74) {
+                msg = "Unknown login error!";
+            } else if (code == 75) {
+                msg = "Illegal IP Session";
+            } else if (code == 76) {
+                msg = "Stolen Account";
+            }
+        }
+        return msg;
+    }
+
+    /**
+     * When premium only download restriction (eg. filesize), throws exception with given message
+     *
+     * @param msg
+     * @throws PluginException
+     */
+    public void premiumDownloadRestriction(final String msg) throws PluginException {
+        throw new PluginException(LinkStatus.ERROR_PREMIUM, msg, PluginException.VALUE_ID_PREMIUM_ONLY);
+    }
+
+    /**
+     * Only the owner of the file can download!
+     *
+     * @param msg
+     * @throws PluginException
+     */
+    public void privateDownloadRestriction(final String msg) throws PluginException {
+        throw new PluginException(LinkStatus.ERROR_FATAL, msg);
+    }
+
+    private void dumpAuthToken(Account account) {
+        synchronized (ACCLOCK) {
+            // only wipe token when authToken equals current storable
+            final String propertyToken = account.getStringProperty(AUTHTOKEN, null);
+            if (authToken != null && propertyToken != null && authToken.equals(propertyToken)) {
+                account.setProperty(AUTHTOKEN, Property.NULL);
+                authToken = null;
+            }
+        }
+    }
+
+    protected void handleGeneralServerErrors(final Account account, final DownloadLink downloadLink) throws PluginException {
+        final String alreadyDownloading = "Your current tariff doesn't allow to download more files then you are downloading now\\.";
+        if ((account == null || account.getBooleanProperty("free", false)) && br.containsHTML(alreadyDownloading)) {
+            // found from jdlog://4140408642041 also note: ISP seems to have transparent proxy!
+            // should only happen to free.
+            // We also only have 1 max free sim currently, if we go higher we need to track current transfers against
+            // connection_candidate(proxy|direct) IP address, and reduce max sim by one.
+            throw new PluginException(LinkStatus.ERROR_IP_BLOCKED, alreadyDownloading, 10 * 60 * 1000);
+        } else if (dl.getConnection().getResponseCode() == 401) {
+            // we should never get this here because checkcheckDirectLink should pick it up.
+            // this happens when link is old, and site then prompts with basicauth which is under 401 header.
+            // ----------------Response------------------------
+            // HTTP/1.1 401 Unauthorized
+            // Server: nginx/1.4.6 (Ubuntu)
+            // Date: Fri, 29 Aug 2014 08:07:54 GMT
+            // Content-Type: text/plain
+            // Content-Length: 35
+            // Connection: close
+            // Www-Authenticate: Swift realm="AUTH_system"
+            downloadLink.setProperty(directlinkproperty, Property.NULL);
+            throw new PluginException(LinkStatus.ERROR_RETRY);
+        } else if (dl.getConnection().getResponseCode() == 404 || br.containsHTML(">Not Found<")) {
+            throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, "Server error 404", 30 * 60 * 1000l);
+        } else if (dl.getConnection().getResponseCode() == 503) {
+            throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, "Server error 503", 5 * 60 * 1000l);
+        } else if (dl.getConnection().getResponseCode() == 429) {
+            throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, "Too many request in short succession");
+        }
+    }
+
+    @Override
+    public AvailableStatus requestFileInformation(final DownloadLink link) throws Exception {
+        return reqFileInformation(link);
+    }
+
+    private AvailableStatus reqFileInformation(final DownloadLink link) throws Exception {
+        correctDownloadLink(link);
+        final boolean checked = checkLinks(new DownloadLink[] { link });
+        // we can't throw exception in checklinks! This is needed to prevent multiple captcha events!
+        if (!checked && hasAntiddosCaptchaRequirement()) {
+            throw new PluginException(LinkStatus.ERROR_CAPTCHA);
+        } else if (!checked || !link.isAvailabilityStatusChecked()) {
+            link.setAvailableStatus(AvailableStatus.UNCHECKABLE);
+        } else if (!link.isAvailable()) {
+            throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
+        }
+        return getAvailableStatus(link);
+    }
+
+    private AvailableStatus getAvailableStatus(DownloadLink link) {
+        try {
+            final Field field = link.getClass().getDeclaredField("availableStatus");
+            field.setAccessible(true);
+            Object ret = field.get(link);
+            if (ret != null && ret instanceof AvailableStatus) {
+                return (AvailableStatus) ret;
+            }
+        } catch (final Throwable e) {
+        }
+        return AvailableStatus.UNCHECKED;
+    }
+
+    /**
+     * Wrapper<br/>
+     * Tries to return value of key from JSon response, from String source.
+     *
+     * @author raztoki
+     */
+    protected String getJson(final String source, final String key) {
+        return JSonUtils.getJson(source, key);
+    }
+
+    /**
+     * Wrapper<br/>
+     * Tries to return value of key from JSon response, from default 'br' Browser.
+     *
+     * @author raztoki
+     */
+    protected String getJson(final String key) {
+        return JSonUtils.getJson(br.toString(), key);
+    }
+
+    /**
+     * Wrapper<br/>
+     * Tries to return value of key from JSon response, from provided Browser.
+     *
+     * @author raztoki
+     */
+    protected String getJson(final Browser ibr, final String key) {
+        return JSonUtils.getJson(ibr.toString(), key);
+    }
+
+    /**
+     * Wrapper<br/>
+     * Tries to return value given JSon Array of Key from JSon response provided String source.
+     *
+     * @author raztoki
+     */
+    protected String getJsonArray(final String source, final String key) {
+        return JSonUtils.getJsonArray(source, key);
+    }
+
+    /**
+     * Wrapper<br/>
+     * Tries to return value given JSon Array of Key from JSon response, from default 'br' Browser.
+     *
+     * @author raztoki
+     */
+    protected String getJsonArray(final String key) {
+        return JSonUtils.getJsonArray(br.toString(), key);
+    }
+
+    /**
+     * Wrapper<br/>
+     * Tries to return String[] value from provided JSon Array
+     *
+     * @author raztoki
+     * @param source
+     * @return
+     */
+    protected String[] getJsonResultsFromArray(final String source) {
+        return JSonUtils.getJsonResultsFromArray(source);
+    }
+
+    /**
+     * Validates string to series of conditions, null, whitespace, or "". This saves effort factor within if/for/while statements
+     *
+     * @param s
+     *            Imported String to match against.
+     * @return <b>true</b> on valid rule match. <b>false</b> on invalid rule match.
+     * @author raztoki
+     */
+    public boolean inValidate(final String s) {
+        if (s == null || s.matches("\\s+") || s.equals("")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private String getLanguage() {
+        try {
+            if (System.getProperty("jd.revision.jdownloaderrevision") != null) {
+                return org.appwork.txtresource.TranslationFactory.getDesiredLocale().getLanguage().toLowerCase(Locale.ENGLISH);
+            } else {
+                return System.getProperty("user.language");
+            }
+        } catch (final Throwable ignore) {
+            return System.getProperty("user.language");
+        }
+    }
+
+    private static Object                CTRLLOCK                     = new Object();
+    protected static AtomicInteger       maxPrem                      = new AtomicInteger(1);
+    protected static AtomicInteger       maxFree                      = new AtomicInteger(1);
+
+    /**
+     * Connection Management<br />
+     * <b>NOTE:</b> CAN NOT be negative or zero! (ie. -1 or 0) Otherwise math sections fail. .:. use [1-20]<br />
+     * <b>@Override</b> when incorrect
+     **/
+    protected static final AtomicInteger totalMaxSimultanFreeDownload = new AtomicInteger(1);
+
+    /**
+     * Prevents more than one free download from starting at a given time. One step prior to dl.startDownload(), it adds a slot to maxFree
+     * which allows the next singleton download to start, or at least try.
+     *
+     * This is needed because xfileshare(website) only throws errors after a final dllink starts transferring or at a given step within pre
+     * download sequence. But this template(XfileSharingProBasic) allows multiple slots(when available) to commence the download sequence,
+     * this.setstartintival does not resolve this issue. Which results in x(20) captcha events all at once and only allows one download to
+     * start. This prevents wasting peoples time and effort on captcha solving and|or wasting captcha trading credits. Users will experience
+     * minimal harm to downloading as slots are freed up soon as current download begins.
+     *
+     * @param controlSlot
+     *            (+1|-1)
+     * @author raztoki
+     */
+    protected void controlSlot(final int num, final Account account) {
+        synchronized (CTRLLOCK) {
+            if (account == null) {
+                int was = maxFree.get();
+                maxFree.set(Math.min(Math.max(1, maxFree.addAndGet(num)), totalMaxSimultanFreeDownload.get()));
+                logger.info("maxFree was = " + was + " && maxFree now = " + maxFree.get());
+            } else {
+                int was = maxPrem.get();
+                maxPrem.set(Math.min(Math.max(1, maxPrem.addAndGet(num)), account.getIntegerProperty("totalMaxSim", 20)));
+                logger.info("maxPrem was = " + was + " && maxPrem now = " + maxPrem.get());
+            }
+        }
+    }
+
+    // cloudflare
+
+    /**
+     * Gets page <br />
+     * - natively supports silly cloudflare anti DDoS crapola
+     *
+     * @author raztoki
+     */
+    public void getPage(final Browser ibr, final String page) throws Exception {
+        if (page == null) {
+            throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+        }
+        if (!prepBrSet) {
+            prepBrowser(ibr);
+        }
+        URLConnectionAdapter con = null;
+        try {
+            con = ibr.openGetConnection(page);
+            readConnection(con, ibr);
+            antiDDoS(ibr);
+        } finally {
+            try {
+                con.disconnect();
+            } catch (Throwable e) {
+            }
+        }
+    }
+
+    /**
+     * Wrapper into getPage(importBrowser, page), where browser = br;
+     *
+     * @author raztoki
+     *
+     */
+    public void getPage(final String page) throws Exception {
+        getPage(br, page);
+    }
+
+    public void postPage(final Browser ibr, String page, final String postData) throws Exception {
+        if (page == null || postData == null) {
+            throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+        }
+        if (!prepBrSet) {
+            prepBrowser(ibr);
+        }
+        ibr.getHeaders().put("Content-Type", "application/x-www-form-urlencoded");
+        URLConnectionAdapter con = null;
+        try {
+            con = ibr.openPostConnection(page, postData);
+            readConnection(con, ibr);
+            antiDDoS(ibr);
+        } finally {
+            try {
+                con.disconnect();
+            } catch (Throwable e) {
+            }
+            ibr.getHeaders().put("Content-Type", null);
+        }
+    }
+
+    /**
+     * Wrapper into postPage(importBrowser, page, postData), where browser == this.br;
+     *
+     * @author raztoki
+     *
+     */
+    public void postPage(String page, final String postData) throws Exception {
+        postPage(br, page, postData);
+    }
+
+    public void sendForm(final Browser ibr, final Form form) throws Exception {
+        if (form == null) {
+            throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+        }
+        if (!prepBrSet) {
+            prepBrowser(ibr);
+        }
+        if (Form.MethodType.POST.equals(form.getMethod())) {
+            // if the form doesn't contain an action lets set one based on current br.getURL().
+            if (form.getAction() == null || form.getAction().equals("")) {
+                form.setAction(ibr.getURL());
+            }
+            ibr.getHeaders().put("Content-Type", "application/x-www-form-urlencoded");
+        }
+        URLConnectionAdapter con = null;
+        try {
+            con = ibr.openFormConnection(form);
+            readConnection(con, ibr);
+            antiDDoS(ibr);
+        } finally {
+            try {
+                con.disconnect();
+            } catch (Throwable e) {
+            }
+            ibr.getHeaders().put("Content-Type", null);
+        }
+    }
+
+    /**
+     * Wrapper into sendForm(importBrowser, form), where browser == this.br;
+     *
+     * @author raztoki
+     *
+     */
+    public void sendForm(final Form form) throws Exception {
+        sendForm(br, form);
+    }
+
+    protected void sendRequest(final Browser ibr, final Request request) throws Exception {
+        URLConnectionAdapter con = null;
+        try {
+            con = ibr.openRequestConnection(request);
+            readConnection(con, ibr);
+            antiDDoS(ibr);
+        } finally {
+            try {
+                con.disconnect();
+            } catch (Throwable e) {
+            }
+            ibr.getHeaders().put("Content-Type", null);
+        }
+    }
+
+    /**
+     * Wrapper into sendRequest(importBrowser, form), where browser == this.br;
+     *
+     * @author raztoki
+     *
+     */
+    protected void sendRequest(final Request request) throws Exception {
+        sendRequest(br, request);
+    }
+
+    private int     a_responseCode429    = 0;
+    private int     a_responseCode5xx    = 0;
+    private boolean a_captchaRequirement = false;
+
+    protected final boolean hasAntiddosCaptchaRequirement() {
+        return a_captchaRequirement;
+    }
+
+    /**
+     * Performs Cloudflare and Incapsula requirements.<br />
+     * Auto fill out the required fields and updates antiDDoSCookies session.<br />
+     * Always called after Browser Request!
+     *
+     * @version 0.03
+     * @author raztoki
+     **/
+    private void antiDDoS(final Browser ibr) throws Exception {
+        if (ibr == null) {
+            throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+        }
+        final HashMap<String, String> cookies = new HashMap<String, String>();
+        if (ibr.getHttpConnection() != null) {
+            final int responseCode = ibr.getHttpConnection().getResponseCode();
+            if (requestHeadersHasKeyNValueContains(ibr, "server", "cloudflare-nginx")) {
+                final Form cloudflare = getCloudflareChallengeForm(ibr);
+                if (responseCode == 403 && cloudflare != null) {
+                    a_captchaRequirement = true;
+                    // recapthcha v2
+                    if (cloudflare.containsHTML("class=\"g-recaptcha\"")) {
+                        final DownloadLink dllink = new DownloadLink(null, (this.getDownloadLink() != null ? this.getDownloadLink().getName() + " :: " : "") + "antiDDoS Provider 'Clouldflare' requires Captcha", this.getHost(), "http://" + this.getHost(), true);
+                        this.setDownloadLink(dllink);
+                        final Form cf = cloudflare;
+                        final String recaptchaV2Response = new CaptchaHelperHostPluginRecaptchaV2(this, ibr) {
+
+                            @Override
+                            public String getSiteKey() {
+                                return getSiteKey(cf.getHtmlCode());
+                            }
+
+                            @Override
+                            public String getSecureToken() {
+                                return getSecureToken(cf.getHtmlCode());
+                            }
+
+                        }.getToken();
+                        cloudflare.put("g-recaptcha-response", Encoding.urlEncode(recaptchaV2Response));
+                    } else {
+                        // recapthca v1
+                        if (cloudflare.hasInputFieldByName("recaptcha_response_field")) {
+                            // they seem to add multiple input fields which is most likely meant to be corrected by js ?
+                            // we will manually remove all those
+                            while (cloudflare.hasInputFieldByName("recaptcha_response_field")) {
+                                cloudflare.remove("recaptcha_response_field");
+                            }
+                            while (cloudflare.hasInputFieldByName("recaptcha_challenge_field")) {
+                                cloudflare.remove("recaptcha_challenge_field");
+                            }
+                            // this one is null, needs to be ""
+                            if (cloudflare.hasInputFieldByName("message")) {
+                                cloudflare.remove("message");
+                                cloudflare.put("messsage", "\"\"");
+                            }
+                            // recaptcha bullshit,
+                            String apiKey = cloudflare.getRegex("/recaptcha/api/(?:challenge|noscript)\\?k=([A-Za-z0-9%_\\+\\- ]+)").getMatch(0);
+                            if (apiKey == null) {
+                                apiKey = ibr.getRegex("/recaptcha/api/(?:challenge|noscript)\\?k=([A-Za-z0-9%_\\+\\- ]+)").getMatch(0);
+                                if (apiKey == null) {
+                                    throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+                                }
+                            }
+                            final DownloadLink dllink = new DownloadLink(null, (this.getDownloadLink() != null ? this.getDownloadLink().getName() + " :: " : "") + "antiDDoS Provider 'Clouldflare' requires Captcha", this.getHost(), "http://" + this.getHost(), true);
+                            final Recaptcha rc = new Recaptcha(ibr, this);
+                            rc.setId(apiKey);
+                            rc.load();
+                            final File cf = rc.downloadCaptcha(getLocalCaptchaFile());
+                            final String response = getCaptchaCode("recaptcha", cf, dllink);
+                            if (inValidate(response)) {
+                                throw new PluginException(LinkStatus.ERROR_CAPTCHA, "CloudFlare, invalid captcha response!");
+                            }
+                            cloudflare.put("recaptcha_challenge_field", rc.getChallenge());
+                            cloudflare.put("recaptcha_response_field", Encoding.urlEncode(response));
+                        }
+                    }
+                    final Request originalRequest = ibr.getRequest();
+                    ibr.submitForm(cloudflare);
+                    if (getCloudflareChallengeForm(ibr) != null) {
+                        logger.warning("Wrong captcha");
+                        a_captchaRequirement = true;
+                        throw new PluginException(LinkStatus.ERROR_CAPTCHA, "CloudFlare, incorrect captcha response!");
+                    }
+                    // on success cf_clearance cookie is set and a redirect will be present!
+                    // we have a problem here when site expects POST request and redirects are always are GETS
+                    if (originalRequest instanceof PostRequest) {
+                        try {
+                            sendRequest(ibr, originalRequest.cloneRequest());
+                        } catch (final Exception t) {
+                            // we want to preserve proper exceptions!
+                            if (t instanceof PluginException) {
+                                throw t;
+                            }
+                            t.printStackTrace();
+                            throw new PluginException(LinkStatus.ERROR_HOSTER_TEMPORARILY_UNAVAILABLE, "Unexpected CloudFlare related issue", 5 * 60 * 1000l);
+                        }
+                        // because next round could be 200 response code, you need to nullify this value here.
+                        a_captchaRequirement = false;
+                        // new sendRequest saves cookie session
+                        return;
+                    } else if (!ibr.isFollowingRedirects() && ibr.getRedirectLocation() != null) {
+                        ibr.getPage(ibr.getRedirectLocation());
+                    }
+                    a_captchaRequirement = false;
+                } else if (ibr.getHttpConnection().getResponseCode() == 403 && ibr.containsHTML("<p>The owner of this website \\([^\\)]*" + Pattern.quote(ibr.getHost()) + "\\) has banned your IP address") && ibr.containsHTML("<title>Access denied \\| [^<]*" + Pattern.quote(ibr.getHost()) + " used CloudFlare to restrict access</title>")) {
+                    // website address could be www. or what ever prefixes, need to make sure
+                    // eg. within 403 response code, Link; 5544562095341.log; 162684; jdlog://5544562095341
+                    // <p>The owner of this website (www.premiumax.net) has banned your IP address (x.x.x.x).</p>
+                    // also common when proxies are used?? see keep2share.cc jdlog://5562413173041
+                    String ip = ibr.getRegex("your IP address \\((.*?)\\)\\.</p>").getMatch(0);
+                    String message = ibr.getHost() + " has banned your IP Address" + (inValidate(ip) ? "!" : "! " + ip);
+                    logger.warning(message);
+                    throw new PluginException(LinkStatus.ERROR_FATAL, message);
+                } else if (responseCode == 503 && cloudflare != null) {
+                    // 503 response code with javascript math section
+                    final String[] line1 = ibr.getRegex("var (?:t,r,a,f,|s,t,o,[a-z,]+) (\\w+)=\\{\"(\\w+)\":([^\\}]+)").getRow(0);
+                    String line2 = ibr.getRegex("(\\;" + line1[0] + "." + line1[1] + ".*?t\\.length\\;)").getMatch(0);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("var a={};\r\nvar t=\"" + Browser.getHost(ibr.getURL(), true) + "\";\r\n");
+                    sb.append("var " + line1[0] + "={\"" + line1[1] + "\":" + line1[2] + "}\r\n");
+                    sb.append(line2);
+
+                    ScriptEngineManager mgr = jd.plugins.hoster.DummyScriptEnginePlugin.getScriptEngineManager(this);
+                    ScriptEngine engine = mgr.getEngineByName("JavaScript");
+                    long answer = ((Number) engine.eval(sb.toString())).longValue();
+                    cloudflare.getInputFieldByName("jschl_answer").setValue(answer + "");
+                    Thread.sleep(5500);
+                    ibr.submitForm(cloudflare);
+                    // if it works, there should be a redirect.
+                    if (!ibr.isFollowingRedirects() && ibr.getRedirectLocation() != null) {
+                        ibr.getPage(ibr.getRedirectLocation());
+                    }
+                } else if (responseCode == 521) {
+                    // this basically indicates that the site is down, no need to retry.
+                    // HTTP/1.1 521 Origin Down || <title>api.share-online.biz | 521: Web server is down</title>
+                    a_responseCode5xx++;
+                    throw new PluginException(LinkStatus.ERROR_HOSTER_TEMPORARILY_UNAVAILABLE, "CloudFlare says \"Origin Sever\" is down!", 5 * 60 * 1000l);
+                } else if (responseCode == 504 || responseCode == 520 || responseCode == 522 || responseCode == 523 || responseCode == 525) {
+                    // these warrant retry instantly, as it could be just slave issue? most hosts have 2 DNS response to load balance.
+                    // additional request could work via additional IP
+                    /**
+                     * @see clouldflare_504_snippet.html
+                     */
+                    // HTTP/1.1 504 Gateway Time-out
+                    // HTTP/1.1 520 Origin Error
+                    // HTTP/1.1 522 Origin Connection Time-out
+                    /**
+                     * @see cloudflare_523_snippet.html
+                     */
+                    // HTTP/1.1 523 Origin Unreachable
+                    // HTTP/1.1 525 Origin SSL Handshake Error || >CloudFlare is unable to establish an SSL connection to the origin
+                    // server.<
+                    // cache system with possible origin dependency... we will wait and retry
+                    if (a_responseCode5xx == 4) {
+                        throw new PluginException(LinkStatus.ERROR_HOSTER_TEMPORARILY_UNAVAILABLE, "CloudFlare can not contact \"Origin Server\"", 5 * 60 * 1000l);
+                    }
+                    a_responseCode5xx++;
+                    // this html based cookie, set by <meta (for responseCode 522)
+                    // <meta http-equiv="set-cookie" content="cf_use_ob=0; expires=Sat, 14-Jun-14 14:35:38 GMT; path=/">
+                    String[] metaCookies = ibr.getRegex("<meta http-equiv=\"set-cookie\" content=\"(.*?; expries=.*?; path=.*?\";?(?: domain=.*?;?)?)\"").getColumn(0);
+                    if (metaCookies != null && metaCookies.length != 0) {
+                        final List<String> cookieHeaders = Arrays.asList(metaCookies);
+                        final String date = ibr.getHeaders().get("Date");
+                        final String host = Browser.getHost(ibr.getURL());
+                        // get current cookies
+                        final Cookies ckies = ibr.getCookies(host);
+                        // add meta cookies to current previous request cookies
+                        for (int i = 0; i < cookieHeaders.size(); i++) {
+                            final String header = cookieHeaders.get(i);
+                            ckies.add(Cookies.parseCookies(header, host, date));
+                        }
+                        // set ckies as current cookies
+                        ibr.getHttpConnection().getRequest().setCookies(ckies);
+                    }
+
+                    Thread.sleep(2500);
+                    // effectively refresh page!
+                    try {
+                        sendRequest(ibr, ibr.getRequest().cloneRequest());
+                    } catch (final Exception t) {
+                        // we want to preserve proper exceptions!
+                        if (t instanceof PluginException) {
+                            throw t;
+                        }
+                        t.printStackTrace();
+                        throw new PluginException(LinkStatus.ERROR_HOSTER_TEMPORARILY_UNAVAILABLE, "Unexpected CloudFlare related issue", 5 * 60 * 1000l);
+                    }
+                    // new sendRequest saves cookie session
+                    return;
+                } else if (responseCode == 429 && ibr.containsHTML("<title>Too Many Requests</title>")) {
+                    if (a_responseCode429 == 4) {
+                        throw new PluginException(LinkStatus.ERROR_HOSTER_TEMPORARILY_UNAVAILABLE);
+                    }
+                    a_responseCode429++;
+                    // been blocked! need to wait 1min before next request. (says k2sadmin, each site could be configured differently)
+                    Thread.sleep(61000);
+                    // try again! -NOTE: this isn't stable compliant-
+                    try {
+                        sendRequest(ibr, ibr.getRequest().cloneRequest());
+                    } catch (final Exception t) {
+                        // we want to preserve proper exceptions!
+                        if (t instanceof PluginException) {
+                            throw t;
+                        }
+                        throw new PluginException(LinkStatus.ERROR_HOSTER_TEMPORARILY_UNAVAILABLE);
+                    }
+                    // new sendRequest saves cookie session
+                    return;
+
+                    // new code here...
+                    // <script type="text/javascript">
+                    // //<![CDATA[
+                    // try{if (!window.CloudFlare) {var
+                    // CloudFlare=[{verbose:0,p:1408958160,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dokv=88e434a982/"},atok:"661da6801927b0eeec95f9f3e160b03a",petok:"107d6db055b8700cf1e7eec1324dbb7be6b978d0-1408974417-1800",zone:"fileboom.me",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"3a15e211d076b73aac068065e559c1e4"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dokv=97fb4d042e/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+                    // //]]>
+                    // </script>
+
+                } else {
+                    // nothing wrong, or something wrong (unsupported format)....
+                    // commenting out return prevents caching of cookies per request
+                    // return;
+                }
+
+                // get cookies we want/need.
+                // refresh these with every getPage/postPage/submitForm?
+                final Cookies add = ibr.getCookies(ibr.getHost());
+                for (final Cookie c : add.getCookies()) {
+                    if (new Regex(c.getKey(), "(__cfduid|cf_clearance)").matches()) {
+                        cookies.put(c.getKey(), c.getValue());
+                    }
+                }
+            }
+            // save the session!
+            synchronized (antiDDoSCookies) {
+                // why do I clear cookies? -raztok20160304
+                // antiDDoSCookies.clear();
+                antiDDoSCookies.putAll(cookies);
+            }
+        }
+
+    }
+
+    private Form getCloudflareChallengeForm(final Browser ibr) {
+        // speed things up, maintain our own code vs using br.getformby each time has to search and construct forms/inputfields! this is
+        // slow!
+        final Form[] forms = ibr.getForms();
+        for (final Form form : forms) {
+            if (form.getStringProperty("id") != null && (form.getStringProperty("id").equalsIgnoreCase("challenge-form") || form.getStringProperty("id").equalsIgnoreCase("ChallengeForm"))) {
+                return form;
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @author raztoki
+     */
+    @SuppressWarnings("unused")
+    private boolean requestHeadersHasKeyNValueStartsWith(final Browser ibr, final String k, final String v) {
+        if (k == null || v == null || ibr == null || ibr.getHttpConnection() == null) {
+            return false;
+        }
+        if (ibr.getHttpConnection().getHeaderField(k) != null && ibr.getHttpConnection().getHeaderField(k).toLowerCase(Locale.ENGLISH).startsWith(v.toLowerCase(Locale.ENGLISH))) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @author raztoki
+     */
+    private boolean requestHeadersHasKeyNValueContains(final Browser ibr, final String k, final String v) {
+        if (k == null || v == null || ibr == null || ibr.getHttpConnection() == null) {
+            return false;
+        }
+        if (ibr.getHttpConnection().getHeaderField(k) != null && ibr.getHttpConnection().getHeaderField(k).toLowerCase(Locale.ENGLISH).contains(v.toLowerCase(Locale.ENGLISH))) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Was Copy&Paste of Appwork class, no longer equal.
+     *
+     * @see org.appwork.storage.simplejson.JSonUtils
+     * @author Appwork
+     *
+     */
+    public static class JSonUtils extends PluginJSonUtils {
+        // keep to avoid changing all other plugins
+    }
+
+}

@@ -1,0 +1,177 @@
+//jDownloader - Downloadmanager
+//Copyright (C) 2010  JD-Team support@jdownloader.org
+//
+//This program is free software: you can redistribute it and/or modify
+//it under the terms of the GNU General Public License as published by
+//the Free Software Foundation, either version 3 of the License, or
+//(at your option) any later version.
+//
+//This program is distributed in the hope that it will be useful,
+//but WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//GNU General Public License for more details.
+//
+//You should have received a copy of the GNU General Public License
+//along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+package jd.plugins.hoster;
+
+import java.io.IOException;
+
+import jd.PluginWrapper;
+import jd.config.ConfigContainer;
+import jd.config.ConfigEntry;
+import jd.config.Property;
+import jd.nutils.encoding.Encoding;
+import jd.plugins.DownloadLink;
+import jd.plugins.DownloadLink.AvailableStatus;
+import jd.plugins.HostPlugin;
+import jd.plugins.LinkStatus;
+import jd.plugins.PluginException;
+import jd.plugins.PluginForHost;
+import jd.utils.JDUtilities;
+import jd.utils.locale.JDL;
+
+@HostPlugin(revision = "$Revision: 32968 $", interfaceVersion = 3, names = { "onedrive.live.com" }, urls = { "http://onedrivedecrypted\\.live\\.com/\\d+" }, flags = { 2 })
+public class OneDriveLiveCom extends PluginForHost {
+
+    public OneDriveLiveCom(PluginWrapper wrapper) {
+        super(wrapper);
+        setConfigElements();
+    }
+
+    @Override
+    public String getAGBLink() {
+        return "http://windows.microsoft.com/de-de/windows-live/microsoft-services-agreement";
+    }
+
+    /* Use less than in the decrypter to not to waste traffic & time */
+    private static final int    MAX_ENTRIES_PER_REQUEST = 50;
+    private static final String DOWNLOAD_ZIP            = "DOWNLOAD_ZIP_2";
+
+    @Override
+    public AvailableStatus requestFileInformation(final DownloadLink link) throws IOException, PluginException {
+        if (link.getBooleanProperty("offline", false)) {
+            throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
+        }
+        this.setBrowserExclusive();
+        JDUtilities.getPluginForDecrypt("onedrive.live.com");
+        jd.plugins.decrypter.OneDriveLiveCom.prepBrAPI(br);
+        final String cid = link.getStringProperty("plain_cid", null);
+        final String id = link.getStringProperty("plain_id", null);
+        final String authkey = link.getStringProperty("plain_authkey", null);
+        final String original_link = link.getStringProperty("original_link", null);
+        String additional_data = "&ps=" + MAX_ENTRIES_PER_REQUEST;
+        if (authkey != null) {
+            additional_data += "&authkey=" + Encoding.urlEncode(authkey);
+        }
+        if (isCompleteFolder(link)) {
+            /* Case is not yet present */
+        } else {
+            jd.plugins.decrypter.OneDriveLiveCom.accessItems_API(br, original_link, cid, id, additional_data);
+            if (br.getRequest().getHttpConnection().getResponseCode() == 500) {
+                link.getLinkStatus().setStatusText("Server error 500");
+                return AvailableStatus.UNCHECKABLE;
+            }
+            if (br.containsHTML("\"code\":154")) {
+                throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
+            }
+        }
+        final String filename = link.getStringProperty("plain_name", null);
+        final long filesize = getLongProperty(link, "", -1);
+        if (filename == null) {
+            throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+        }
+        link.setFinalFileName(filename);
+        link.setDownloadSize(filesize);
+        return AvailableStatus.TRUE;
+    }
+
+    @Override
+    public void handleFree(final DownloadLink downloadLink) throws Exception, PluginException {
+        requestFileInformation(downloadLink);
+        if (downloadLink.getBooleanProperty("account_only", false)) {
+            throw new PluginException(LinkStatus.ERROR_PREMIUM, PluginException.VALUE_ID_PREMIUM_ONLY);
+        }
+        if (br.getRequest().getHttpConnection().getResponseCode() == 500) {
+            throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, "Server error 500", 30 * 60 * 1000l);
+        }
+        final String dllink = getdllink(downloadLink);
+        boolean resume = true;
+        int maxchunks = 0;
+        if (isCompleteFolder(downloadLink)) {
+            // resume = false;
+            // maxchunks = 1;
+            /* Only registered users can download all files of folders as .zip file */
+            throw new PluginException(LinkStatus.ERROR_PREMIUM, PluginException.VALUE_ID_PREMIUM_ONLY);
+
+        }
+        /* This header is especially important for smaller files! See DirectHTTP Host Plugin. */
+        br.getHeaders().put("Accept-Encoding", "identity");
+        dl = jd.plugins.BrowserAdapter.openDownload(br, downloadLink, dllink, resume, maxchunks);
+        if (dl.getConnection().getContentType().contains("html")) {
+            if (dl.getConnection().getResponseCode() == 403) {
+                throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, "Server error 403", 60 * 60 * 1000l);
+            } else if (dl.getConnection().getResponseCode() == 404) {
+                throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, "Server error 404", 60 * 60 * 1000l);
+            }
+            br.followConnection();
+            throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+        }
+        dl.startDownload();
+    }
+
+    private String getdllink(final DownloadLink dl) throws PluginException {
+        String dllink = null;
+        if (isCompleteFolder(dl)) {
+        } else {
+            dllink = dl.getStringProperty("plain_download_url", null);
+            if (dllink == null) {
+                throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+            }
+        }
+        return dllink;
+    }
+
+    /* Stable workaround */
+    public static long getLongProperty(final Property link, final String key, final long def) {
+        try {
+            return link.getLongProperty(key, def);
+        } catch (final Throwable e) {
+            try {
+                Object r = link.getProperty(key, def);
+                if (r instanceof String) {
+                    r = Long.parseLong((String) r);
+                } else if (r instanceof Integer) {
+                    r = ((Integer) r).longValue();
+                }
+                final Long ret = (Long) r;
+                return ret;
+            } catch (final Throwable e2) {
+                return def;
+            }
+        }
+    }
+
+    private boolean isCompleteFolder(final DownloadLink dl) {
+        return dl.getBooleanProperty("complete_folder", false);
+    }
+
+    private void setConfigElements() {
+        getConfig().addEntry(new ConfigEntry(ConfigContainer.TYPE_CHECKBOX, getPluginConfig(), OneDriveLiveCom.DOWNLOAD_ZIP, JDL.L("plugins.hoster.OneDriveLiveCom.DownloadZip", "Download .zip file of all files in the folder (not yet possible)?")).setDefaultValue(false).setEnabled(false));
+    }
+
+    @Override
+    public void reset() {
+    }
+
+    @Override
+    public int getMaxSimultanFreeDownloadNum() {
+        return -1;
+    }
+
+    @Override
+    public void resetDownloadlink(final DownloadLink link) {
+    }
+
+}
