@@ -24,6 +24,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import org.appwork.net.protocol.http.HTTPConstants;
+import org.appwork.utils.Files;
+import org.appwork.utils.StringUtils;
+import org.appwork.utils.net.httpconnection.HTTPConnectionUtils;
+import org.jdownloader.plugins.controller.host.LazyHostPlugin.FEATURE;
+
 import jd.PluginWrapper;
 import jd.config.ConfigContainer;
 import jd.config.ConfigEntry;
@@ -46,12 +52,6 @@ import jd.plugins.LinkStatus;
 import jd.plugins.Plugin;
 import jd.plugins.PluginException;
 import jd.utils.locale.JDL;
-
-import org.appwork.net.protocol.http.HTTPConstants;
-import org.appwork.utils.Files;
-import org.appwork.utils.StringUtils;
-import org.appwork.utils.net.httpconnection.HTTPConnectionUtils;
-import org.jdownloader.plugins.controller.host.LazyHostPlugin.FEATURE;
 
 /**
  * TODO: remove after next big update of core to use the public static methods!
@@ -580,6 +580,18 @@ public class DirectHTTP extends antiDDoSForHost {
             if (urlConnection.getResponseCode() == 503 || urlConnection.getResponseCode() == 504) {
                 return AvailableStatus.UNCHECKABLE;
             }
+
+            // ------------------------------
+            // Ajout par JC : code 202 pour indiquer que le fichier n'est pas encore disponible sur le disque
+            // Si le fichier n'est pas en ligne, on réessaye toutes les 5mn sauf si
+            // le paramètre X-regards-retry est présent dans l'en-tête HTTP
+            if (urlConnection.getResponseCode() == 202) {
+                String timeRetry = urlConnection.getHeaderField("X-regards-retry");
+                long time = timeRetry == null ? 5 * 60 * 1000l : Long.valueOf(timeRetry);
+                throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, time);
+            }
+            // -------------------------------
+
             if (urlConnection.getResponseCode() == 404 || urlConnection.getResponseCode() == 410 || !urlConnection.isOK()) {
                 throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
             }
