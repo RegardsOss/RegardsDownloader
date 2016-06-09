@@ -19,7 +19,6 @@ package jd.plugins.decrypter;
 import java.util.ArrayList;
 
 import jd.PluginWrapper;
-import jd.config.SubConfiguration;
 import jd.controlling.ProgressController;
 import jd.nutils.encoding.Encoding;
 import jd.parser.Regex;
@@ -29,18 +28,16 @@ import jd.plugins.DownloadLink;
 import jd.plugins.FilePackage;
 import jd.plugins.PluginForDecrypt;
 
-@DecrypterPlugin(revision = "$Revision: 33891 $", interfaceVersion = 3, names = { "photos.google.com" }, urls = { "https?://photos\\.google\\.com/share/[A-Za-z0-9\\-_]+\\?key=[A-Za-z0-9\\-_]+" }, flags = { 0 })
+@DecrypterPlugin(revision = "$Revision: 33740 $", interfaceVersion = 3, names = { "photos.google.com" }, urls = { "https?://photos\\.google\\.com/share/[A-Za-z0-9\\-_]+\\?key=[A-Za-z0-9\\-_]+" }, flags = { 0 })
 public class GooglePhotos extends PluginForDecrypt {
 
     public GooglePhotos(PluginWrapper wrapper) {
         super(wrapper);
     }
 
-    @SuppressWarnings("deprecation")
     public ArrayList<DownloadLink> decryptIt(CryptedLink param, ProgressController progress) throws Exception {
         ArrayList<DownloadLink> decryptedLinks = new ArrayList<DownloadLink>();
         final String parameter = param.toString();
-        final boolean fastlinkcheck = SubConfiguration.getConfig(this.getHost()).getBooleanProperty(jd.plugins.hoster.GooglePhotos.FAST_LINKCHECK, false);
         br.getPage(parameter);
         if (br.getHttpConnection().getResponseCode() == 404) {
             decryptedLinks.add(this.createOfflinelink(parameter));
@@ -62,9 +59,7 @@ public class GooglePhotos extends PluginForDecrypt {
             final String finallink = "https://photos.google.com/share/" + idMAIN + "/photo/" + idSINGLE + "?key=" + key;
             final DownloadLink dl = createDownloadlink(finallink);
             dl.setName(idSINGLE);
-            if (fastlinkcheck) {
-                dl.setAvailable(true);
-            }
+            dl.setAvailable(true);
             decryptedLinks.add(dl);
         }
 

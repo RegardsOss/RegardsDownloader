@@ -30,7 +30,7 @@ import jd.plugins.decrypter.GenericM3u8Decrypter.HlsContainer;
 
 import org.jdownloader.downloader.hls.HLSDownloader;
 
-@HostPlugin(revision = "$Revision: 33899 $", interfaceVersion = 3, names = { "younow.com" }, urls = { "https?://(?:www\\.)?younowdecrypted\\.com/[^/]+/\\d+" }, flags = { 0 })
+@HostPlugin(revision = "$Revision: 33842 $", interfaceVersion = 3, names = { "younow.com" }, urls = { "https?://(?:www\\.)?younowdecrypted\\.com/[^/]+/\\d+" }, flags = { 0 })
 public class YounowCom extends PluginForHost {
 
     public YounowCom(PluginWrapper wrapper) {
@@ -145,7 +145,6 @@ public class YounowCom extends PluginForHost {
             rtmp.setFlashVer("WIN 11,8,800,94");
             rtmp.setSwfUrl("http://cdn2.younow.com/js/jwplayer6/jwplayer.flash.swf");
             rtmp.setResume(false);
-            rtmp.setLive(true);
             ((RTMPDownload) dl).startDownload();
         }
     }

@@ -22,11 +22,6 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.appwork.utils.formatter.SizeFormatter;
-import org.appwork.utils.formatter.TimeFormatter;
-import org.jdownloader.captcha.v2.challenge.recaptcha.v1.Recaptcha;
-import org.jdownloader.captcha.v2.challenge.recaptcha.v2.CaptchaHelperHostPluginRecaptchaV2;
-
 import jd.PluginWrapper;
 import jd.config.Property;
 import jd.http.Browser;
@@ -34,7 +29,6 @@ import jd.http.Cookies;
 import jd.http.URLConnectionAdapter;
 import jd.nutils.encoding.Encoding;
 import jd.parser.Regex;
-import jd.parser.html.Form;
 import jd.plugins.Account;
 import jd.plugins.Account.AccountType;
 import jd.plugins.AccountInfo;
@@ -48,7 +42,12 @@ import jd.plugins.PluginForHost;
 import jd.plugins.components.SiteType.SiteTemplate;
 import jd.plugins.components.UserAgents;
 
-@HostPlugin(revision = "$Revision: 33915 $", interfaceVersion = 2, names = { "sharing.zone" }, urls = { "https?://(?:www\\.)?sharing\\.zone/[A-Za-z0-9]+" }, flags = { 2 })
+import org.appwork.utils.formatter.SizeFormatter;
+import org.appwork.utils.formatter.TimeFormatter;
+import org.jdownloader.captcha.v2.challenge.recaptcha.v1.Recaptcha;
+import org.jdownloader.captcha.v2.challenge.recaptcha.v2.CaptchaHelperHostPluginRecaptchaV2;
+
+@HostPlugin(revision = "$Revision: 33775 $", interfaceVersion = 2, names = { "sharing.zone" }, urls = { "https?://(?:www\\.)?sharing\\.zone/[A-Za-z0-9]+" }, flags = { 2 })
 public class SharingZone extends PluginForHost {
 
     public SharingZone(PluginWrapper wrapper) {
@@ -81,7 +80,7 @@ public class SharingZone extends PluginForHost {
     private static final boolean           supportshttps                                = true;
     private static final boolean           supportshttps_FORCED                         = false;
     /* In case there is no information when accessing the main link */
-    private static final boolean           available_CHECK_OVER_INFO_PAGE               = false;
+    private static final boolean           available_CHECK_OVER_INFO_PAGE               = true;
     private static final boolean           useOldLoginMethod                            = false;
     private static final boolean           enable_RANDOM_UA                             = false;
     /* Known errors */
@@ -173,15 +172,7 @@ public class SharingZone extends PluginForHost {
                 return AvailableStatus.TRUE;
             }
             handleErrors();
-            final Form dl = br.getFormbyActionRegex(".+\\?pt=$");
-            if (dl != null) {
-                // images can be behind captcha (recaptchav2) filename is within the url, filesize not possible until after captcha
-                filename = new Regex(dl.getAction(), "/([^/]+)\\?pt=$").getMatch(0);
-                if (filename != null) {
-                    link.setName(Encoding.htmlDecode(filename));
-                    return AvailableStatus.TRUE;
-                }
-            } else if (br.getURL().contains("/error." + type) || br.getURL().contains("/index." + type) || (!br.containsHTML("class=\"downloadPageTable(V2)?\"") && !br.containsHTML("class=\"download\\-timer\"")) || br.getHttpConnection().getResponseCode() == 404) {
+            if (br.getURL().contains("/error." + type) || br.getURL().contains("/index." + type) || (!br.containsHTML("class=\"downloadPageTable(V2)?\"") && !br.containsHTML("class=\"download\\-timer\"")) || br.getHttpConnection().getResponseCode() == 404) {
                 throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
             }
             final Regex fInfo = br.getRegex("<strong>([^<>\"]*?) \\((\\d+(?:,\\d+)?(?:\\.\\d+)? (?:KB|MB|GB))\\)<");
@@ -469,7 +460,7 @@ public class SharingZone extends PluginForHost {
      *            Imported String to match against.
      * @return <b>true</b> on valid rule match. <b>false</b> on invalid rule match.
      * @author raztoki
-     */
+     * */
     private boolean inValidate(final String s) {
         if (s == null || s != null && (s.matches("[\r\n\t ]+") || s.equals(""))) {
             return true;

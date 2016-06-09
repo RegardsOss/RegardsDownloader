@@ -4,10 +4,6 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 
-import jd.gui.swing.jdgui.views.myjd.panels.MyJDownloaderAccount;
-import jd.gui.swing.jdgui.views.myjd.panels.MyJDownloaderSettingsPanelForTab;
-import jd.gui.swing.jdgui.views.myjd.panels.RemoteControlPanel;
-
 import org.appwork.storage.config.JsonConfig;
 import org.appwork.storage.config.ValidationException;
 import org.appwork.storage.config.events.GenericConfigEventListener;
@@ -15,6 +11,10 @@ import org.appwork.storage.config.handler.KeyHandler;
 import org.appwork.utils.swing.EDTRunner;
 import org.jdownloader.gui.settings.AbstractConfigPanel;
 import org.jdownloader.settings.GraphicalUserInterfaceSettings;
+
+import jd.gui.swing.jdgui.views.myjd.panels.MyJDownloaderAccount;
+import jd.gui.swing.jdgui.views.myjd.panels.MyJDownloaderSettingsPanelForTab;
+import jd.gui.swing.jdgui.views.myjd.panels.RemoteControlPanel;
 
 public class SidebarModel extends DefaultListModel implements GenericConfigEventListener<Object> {
 

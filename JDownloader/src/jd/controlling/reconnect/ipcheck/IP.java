@@ -115,7 +115,7 @@ public class IP {
                 try {
                     localip = isLocalIP(InetAddress.getByName(gatewayIP).getHostAddress());
                 } catch (UnknownHostException e) {
-                    LogController.CL().log(e);
+                    e.printStackTrace();
                 }
             }
             return localip && RouterUtils.checkPort(gatewayIP);

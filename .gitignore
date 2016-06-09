@@ -1,4 +1,5 @@
-.svn
+.svn/
 .metadata/
 .recommenders/
+*.class
 

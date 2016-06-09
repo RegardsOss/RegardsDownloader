@@ -260,6 +260,7 @@ public class DirectHTTP extends antiDDoSForHost {
         if (this.requestFileInformation(downloadLink) == AvailableStatus.UNCHECKABLE) {
             throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, 15 * 60 * 1000l);
         }
+
         final String auth = this.br.getHeaders().get("Authorization");
         /*
          * replace with br.setCurrentURL(null); in future (after 0.9)
@@ -315,6 +316,7 @@ public class DirectHTTP extends antiDDoSForHost {
             }
             throw e;
         }
+
         if (this.dl.getConnection().getResponseCode() == 503) {
             throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, 15 * 60 * 1000l);
         }
@@ -581,16 +583,12 @@ public class DirectHTTP extends antiDDoSForHost {
                 return AvailableStatus.UNCHECKABLE;
             }
 
-            // ------------------------------
             // Ajout par JC : code 202 pour indiquer que le fichier n'est pas encore disponible sur le disque
-            // Si le fichier n'est pas en ligne, on réessaye toutes les 5mn sauf si
-            // le paramètre X-regards-retry est présent dans l'en-tête HTTP
             if (urlConnection.getResponseCode() == 202) {
                 String timeRetry = urlConnection.getHeaderField("X-regards-retry");
-                long time = timeRetry == null ? 5 * 60 * 1000l : Long.valueOf(timeRetry);
+                long time = timeRetry == null ? 15 * 60 * 1000l : Long.valueOf(timeRetry);
                 throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, time);
             }
-            // -------------------------------
 
             if (urlConnection.getResponseCode() == 404 || urlConnection.getResponseCode() == 410 || !urlConnection.isOK()) {
                 throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);

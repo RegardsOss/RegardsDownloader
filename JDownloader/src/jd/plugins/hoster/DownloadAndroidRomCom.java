@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import jd.PluginWrapper;
 import jd.nutils.encoding.Encoding;
-import jd.parser.Regex;
 import jd.plugins.DownloadLink;
 import jd.plugins.DownloadLink.AvailableStatus;
 import jd.plugins.HostPlugin;
@@ -30,7 +29,7 @@ import jd.plugins.PluginForHost;
 
 import org.appwork.utils.formatter.SizeFormatter;
 
-@HostPlugin(revision = "$Revision: 33899 $", interfaceVersion = 2, names = { "downloadandroidrom.com" }, urls = { "http://(www\\.)?downloadandroidrom\\.com/file/[^<>\"/]+/.+" }, flags = { 0 })
+@HostPlugin(revision = "$Revision: 28749 $", interfaceVersion = 2, names = { "downloadandroidrom.com" }, urls = { "http://(www\\.)?downloadandroidrom\\.com/file/[^<>\"/]+/.+" }, flags = { 0 })
 public class DownloadAndroidRomCom extends PluginForHost {
 
     public DownloadAndroidRomCom(PluginWrapper wrapper) {
@@ -77,30 +76,24 @@ public class DownloadAndroidRomCom extends PluginForHost {
     @Override
     public void handleFree(final DownloadLink downloadLink) throws Exception, PluginException {
         requestFileInformation(downloadLink);
-        final Regex dllinkregex = br.getRegex("\"(http://[A-Za-z0-9]+\\.)(downloadandroidrom\\.com/download/[^<>\"]*?)\"");
-        final String wwwpart = dllinkregex.getMatch(0);
-        String dllink = dllinkregex.getMatch(1);
+        String dllink = br.getRegex("\"http://(www\\.)?(downloadandroidrom\\.com/download/[^<>\"]*?)\"").getMatch(1);
         if (dllink == null) {
             throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
         }
-        if (wwwpart.contains("www.")) {
-            // this.sleep(5 * 1001l, downloadLink);
-            br.postPage("http://downloadandroidrom.com/gettoken2.php", "");
-            String token = br.toString();
-            if (token.length() >= 50) {
-                throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
-            }
-            br.postPage("http://downloadandroidrom.com/testbusy.php", "");
-            final String server = br.toString();
-            if (server.length() >= 50) {
-                throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
-            }
-            token = Encoding.htmlDecode(token.trim());
-            dllink = "http://mirror" + server + "." + dllink + token;
-            br.getPage("http://downloadandroidrom.com/ip/ip.php");
-        } else {
-            dllink = wwwpart + dllink;
+        // this.sleep(5 * 1001l, downloadLink);
+        br.postPage("http://downloadandroidrom.com/gettoken2.php", "");
+        String token = br.toString();
+        if (token.length() >= 50) {
+            throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
         }
+        br.postPage("http://downloadandroidrom.com/testbusy.php", "");
+        final String server = br.toString();
+        if (server.length() >= 50) {
+            throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+        }
+        token = Encoding.htmlDecode(token.trim());
+        dllink = "http://mirror" + server + "." + dllink + token;
+        br.getPage("http://downloadandroidrom.com/ip/ip.php");
 
         int maxchunks = 0;
         if (downloadLink.getBooleanProperty(NOCHUNKS, false)) {

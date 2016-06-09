@@ -176,7 +176,7 @@ public class YoutubeHelper {
 
     private final LogInterface          logger;
     private String                      base;
-    // private List<YoutubeBasicVariant> variants;
+                                        // private List<YoutubeBasicVariant> variants;
 
     // public List<YoutubeBasicVariant> getVariants() {
     // return variants;
@@ -1581,11 +1581,6 @@ public class YoutubeHelper {
                 // Sorry about that. .:. 7BN5H7AVHUIE8 invalid uid.
                 String subError = br.getRegex("<div id=\"unavailable-submessage\" class=\"[^\"]*\">(.*?)</div>").getMatch(0);
                 if (subError != null && !subError.matches("\\s*")) {
-                    if (vid.error != null) {
-                        subError = vid.error;
-                        logger.warning(unavailableReason + " :: " + subError);
-                        return;
-                    }
                     subError = subError.trim();
                     logger.warning(unavailableReason + " :: " + subError);
                     vid.error = unavailableReason;

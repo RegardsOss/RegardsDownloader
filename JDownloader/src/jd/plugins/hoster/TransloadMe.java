@@ -42,7 +42,7 @@ import org.appwork.utils.formatter.SizeFormatter;
 import org.jdownloader.captcha.v2.challenge.recaptcha.v2.CaptchaHelperHostPluginRecaptchaV2;
 import org.jdownloader.plugins.controller.host.LazyHostPlugin.FEATURE;
 
-@HostPlugin(revision = "$Revision: 33877 $", interfaceVersion = 3, names = { "transload.me" }, urls = { "REGEX_NOT_POSSIBLE_RANDOM-asdfasdfsadfsfs2133" }, flags = { 2 })
+@HostPlugin(revision = "$Revision: 33842 $", interfaceVersion = 3, names = { "transload.me" }, urls = { "REGEX_NOT_POSSIBLE_RANDOM-asdfasdfsadfsfs2133" }, flags = { 2 })
 public class TransloadMe extends PluginForHost {
 
     private static final String                            DOMAIN                       = "http://transload.me/";
@@ -257,7 +257,7 @@ public class TransloadMe extends PluginForHost {
                 br.setCookiesExclusive(true);
                 this.br = newBrowser();
                 final Cookies cookies = account.loadCookies("");
-                if (cookies != null) {
+                if (cookies != null && !force) {
                     this.br.setCookies(this.getHost(), cookies);
                     if (force) {
                         /* Even though login is forced first check if our cookies are still valid --> If not, force login! */
@@ -270,7 +270,6 @@ public class TransloadMe extends PluginForHost {
                             br.clearCookies(DOMAIN);
                         }
                     } else {
-                        /* Trust cookies! */
                         return;
                     }
                 }

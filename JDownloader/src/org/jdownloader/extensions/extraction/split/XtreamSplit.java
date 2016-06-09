@@ -35,7 +35,6 @@ import jd.plugins.download.raf.FileBytesCacheFlusher;
 
 import org.appwork.uio.CloseReason;
 import org.appwork.utils.Files;
-import org.appwork.utils.IO;
 import org.appwork.utils.NullsafeAtomicReference;
 import org.appwork.utils.StringUtils;
 import org.appwork.utils.awfc.AWFCUtils;
@@ -143,7 +142,7 @@ public class XtreamSplit extends IExtraction {
             getExtractionController().getArchive().getContentView().add(new PackedFile(false, archive.getName(), size));
             getExtractionController().setCompleteBytes(size);
             getExtractionController().setProcessedBytes(0);
-            fos = IO.open(outputFile, "rw");
+            fos = new RandomAccessFile(outputFile, "rw");
             archive.addExtractedFiles(outputFile);
             long fileWritePosition = 0;
             fileOpen.set(true);
@@ -336,7 +335,7 @@ public class XtreamSplit extends IExtraction {
             if (md5) {
                 // Get MD5 Hashes
                 final File lastFile = new File(archive.getArchiveFiles().get(numberOfFiles - 1).getFilePath());
-                final RandomAccessFile raf = IO.open(lastFile, "r");
+                final RandomAccessFile raf = new RandomAccessFile(lastFile, "r");
                 try {
                     awfc = new AWFCUtils(new InputStream() {
 

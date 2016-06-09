@@ -20,13 +20,14 @@ import java.util.ArrayList;
 
 import jd.PluginWrapper;
 import jd.controlling.ProgressController;
+import jd.http.Browser.BrowserException;
 import jd.plugins.CryptedLink;
 import jd.plugins.DecrypterPlugin;
 import jd.plugins.DownloadLink;
 import jd.plugins.FilePackage;
 import jd.plugins.PluginForDecrypt;
 
-@DecrypterPlugin(revision = "$Revision: 33900 $", interfaceVersion = 2, names = { "doridro.net" }, urls = { "http://(www\\.)?doridro\\.net/download/[^<>\"]+" }, flags = { 0 })
+@DecrypterPlugin(revision = "$Revision: 21059 $", interfaceVersion = 2, names = { "doridro.net" }, urls = { "http://(www\\.)?doridro\\.net/download/[^<>\"]+" }, flags = { 0 })
 public class DoriDroNet extends PluginForDecrypt {
 
     public DoriDroNet(PluginWrapper wrapper) {
@@ -40,18 +41,21 @@ public class DoriDroNet extends PluginForDecrypt {
             DownloadLink dl = createDownloadlink(parameter.replace("doridro.net/", "doridrodecrypted.net/"));
             decryptedLinks.add(dl);
         } else {
-            br.getPage(parameter);
-            if (br.containsHTML(">414 Request\\-URI Too Large<") || this.br.getHttpConnection().getResponseCode() == 404 || this.br.containsHTML("class=\"glyphicon glyphicon\\-remove\"|is not found in our server\\.")) {
-                decryptedLinks.add(this.createOfflinelink(parameter));
+            try {
+                br.getPage(parameter);
+            } catch (final BrowserException e) {
+                logger.info("Failed to decrypt link because of server error: " + parameter);
+                return decryptedLinks;
+            }
+            if (br.containsHTML(">414 Request\\-URI Too Large<")) {
+                logger.info("Link offline: " + parameter);
                 return decryptedLinks;
             }
             String fpName = br.getRegex("<title>(.*?) Album Download</title>").getMatch(0);
             String[] links = br.getRegex("<td bgcolor=\"#666666\"><a href=\"(http://.*?)\"").getColumn(0);
             if (links == null || links.length == 0) {
                 links = br.getRegex("\"(http://doridro\\.net/download/.+/.+/.*?)\"").getColumn(0);
-                if (links == null || links.length == 0) {
-                    links = br.getRegex("<td bgcolor=\"#666666\"><a href=\"(http://doridro\\.net/download/.+/.*?)\"").getColumn(0);
-                }
+                if (links == null || links.length == 0) links = br.getRegex("<td bgcolor=\"#666666\"><a href=\"(http://doridro\\.net/download/.+/.*?)\"").getColumn(0);
             }
             if (links == null || links.length == 0) {
                 logger.warning("Decrypter broken for link: " + parameter);

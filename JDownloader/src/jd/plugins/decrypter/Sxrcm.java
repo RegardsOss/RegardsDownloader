@@ -29,7 +29,7 @@ import jd.plugins.DecrypterPlugin;
 import jd.plugins.DownloadLink;
 import jd.plugins.PluginForDecrypt;
 
-@DecrypterPlugin(revision = "$Revision: 33899 $", interfaceVersion = 2, names = { "sexuria.com" }, urls = { "http://(www\\.)?sexuria\\.com/(v1/)?Pornos_Kostenlos_.+?_(\\d+)\\.html|http://(www\\.)?sexuria\\.com/(v1/)?dl_links_\\d+_\\d+\\.html|http://(www\\.)?sexuria\\.com/out\\.php\\?id=([0-9]+)\\&part=[0-9]+\\&link=[0-9]+" }, flags = { 0 })
+@DecrypterPlugin(revision = "$Revision: 33848 $", interfaceVersion = 2, names = { "sexuria.com" }, urls = { "http://(www\\.)?sexuria\\.com/(v1/)?Pornos_Kostenlos_.+?_(\\d+)\\.html|http://(www\\.)?sexuria\\.com/(v1/)?dl_links_\\d+_\\d+\\.html|http://(www\\.)?sexuria\\.com/out\\.php\\?id=([0-9]+)\\&part=[0-9]+\\&link=[0-9]+" }, flags = { 0 })
 public class Sxrcm extends PluginForDecrypt {
 
     private static final Pattern PATTEREN_SUPPORTED_MAIN    = Pattern.compile("http://(www\\.)?sexuria\\.com/(v1/)?Pornos_Kostenlos_.+?_(\\d+)\\.html", Pattern.CASE_INSENSITIVE);
@@ -56,11 +56,13 @@ public class Sxrcm extends PluginForDecrypt {
         br.setFollowRedirects(false);
         synchronized (LOCK) {
             if (new Regex(parameter, PATTEREN_SUPPORTED_MAIN).matches()) {
-                br.setFollowRedirects(true);
                 br.getPage(parameter);
-                br.setFollowRedirects(false);
-                if (!this.br.containsHTML("melden\\.php")) {
-                    decryptedLinks.add(this.createOfflinelink(parameter));
+                if (br.getRedirectLocation() != null) {
+                    try {
+                        decryptedLinks.add(this.createOfflinelink(parameter));
+                    } catch (final Throwable e) {
+                        // Not available in old 0.9.581 Stable
+                    }
                     return decryptedLinks;
                 }
                 final String[] final_links = br.getRegex("onclick=\"this\\.className\\+=\\' disabled\\'\" href=\"(http[^<>\"]*?)\"").getColumn(0);

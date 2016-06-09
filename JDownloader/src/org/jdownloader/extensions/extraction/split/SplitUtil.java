@@ -28,7 +28,6 @@ import net.sf.sevenzipjbinding.SevenZipException;
 
 import org.appwork.uio.CloseReason;
 import org.appwork.utils.Files;
-import org.appwork.utils.IO;
 import org.appwork.utils.NullsafeAtomicReference;
 import org.appwork.utils.StringUtils;
 import org.jdownloader.controlling.FileCreationManager;
@@ -46,15 +45,15 @@ import org.jdownloader.settings.IfFileExistsAction;
 
 /**
  * Utils for the joiner.
- *
+ * 
  * @author botzi
- *
+ * 
  */
 class SplitUtil {
 
     /**
      * Merges the files from the archive. The filepaths need to be sortable.
-     *
+     * 
      * @param controller
      * @param destination
      *            The outputfile.
@@ -136,7 +135,7 @@ class SplitUtil {
                 return false;
             }
             controller.setCurrentActiveItem(new Item(destination.getName(), size, destination));
-            fos = IO.open(destination, "rw");
+            fos = new RandomAccessFile(destination, "rw");
             archive.addExtractedFiles(destination);
             fileOpen.set(true);
             final RandomAccessFile ffos = fos;

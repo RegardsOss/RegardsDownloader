@@ -50,7 +50,7 @@ import jd.utils.JDUtilities;
 
 import org.appwork.utils.formatter.SizeFormatter;
 
-@DecrypterPlugin(revision = "$Revision: 33900 $", interfaceVersion = 2, names = { "vkontakte.ru" }, urls = { "https?://(?:www\\.|m\\.)?(?:vk\\.com|vkontakte\\.ru|vkontakte\\.com)/(?!doc[\\d\\-]+_[\\d\\-]+|picturelink|audiolink|videolink)[a-z0-9_/=\\.\\-\\?\\&]+" }, flags = { 0 })
+@DecrypterPlugin(revision = "$Revision: 33866 $", interfaceVersion = 2, names = { "vkontakte.ru" }, urls = { "https?://(?:www\\.|m\\.)?(?:vk\\.com|vkontakte\\.ru|vkontakte\\.com)/(?!doc[\\d\\-]+_[\\d\\-]+|picturelink|audiolink|videolink)[a-z0-9_/=\\.\\-\\?\\&]+" }, flags = { 0 })
 public class VKontakteRu extends PluginForDecrypt {
 
     /** TODO: Note: PATTERN_VIDEO_SINGLE links should all be decryptable without account but this is not implemented (yet) */
@@ -1294,6 +1294,7 @@ public class VKontakteRu extends PluginForDecrypt {
      *
      * @throws Exception
      */
+    @SuppressWarnings("deprecation")
     private void decryptDocs() throws Exception {
         this.getPageSafe(this.CRYPTEDLINK_FUNCTIONAL);
         if (br.containsHTML("Unfortunately, you are not a member of this group and cannot view its documents") || br.getRedirectLocation() != null) {
@@ -1491,9 +1492,6 @@ public class VKontakteRu extends PluginForDecrypt {
                 logger.info("Trying to avoid block " + i + " / 10");
                 sleep(this.cfg.getLongProperty(jd.plugins.hoster.VKontakteRuHoster.SLEEP_TOO_MANY_REQUESTS, jd.plugins.hoster.VKontakteRuHoster.defaultSLEEP_TOO_MANY_REQUESTS), CRYPTEDLINK);
                 continue;
-            } else if (this.br.getURL().matches(".+/blank\\.php\\?code=\\d+") || this.br.containsHTML(">You do not have permission to do this")) {
-                /* General errormessage */
-                break;
             } else if (br.getURL().equals(parameter)) {
                 // If our current url is already the one we want to access here, break dance!
                 break;
@@ -1891,7 +1889,7 @@ public class VKontakteRu extends PluginForDecrypt {
         /* General errorhandling start */
         if (br.containsHTML("Unknown error|Неизвестная ошибка|Nieznany b\\&#322;\\&#261;d")) {
             throw new DecrypterException(EXCEPTION_LINKOFFLINE);
-        } else if (br.containsHTML("Access denied|Ошибка доступа|>You do not have permission to do this")) {
+        } else if (br.containsHTML("Access denied|Ошибка доступа")) {
             throw new DecrypterException(EXCEPTION_LINKOFFLINE);
         } else if (br.getRedirectLocation() != null && br.getRedirectLocation().contains("vk.com/blank.php")) {
             throw new DecrypterException(EXCEPTION_LINKOFFLINE);

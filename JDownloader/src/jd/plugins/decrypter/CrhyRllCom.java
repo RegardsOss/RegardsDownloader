@@ -23,7 +23,7 @@ import jd.plugins.PluginForDecrypt;
 import jd.plugins.PluginForHost;
 import jd.utils.JDUtilities;
 
-@DecrypterPlugin(revision = "$Revision: 33877 $", interfaceVersion = 3, names = { "crunchyroll.com" }, urls = { "http://(?:www\\.)?crunchyroll\\.com(?:\\.br)?/(?!forumtopic)[\\w\\_\\-]+/[\\w\\_\\-]+\\-[0-9]+" }, flags = { 2 })
+@DecrypterPlugin(revision = "$Revision: 33814 $", interfaceVersion = 3, names = { "crunchyroll.com" }, urls = { "http://(?:www\\.)?crunchyroll\\.com(?:\\.br)?/(?!forumtopic)[\\w\\_\\-]+/[\\w\\_\\-]+\\-[0-9]+" }, flags = { 2 })
 public class CrhyRllCom extends PluginForDecrypt {
 
     // Define the video quality codes used for RTMP
@@ -173,7 +173,6 @@ public class CrhyRllCom extends PluginForDecrypt {
             // Get the link to the SWF file
             final Regex swfUrlSearch = this.br.getRegex("swfobject.embedSWF\\(\"(.*?)\"");
             if (!swfUrlSearch.matches()) {
-                logger.warning("WTF");
                 throw new DecrypterException("Failed to get SWF url");
             }
 

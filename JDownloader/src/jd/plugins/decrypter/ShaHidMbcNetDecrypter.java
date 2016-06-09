@@ -47,7 +47,7 @@ import jd.utils.JDUtilities;
 
 import org.jdownloader.captcha.v2.challenge.keycaptcha.KeyCaptchaShowDialogTwo;
 
-@DecrypterPlugin(revision = "$Revision: 33899 $", interfaceVersion = 2, names = { "shahid.mbc.net" }, urls = { "https?://(?:www\\.)?(?:shahid\\.mbc\\.net/(?:media/video|ar/episode)/\\d+(/\\w+)?|bluefishtv\\.com/Store/[_a-zA-Z]+/\\d+/.*)" }, flags = { 0 })
+@DecrypterPlugin(revision = "$Revision: 33848 $", interfaceVersion = 2, names = { "shahid.mbc.net" }, urls = { "https?://(?:www\\.)?(?:shahid\\.mbc\\.net/(?:media/video|ar/episode)/\\d+(/\\w+)?|bluefishtv\\.com/Store/[_a-zA-Z]+/\\d+/.*)" }, flags = { 0 })
 public class ShaHidMbcNetDecrypter extends PluginForDecrypt {
 
     public static enum Quality {
@@ -108,7 +108,7 @@ public class ShaHidMbcNetDecrypter extends PluginForDecrypt {
             if (br.containsHTML(">That product is not available at this time<") || this.br.getHttpConnection().getResponseCode() == 404) {
                 decryptedLinks.add(this.createDownloadlink(parameter));
                 return decryptedLinks;
-            } else if (aa == null && this.br.containsHTML("id=\"buyButton1?\"")) {
+            } else if (aa == null && this.br.containsHTML("id=\"buyButton\"")) {
                 logger.info("Paid content --> Account needed");
                 return decryptedLinks;
             }

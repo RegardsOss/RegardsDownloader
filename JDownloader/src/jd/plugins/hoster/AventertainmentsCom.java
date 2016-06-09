@@ -34,11 +34,8 @@ import jd.plugins.HostPlugin;
 import jd.plugins.LinkStatus;
 import jd.plugins.PluginException;
 import jd.plugins.PluginForHost;
-import jd.plugins.decrypter.GenericM3u8Decrypter.HlsContainer;
 
-import org.jdownloader.downloader.hls.HLSDownloader;
-
-@HostPlugin(revision = "$Revision: 33905 $", interfaceVersion = 3, names = { "imgs.aventertainments.com", "aventertainments.com" }, urls = { "https?://imgs\\.aventertainments\\.com/.+", "https?://www\\.aventertainments\\.com/newdlsample\\.aspx.+\\.mp4|https?://ppvclips\\d+\\.aventertainments\\.com/.+\\.m3u9" }, flags = { 0, 2 })
+@HostPlugin(revision = "$Revision: 33775 $", interfaceVersion = 3, names = { "imgs.aventertainments.com", "aventertainments.com" }, urls = { "https?://imgs\\.aventertainments\\.com/.+", "https?://www\\.aventertainments\\.com/newdlsample\\.aspx.+\\.mp4" }, flags = { 0, 2 })
 public class AventertainmentsCom extends PluginForHost {
 
     public AventertainmentsCom(PluginWrapper wrapper) {
@@ -52,8 +49,7 @@ public class AventertainmentsCom extends PluginForHost {
     // other:
 
     private final String         TYPE_IMAGE              = "https?://imgs\\.aventertainments\\.com/.+";
-    private final String         TYPE_VIDEO_HTTP         = "https?://(?:www\\.)?aventertainments\\.com/newdlsample\\.aspx.*?\\.mp4";
-    private final String         TYPE_VIDEO_HLS          = "https?://ppvclips\\d+\\.aventertainments\\.com/.+\\.m3u8";
+    private final String         TYPE_VIDEO              = "https?://(?:www\\.)?aventertainments\\.com/newdlsample\\.aspx.*?\\.mp4";
 
     public static String         html_loggedin           = "aventertainments.com/logout\\.aspx";
 
@@ -73,11 +69,6 @@ public class AventertainmentsCom extends PluginForHost {
         return "http://www.aventertainments.com/aveterms.htm";
     }
 
-    public void correctDownloadLink(final DownloadLink link) {
-        final String newurl = link.getDownloadURL().replace(".m3u9", ".m3u8");
-        link.setUrlDownload(newurl);
-    }
-
     @SuppressWarnings("deprecation")
     @Override
     public AvailableStatus requestFileInformation(final DownloadLink link) throws IOException, PluginException {
@@ -86,66 +77,66 @@ public class AventertainmentsCom extends PluginForHost {
         server_issues = false;
         this.setBrowserExclusive();
         br.setFollowRedirects(true);
+        br.getPage(link.getDownloadURL());
+        if (br.getHttpConnection().getResponseCode() == 404) {
+            throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
+        }
         final String url_filename = new Regex(link.getDownloadURL(), "/([^/]+)$").getMatch(0);
-        String filename = link.getFinalFileName();
+        String filename = null;
         if (filename == null) {
             filename = url_filename;
         }
-        if (link.getDownloadURL().matches(TYPE_VIDEO_HLS)) {
-            dllink = link.getDownloadURL();
+        if (link.getDownloadURL().matches(TYPE_VIDEO)) {
+            br.setFollowRedirects(false);
+            if (mainlink != null) {
+                /* Important!! */
+                this.br.getHeaders().put("Referer", mainlink);
+            }
+            this.br.getPage(link.getDownloadURL());
+            dllink = this.br.getRedirectLocation();
+            if (dllink == null) {
+                throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
+            }
+            br.setFollowRedirects(true);
         } else {
-            if (link.getDownloadURL().matches(TYPE_VIDEO_HTTP)) {
-                br.setFollowRedirects(false);
-                if (mainlink != null) {
-                    /* Important!! */
-                    this.br.getHeaders().put("Referer", mainlink);
-                }
-                this.br.getPage(link.getDownloadURL());
-                dllink = this.br.getRedirectLocation();
-                if (dllink == null) {
-                    throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
-                }
-                br.setFollowRedirects(true);
+            dllink = link.getDownloadURL();
+        }
+        dllink = Encoding.htmlDecode(dllink);
+        filename = Encoding.htmlDecode(filename);
+        filename = filename.trim();
+        filename = encodeUnicode(filename);
+        String ext = dllink.substring(dllink.lastIndexOf("."));
+        /* Make sure that we get a correct extension */
+        if (ext == null || !ext.matches("\\.[A-Za-z0-9]{3,5}")) {
+            if (link.getDownloadURL().matches(TYPE_IMAGE)) {
+                ext = default_Extension_Image;
             } else {
-                dllink = link.getDownloadURL();
-            }
-            dllink = Encoding.htmlDecode(dllink);
-            filename = Encoding.htmlDecode(filename);
-            filename = filename.trim();
-            filename = encodeUnicode(filename);
-            String ext = dllink.substring(dllink.lastIndexOf("."));
-            /* Make sure that we get a correct extension */
-            if (ext == null || !ext.matches("\\.[A-Za-z0-9]{3,5}")) {
-                if (link.getDownloadURL().matches(TYPE_IMAGE)) {
-                    ext = default_Extension_Image;
-                } else {
-                    ext = default_Extension_Video;
-                }
-            }
-            if (!filename.endsWith(ext)) {
-                filename += ext;
-            }
-            link.setFinalFileName(filename);
-            final Browser br2 = br.cloneBrowser();
-            // In case the link redirects to the finallink
-            br2.setFollowRedirects(true);
-            URLConnectionAdapter con = null;
-            try {
-                con = br2.openHeadConnection(dllink);
-                if (!con.getContentType().contains("html")) {
-                    link.setDownloadSize(con.getLongContentLength());
-                    link.setProperty("directlink", dllink);
-                } else {
-                    server_issues = true;
-                }
-            } finally {
-                try {
-                    con.disconnect();
-                } catch (final Throwable e) {
-                }
+                ext = default_Extension_Video;
             }
         }
-        return AvailableStatus.TRUE;
+        if (!filename.endsWith(ext)) {
+            filename += ext;
+        }
+        link.setFinalFileName(filename);
+        final Browser br2 = br.cloneBrowser();
+        // In case the link redirects to the finallink
+        br2.setFollowRedirects(true);
+        URLConnectionAdapter con = null;
+        try {
+            con = br2.openHeadConnection(dllink);
+            if (!con.getContentType().contains("html")) {
+                link.setDownloadSize(con.getLongContentLength());
+                link.setProperty("directlink", dllink);
+            } else {
+                server_issues = true;
+            }
+            return AvailableStatus.TRUE;
+        } finally {
+            try {
+                con.disconnect();
+            } catch (final Throwable e) {
+            }
+        }
     }
 
     @Override
@@ -156,38 +147,26 @@ public class AventertainmentsCom extends PluginForHost {
 
     public void doFree(final DownloadLink downloadLink) throws Exception {
         requestFileInformation(downloadLink);
-        if (dllink.matches(TYPE_VIDEO_HLS)) {
-            br.getPage(dllink);
-            final HlsContainer hlsbest = jd.plugins.decrypter.GenericM3u8Decrypter.findBestVideoByBandwidth(jd.plugins.decrypter.GenericM3u8Decrypter.getHlsQualities(this.br));
-            if (hlsbest == null) {
-                throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
-            }
-            dllink = hlsbest.downloadurl;
-            checkFFmpeg(downloadLink, "Download a HLS Stream");
-            dl = new HLSDownloader(downloadLink, br, dllink);
-            dl.startDownload();
-        } else {
-            if (server_issues) {
-                throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, "Unknown server error", 10 * 60 * 1000l);
-            } else if (dllink == null) {
-                throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
-            }
-            dl = jd.plugins.BrowserAdapter.openDownload(br, downloadLink, dllink, free_resume, free_maxchunks);
-            if (dl.getConnection().getContentType().contains("html")) {
-                if (dl.getConnection().getResponseCode() == 403) {
-                    throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, "Server error 403", 60 * 60 * 1000l);
-                } else if (dl.getConnection().getResponseCode() == 404) {
-                    throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, "Server error 404", 60 * 60 * 1000l);
-                }
-                br.followConnection();
-                try {
-                    dl.getConnection().disconnect();
-                } catch (final Throwable e) {
-                }
-                throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
-            }
-            dl.startDownload();
+        if (server_issues) {
+            throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, "Unknown server error", 10 * 60 * 1000l);
+        } else if (dllink == null) {
+            throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
         }
+        dl = jd.plugins.BrowserAdapter.openDownload(br, downloadLink, dllink, free_resume, free_maxchunks);
+        if (dl.getConnection().getContentType().contains("html")) {
+            if (dl.getConnection().getResponseCode() == 403) {
+                throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, "Server error 403", 60 * 60 * 1000l);
+            } else if (dl.getConnection().getResponseCode() == 404) {
+                throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, "Server error 404", 60 * 60 * 1000l);
+            }
+            br.followConnection();
+            try {
+                dl.getConnection().disconnect();
+            } catch (final Throwable e) {
+            }
+            throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
+        }
+        dl.startDownload();
     }
 
     /** Avoid chars which are not allowed in filenames under certain OS' */

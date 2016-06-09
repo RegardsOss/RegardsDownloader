@@ -43,7 +43,7 @@ import jd.plugins.PluginForHost;
 import org.appwork.utils.formatter.SizeFormatter;
 import org.jdownloader.captcha.v2.challenge.recaptcha.v1.Recaptcha;
 
-@HostPlugin(revision = "$Revision: 33899 $", interfaceVersion = 2, names = { "pixabay.com" }, urls = { "https?://(www\\.)?pixabay\\.com/en/[a-z0-9\\-]+\\-\\d+/" }, flags = { 2 })
+@HostPlugin(revision = "$Revision: 32094 $", interfaceVersion = 2, names = { "pixabay.com" }, urls = { "https?://(www\\.)?pixabay\\.com/en/[a-z0-9\\-]+\\-\\d+/" }, flags = { 2 })
 public class PixaBayCom extends PluginForHost {
 
     public PixaBayCom(PluginWrapper wrapper) {
@@ -108,9 +108,6 @@ public class PixaBayCom extends PluginForHost {
                 if (quality_name.equals(possiblequality) && (accountQualityPossible || isNoAccountQuality)) {
                     done = true;
                     filesize = new Regex(quality, "class=\"hide-xs hide-md\">([^<>\"]*?)<").getMatch(0);
-                    if (filesize == null) {
-                        filesize = new Regex(quality, ">(\\d+(?:\\.\\d+)? (?:kB|mB|gB))<").getMatch(0);
-                    }
                     quality_max = new Regex(quality, ">(\\d+) x \\d+<").getMatch(0);
                     quality_download_id = new Regex(quality, "([^<>\"/]*?\\.jpg)").getMatch(0);
                     if (quality_download_id == null) {

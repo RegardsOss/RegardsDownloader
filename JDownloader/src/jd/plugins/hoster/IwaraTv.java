@@ -37,7 +37,7 @@ import jd.plugins.LinkStatus;
 import jd.plugins.PluginException;
 import jd.plugins.PluginForHost;
 
-@HostPlugin(revision = "$Revision: 33892 $", interfaceVersion = 3, names = { "iwara.tv" }, urls = { "http://(?:[A-Za-z0-9]+\\.)?iwaradecrypted\\.tv/.+" }, flags = { 2 })
+@HostPlugin(revision = "$Revision: 33842 $", interfaceVersion = 3, names = { "iwara.tv" }, urls = { "http://(?:[A-Za-z0-9]+\\.)?iwaradecrypted\\.tv/.+" }, flags = { 2 })
 public class IwaraTv extends PluginForHost {
 
     public IwaraTv(PluginWrapper wrapper) {
@@ -52,19 +52,17 @@ public class IwaraTv extends PluginForHost {
     // other:
 
     /* Extension which will be used if no correct extension is found */
-    private static final String  default_ExtensionVideo = ".mp4";
-    private static final String  default_ExtensionImage = ".png";
+    private static final String  default_Extension = ".mp4";
     /* Connection stuff */
-    private static final boolean free_resume            = true;
-    private static final int     free_maxchunks         = 0;
-    private static final int     free_maxdownloads      = -1;
+    private static final boolean free_resume       = true;
+    private static final int     free_maxchunks    = 0;
+    private static final int     free_maxdownloads = -1;
 
-    private final String         html_privatevideo      = ">This video is only available for users that|>Private video<";
-    public static final String   html_loggedin          = "/user/logout";
-    private static final String  type_image             = "https?://(?:www\\.)?iwara\\.tv/images/.+";
+    private final String         html_privatevideo = ">This video is only available for users that|>Private video<";
+    public static final String   html_loggedin     = "/user/logout";
 
-    private String               dllink                 = null;
-    private boolean              serverIssue            = false;
+    private String               dllink            = null;
+    private boolean              serverIssue       = false;
 
     @Override
     public String getAGBLink() {
@@ -130,24 +128,14 @@ public class IwaraTv extends PluginForHost {
             /* Private video */
             downloadLink.setName(filename + ".mp4");
             return AvailableStatus.TRUE;
-        }
-
-        boolean isVideo = true;
-        if (this.br.getURL().matches(type_image)) {
-            /* Picture */
-            isVideo = false;
-            dllink = this.br.getRegex("\"(https?://(?:www\\.)?iwara\\.tv/[^<>]+/large/public/[^<>\"]+)\"").getMatch(0);
-        } else if (this.br.containsHTML("name=\"flashvars\"") || this.br.containsHTML("flowplayer\\.org/")) {
-            /* Video */
-            dllink = br.getRegex("<source src=\"(https?://[^<>\"]+)\" type=\"video/").getMatch(0);
-            if (dllink == null) {
-                dllink = br.getRegex("\"(https?://(?:www\\.)?iwara\\.tv/sites/default/files/videos/[^<>\"]+)\"").getMatch(0);
-            }
-        } else {
-            logger.info("Failed to find downloadable content");
+        } else if (!this.br.containsHTML("flowplayer\\.org/")) {
+            /* Not a video */
             throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
         }
-
+        dllink = br.getRegex("<source src=\"(https?://[^<>\"]+)\" type=\"video/").getMatch(0);
+        if (dllink == null) {
+            dllink = br.getRegex("\"(https?://(?:www\\.)?iwara\\.tv/sites/default/files/videos/[^<>\"]+)\"").getMatch(0);
+        }
         if (filename == null || dllink == null) {
             throw new PluginException(LinkStatus.ERROR_PLUGIN_DEFECT);
         }
@@ -155,11 +143,7 @@ public class IwaraTv extends PluginForHost {
         String ext = dllink.substring(dllink.lastIndexOf("."));
         /* Make sure that we get a correct extension */
         if (ext == null || !ext.matches("\\.[A-Za-z0-9]{3,5}")) {
-            if (isVideo) {
-                ext = default_ExtensionVideo;
-            } else {
-                ext = default_ExtensionImage;
-            }
+            ext = default_Extension;
         }
         if (!filename.endsWith(ext)) {
             filename += ext;
@@ -219,16 +203,8 @@ public class IwaraTv extends PluginForHost {
         dl.startDownload();
     }
 
-    /** TODO: Improve this */
     public static String getFID(final String url) {
-        String fid = new Regex(url, "/videos/(.+)").getMatch(0);
-        if (fid == null) {
-            fid = new Regex(url, "/node/(\\d+)").getMatch(0);
-        }
-        if (fid == null) {
-            fid = new Regex(url, "/images/([^/]+)").getMatch(0);
-        }
-        return fid;
+        return new Regex(url, "/videos/(.+)").getMatch(0);
     }
 
     /** Avoid chars which are not allowed in filenames under certain OS' */

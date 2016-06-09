@@ -55,7 +55,7 @@ import org.appwork.utils.os.CrossSystem;
 import org.jdownloader.captcha.v2.challenge.recaptcha.v2.CaptchaHelperHostPluginRecaptchaV2;
 import org.jdownloader.plugins.controller.host.LazyHostPlugin.FEATURE;
 
-@HostPlugin(revision = "$Revision: 33888 $", interfaceVersion = 3, names = { "real-debrid.com" }, urls = { "https?://\\w+\\.(?:real\\-debrid\\.com|rdb\\.so|rdeb\\.io)/dl?/\\w+/.+" }, flags = { 2 })
+@HostPlugin(revision = "$Revision: 33627 $", interfaceVersion = 3, names = { "real-debrid.com" }, urls = { "https?://\\w+\\.(?:real\\-debrid\\.com|rdb\\.so|rdeb\\.io)/dl?/\\w+/.+" }, flags = { 2 })
 public class RealDebridCom extends antiDDoSForHost {
 
     // DEV NOTES
@@ -453,7 +453,7 @@ public class RealDebridCom extends antiDDoSForHost {
             if ("-1".equals(chunks) || getPluginConfig().getBooleanProperty(IGNOREMAXCHUNKS, false)) {
                 maxChunks = 0;
             } else if ("1".equals(chunks)) {
-                resumes = true;// 2016-05-31: why was it false?
+                resumes = false;
                 maxChunks = 1;
             } else {
                 maxChunks = -Integer.parseInt(chunks);

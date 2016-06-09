@@ -40,7 +40,7 @@ import jd.plugins.PluginException;
 import jd.plugins.PluginForHost;
 import jd.plugins.components.UserAgents;
 
-@HostPlugin(revision = "$Revision: 33916 $", interfaceVersion = 2, names = { "shareplace.com" }, urls = { "http://[\\w\\.]*?shareplace\\.(com|org)/\\?(?:d=)?[\\w]+(/.*?)?" }, flags = { 0 })
+@HostPlugin(revision = "$Revision: 33874 $", interfaceVersion = 2, names = { "shareplace.com" }, urls = { "http://[\\w\\.]*?shareplace\\.(com|org)/\\?(?:d=)?[\\w]+(/.*?)?" }, flags = { 0 })
 public class Shareplacecom extends PluginForHost {
 
     public Shareplacecom(final PluginWrapper wrapper) {
@@ -85,7 +85,7 @@ public class Shareplacecom extends PluginForHost {
             if (iframe != null) {
                 br.getPage(iframe);
             }
-            if (new Regex(correctedBR, "Your requested file is not found").matches() || !br.containsHTML("Filename:<")) {
+            if (br.containsHTML("Your requested file is not found") || !br.containsHTML("Filename:<")) {
                 throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
             }
             String filename = new Regex(correctedBR, "Filename:</font></b>(.*?)<b><br>").getMatch(0);

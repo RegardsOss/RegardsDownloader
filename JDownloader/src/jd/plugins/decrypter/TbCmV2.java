@@ -57,7 +57,6 @@ import org.jdownloader.plugins.components.youtube.variants.AbstractVariant;
 import org.jdownloader.plugins.components.youtube.variants.AudioInterface;
 import org.jdownloader.plugins.components.youtube.variants.FileContainer;
 import org.jdownloader.plugins.components.youtube.variants.ImageVariant;
-import org.jdownloader.plugins.components.youtube.variants.SubtitleVariant;
 import org.jdownloader.plugins.components.youtube.variants.VariantGroup;
 import org.jdownloader.plugins.components.youtube.variants.VariantInfo;
 import org.jdownloader.plugins.components.youtube.variants.VideoVariant;
@@ -78,7 +77,7 @@ import jd.plugins.FilePackage;
 import jd.plugins.PluginForDecrypt;
 import jd.utils.locale.JDL;
 
-@DecrypterPlugin(revision = "$Revision: 33921 $", interfaceVersion = 3, names = { "youtube.com", "youtube.com", "youtube.com" }, urls = { "https?://([a-z]+\\.)?yt\\.not\\.allowed/.+", "https?://([a-z]+\\.)?youtube\\.com/(embed/|.*?watch.*?v(%3D|=)|view_play_list\\?p=|playlist\\?(p|list)=|.*?g/c/|.*?grid/user/|v/|user/|channel/|c/|course\\?list=)[A-Za-z0-9\\-_]+(.*?page=\\d+)?(.*?list=[A-Za-z0-9\\-_]+)?(\\#variant=\\S++)?|watch_videos\\?.*?video_ids=.+", "https?://youtube\\.googleapis\\.com/(v/|user/|channel/|c/)[A-Za-z0-9\\-_]+(\\#variant=\\S+)?" }, flags = { 0, 0, 0 })
+@DecrypterPlugin(revision = "$Revision: 33868 $", interfaceVersion = 3, names = { "youtube.com", "youtube.com", "youtube.com" }, urls = { "https?://([a-z]+\\.)?yt\\.not\\.allowed/.+", "https?://([a-z]+\\.)?youtube\\.com/(embed/|.*?watch.*?v(%3D|=)|view_play_list\\?p=|playlist\\?(p|list)=|.*?g/c/|.*?grid/user/|v/|user/|channel/|c/|course\\?list=)[A-Za-z0-9\\-_]+(.*?page=\\d+)?(.*?list=[A-Za-z0-9\\-_]+)?(\\#variant=\\S++)?|watch_videos\\?.*?video_ids=.+", "https?://youtube\\.googleapis\\.com/(v/|user/|channel/|c/)[A-Za-z0-9\\-_]+(\\#variant=\\S+)?" }, flags = { 0, 0, 0 })
 public class TbCmV2 extends PluginForDecrypt {
 
     private static final int DDOS_WAIT_MAX        = Application.isJared(null) ? 1000 : 10;
@@ -623,34 +622,10 @@ public class TbCmV2 extends PluginForDecrypt {
                     // VariantInfo cur = it.next();
                     // System.out.println(cur.getVariant().getBaseVariant() + "\t" + cur.getVariant().getQualityRating());
                     // }
-
                     if (linkVariants.size() > 0) {
                         DownloadLink lnk = createLink(l, linkVariants.get(0), cutLinkVariantsDropdown.size() > 0 ? cutLinkVariantsDropdown : linkVariants);
 
                         decryptedLinks.add(lnk);
-                        if (linkVariants.get(0).getVariant().getGroup() == VariantGroup.SUBTITLES) {
-                            ArrayList<String> extras = CFG_YOUTUBE.CFG.getExtraSubtitles();
-                            if (extras != null) {
-                                for (String s : extras) {
-                                    if (s != null) {
-                                        VariantInfo lng = null;
-                                        for (VariantInfo vi : linkVariants) {
-                                            if (vi.getVariant() instanceof SubtitleVariant) {
-                                                if (StringUtils.equalsIgnoreCase(((SubtitleVariant) vi.getVariant()).getGenericInfo().getLanguage(), s)) {
-                                                    lng = vi;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        if (lng != null) {
-                                            lnk = createLink(l, lng, cutLinkVariantsDropdown.size() > 0 ? cutLinkVariantsDropdown : linkVariants);
-
-                                            decryptedLinks.add(lnk);
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
 
                 }

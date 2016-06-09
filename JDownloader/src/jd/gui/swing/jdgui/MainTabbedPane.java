@@ -47,13 +47,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import jd.gui.swing.jdgui.interfaces.SwitchPanelEvent;
-import jd.gui.swing.jdgui.interfaces.View;
-import jd.gui.swing.jdgui.maintab.ClosableTabHeader;
-import jd.gui.swing.jdgui.maintab.CustomTabHeader;
-import jd.gui.swing.jdgui.maintab.TabHeader;
-import jd.gui.swing.jdgui.views.ClosableView;
-
 import org.appwork.storage.config.ValidationException;
 import org.appwork.storage.config.events.GenericConfigEventListener;
 import org.appwork.storage.config.handler.KeyHandler;
@@ -67,6 +60,13 @@ import org.jdownloader.gui.views.linkgrabber.LinkGrabberView;
 import org.jdownloader.images.AbstractIcon;
 import org.jdownloader.settings.staticreferences.CFG_GUI;
 import org.jdownloader.updatev2.gui.LAFOptions;
+
+import jd.gui.swing.jdgui.interfaces.SwitchPanelEvent;
+import jd.gui.swing.jdgui.interfaces.View;
+import jd.gui.swing.jdgui.maintab.ClosableTabHeader;
+import jd.gui.swing.jdgui.maintab.CustomTabHeader;
+import jd.gui.swing.jdgui.maintab.TabHeader;
+import jd.gui.swing.jdgui.views.ClosableView;
 
 public class MainTabbedPane extends JTabbedPane implements MouseMotionListener, MouseListener {
 
@@ -311,7 +311,7 @@ public class MainTabbedPane extends JTabbedPane implements MouseMotionListener, 
             public void onConfigValidatorError(KeyHandler<Enum> keyHandler, Enum invalidValue, ValidationException validateException) {
             }
         });
-        updateDonateButton();
+        // updateDonateButton(); // JCM : Removes the update donate button from the GUI
         this.setFocusable(false);
         TabHeader header;
 

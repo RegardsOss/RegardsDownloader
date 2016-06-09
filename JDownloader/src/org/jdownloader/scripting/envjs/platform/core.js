@@ -1303,7 +1303,6 @@ envjsGlobals.Envjs.exit = function() {
         Envjs.scriptTypes = {
             "" : true, // anonymous/inline
             "text/javascript" : true,
-            "application/javascript" : true,
             "text/envjs" : true
         };
 

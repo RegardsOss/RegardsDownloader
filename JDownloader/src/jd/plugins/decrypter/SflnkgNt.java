@@ -28,7 +28,7 @@ import jd.plugins.DownloadLink;
 import jd.plugins.components.SiteType.SiteTemplate;
 
 //Similar to SafeUrlMe (safeurl.me)
-@DecrypterPlugin(revision = "$Revision: 33888 $", interfaceVersion = 3, names = {}, urls = {}, flags = {})
+@DecrypterPlugin(revision = "$Revision: 33736 $", interfaceVersion = 3, names = {}, urls = {}, flags = {})
 public class SflnkgNt extends abstractSafeLinking {
 
     /**
@@ -37,7 +37,7 @@ public class SflnkgNt extends abstractSafeLinking {
      * @return
      */
     public static String[] getAnnotationNames() {
-        return new String[] { "rawfile.co", "3download.safelinking.net", "deni1743-safelink.tk", "cryptit.so", "hosmy.com", "i7q.com", "jessica.suyalynx.com", "linkler.us", "link.yify.info", "links.sceper.ws", "linkshield.org", "mtsafelinking.org", "nexushd2urlprotector.tytung.com", "ninjasecure.cf", "nsad.xcarlos.safelinking.net", "oxyl.me", "r4dm.com", "protect.mmportal.info", "rgf.me", "safe.linkninja.net", "safe.dlinks.info", "safe.linksjunk.com", "safelinking.net", "safelinking.com", "safelinknsn.net", "savelinks.net", "safelinking.mobi", "sf.anime4u.ir", "sflnk.tk", "slinx.tk", "trollbridge.org", "sl.unspeakable.org", "vault.vhsclub.com", "url-shortener.info", "yls.re", "sflk.in" };
+        return new String[] { "3download.safelinking.net", "deni1743-safelink.tk", "cryptit.so", "hosmy.com", "i7q.com", "jessica.suyalynx.com", "linkler.us", "link.yify.info", "links.sceper.ws", "linkshield.org", "mtsafelinking.org", "nexushd2urlprotector.tytung.com", "ninjasecure.cf", "nsad.xcarlos.safelinking.net", "oxyl.me", "r4dm.com", "protect.mmportal.info", "rgf.me", "safe.linkninja.net", "safe.dlinks.info", "safe.linksjunk.com", "safelinking.net", "safelinking.com", "safelinknsn.net", "savelinks.net", "safelinking.mobi", "sf.anime4u.ir", "sflnk.tk", "slinx.tk", "trollbridge.org", "sl.unspeakable.org", "vault.vhsclub.com", "url-shortener.info", "yls.re", "sflk.in" };
         // add new domains at the beginning of the array, not the END
     }
 

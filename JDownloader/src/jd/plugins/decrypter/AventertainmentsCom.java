@@ -16,7 +16,6 @@
 
 package jd.plugins.decrypter;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 import jd.PluginWrapper;
@@ -31,7 +30,7 @@ import jd.plugins.FilePackage;
 import jd.plugins.PluginForDecrypt;
 import jd.utils.JDUtilities;
 
-@DecrypterPlugin(revision = "$Revision: 33905 $", interfaceVersion = 3, names = { "aventertainments.com" }, urls = { "https?://(?:www\\.)?aventertainments\\.com/(?!newdlsample).+" }, flags = { 0 })
+@DecrypterPlugin(revision = "$Revision: 33842 $", interfaceVersion = 3, names = { "aventertainments.com" }, urls = { "https?://(?:www\\.)?aventertainments\\.com/(?!newdlsample).+" }, flags = { 0 })
 public class AventertainmentsCom extends PluginForDecrypt {
 
     public AventertainmentsCom(PluginWrapper wrapper) {
@@ -71,9 +70,6 @@ public class AventertainmentsCom extends PluginForDecrypt {
                 foundScreenshot = true;
                 for (final String singleLink : screenshots) {
                     final DownloadLink dl = createDownloadlink(singleLink);
-                    final String filename_url = getFileNameFromURL(new URL(singleLink));
-                    final String filename = "screenshot_" + filename_url;
-                    dl.setFinalFileName(filename);
                     dl.setProperty("mainlink", parameter);
                     dl.setProperty("type", "screenshot");
                     decryptedLinks.add(dl);
@@ -85,9 +81,6 @@ public class AventertainmentsCom extends PluginForDecrypt {
             if (galleryImages != null && galleryImages.length > 0) {
                 for (final String singleLink : galleryImages) {
                     final DownloadLink dl = createDownloadlink(singleLink);
-                    final String filename_url = getFileNameFromURL(new URL(singleLink));
-                    final String filename = "gallery_" + filename_url;
-                    dl.setFinalFileName(filename);
                     dl.setProperty("mainlink", parameter);
                     dl.setProperty("type", "gallery");
                     decryptedLinks.add(dl);
@@ -99,9 +92,6 @@ public class AventertainmentsCom extends PluginForDecrypt {
             if (coverImages != null && coverImages.length > 0) {
                 for (final String singleLink : coverImages) {
                     final DownloadLink dl = createDownloadlink(singleLink);
-                    final String filename_url = getFileNameFromURL(new URL(singleLink));
-                    final String filename = "cover_" + filename_url;
-                    dl.setFinalFileName(filename);
                     dl.setProperty("mainlink", parameter);
                     dl.setProperty("type", "cover");
                     decryptedLinks.add(dl);
@@ -115,29 +105,16 @@ public class AventertainmentsCom extends PluginForDecrypt {
         }
 
         final String[] videos = br.getRegex("(https?://(?:www\\.)?aventertainments\\.com/newdlsample\\.aspx[^<>\"\\']+\\.mp4)").getColumn(0);
-        if (videos != null && videos.length > 0) {
-            logger.info("Found video download(s)");
-            for (final String singleLink : videos) {
-                final DownloadLink dl = createDownloadlink(singleLink);
-                dl.setProperty("mainlink", parameter);
-                dl.setProperty("type", "video");
-                decryptedLinks.add(dl);
+        try {
+            if (videos != null && videos.length > 0) {
+                for (final String singleLink : videos) {
+                    final DownloadLink dl = createDownloadlink(singleLink);
+                    dl.setProperty("mainlink", parameter);
+                    dl.setProperty("type", "video");
+                    decryptedLinks.add(dl);
+                }
             }
-        } else {
-            /* Download stream */
-            logger.info("Could not find video download(s) --> Trying stream download");
-            final String url_stream = this.br.getRegex("src[\t\n\r ]*?:[\t\n\r ]*?\"(http[^\"]*?\\.m3u8[^\"]*?)\"").getMatch(0);
-            if (url_stream != null) {
-                logger.info("Stream download available");
-                /* Replace '.m3u8' with '.m3u9' to prevent generic HLS decrypter from picking this up first! */
-                final DownloadLink dl = this.createDownloadlink(url_stream.replace(".m3u8", ".m3u9"));
-                dl.setContentUrl(url_stream);
-                dl.setProperty("mainlink", parameter);
-                dl.setProperty("type", "video_stream");
-                dl.setFinalFileName(fpName + ".mp4");
-                dl.setAvailable(true);
-                decryptedLinks.add(dl);
-            }
+        } catch (final Throwable e) {
         }
 
         if (fpName != null) {

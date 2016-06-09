@@ -31,7 +31,7 @@ import jd.plugins.decrypter.GenericM3u8Decrypter.HlsContainer;
 
 import org.jdownloader.downloader.hls.HLSDownloader;
 
-@HostPlugin(revision = "$Revision: 33900 $", interfaceVersion = 3, names = { "bbc.com" }, urls = { "http://bbcdecrypted/[pb][a-z0-9]{7}" }, flags = { 0 })
+@HostPlugin(revision = "$Revision: 33815 $", interfaceVersion = 3, names = { "bbc.com" }, urls = { "http://bbcdecrypted/[pb][a-z0-9]{7}" }, flags = { 0 })
 public class BbcCom extends PluginForHost {
 
     public BbcCom(PluginWrapper wrapper) {
@@ -60,11 +60,10 @@ public class BbcCom extends PluginForHost {
         String title = link.getStringProperty("decrypterfilename");
         /* HLS - try that first as it will give us higher bitrates */
         this.br.getPage("http://open.live.bbc.co.uk/mediaselector/5/select/version/2.0/mediaset/iptv-all/vpid/" + vpid);
+        /* RTMP */
         if (!this.br.getHttpConnection().isOK()) {
-            /* RTMP #1 */
             /* 403 or 404 == geoblocked|offline|needsRTMP */
-            /* Fallback e.g. vpids: p01dvmbh, b06s1fj9 */
-            /* Possible "device" strings: "pc", "iptv-all", "journalism-pc" */
+            /* Fallback to rtmp is sometimes needed e.g. vpids: p01dvmbh, b06s1fj9 */
             this.br.getPage("http://open.live.bbc.co.uk/mediaselector/5/select/version/2.0/mediaset/pc/vpid/" + vpid);
         }
         if (br.getHttpConnection().getResponseCode() == 404) {
@@ -124,19 +123,15 @@ public class BbcCom extends PluginForHost {
         }
 
         link.setFinalFileName(title + ".mp4");
-        if (filesize_max > 0) {
-            link.setDownloadSize(filesize_max);
-        }
+        link.setDownloadSize(filesize_max);
 
         return AvailableStatus.TRUE;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void handleFree(final DownloadLink downloadLink) throws Exception, PluginException {
         requestFileInformation(downloadLink);
         if (hls_master != null) {
-            hls_master = Encoding.htmlDecode(hls_master);
             br.getPage(hls_master);
             final HlsContainer hlsbest = jd.plugins.decrypter.GenericM3u8Decrypter.findBestVideoByBandwidth(jd.plugins.decrypter.GenericM3u8Decrypter.getHlsQualities(this.br));
             if (hlsbest == null) {
@@ -155,8 +150,9 @@ public class BbcCom extends PluginForHost {
             if (this.rtmp_authString != null) {
                 this.rtmp_authString = Encoding.htmlDecode(this.rtmp_authString);
                 rtmpurl += "?" + this.rtmp_authString;
-                /* 2016-05-31: (Sometimes) needed for app "ondemand" and "a5999/e1" */
-                rtmp_app += "?" + this.rtmp_authString;
+                if (rtmp_app.equals("ondemand")) {
+                    rtmp_app += "?" + this.rtmp_authString;
+                }
             }
             try {
                 dl = new RTMPDownload(this, downloadLink, rtmpurl);
@@ -165,15 +161,10 @@ public class BbcCom extends PluginForHost {
             }
             /* Setup rtmp connection */
             jd.network.rtmp.url.RtmpUrlConnection rtmp = ((RTMPDownload) dl).getRtmpConnection();
-            rtmp.setSwfUrl("http://emp.bbci.co.uk/emp/SMPf/1.16.6/StandardMediaPlayerChromelessFlash.swf");
-            /* 2016-05-31: tcUrl is very important for some urls e.g. http://www.bbc.co.uk/programmes/b01s5cdn */
-            rtmp.setTcUrl(rtmpurl);
             rtmp.setUrl(rtmpurl);
-            rtmp.setPageUrl(downloadLink.getDownloadURL());
             rtmp.setPlayPath(this.rtmp_playpath);
             rtmp.setApp(this.rtmp_app);
-            /* Last update: 2016-05-31 */
-            rtmp.setFlashVer("WIN 21,0,0,242");
+            rtmp.setFlashVer("WIN 19,0,0,245");
             rtmp.setResume(false);
             ((RTMPDownload) dl).startDownload();
         }

@@ -143,7 +143,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     @DefaultBooleanValue(false)
     boolean isConfigViewVisible();
 
-    @DefaultBooleanValue(true)
+    @DefaultBooleanValue(false)
     boolean isMyJDownloaderViewVisible();
 
     @AboutConfig
@@ -923,7 +923,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     void setSpecialDealsEnabled(boolean b);
 
     @AboutConfig
-    @DefaultBooleanValue(true)
+    @DefaultBooleanValue(false)
     boolean isULBannerEnabled();
 
     void setULBannerEnabled(boolean b);

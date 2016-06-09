@@ -29,7 +29,7 @@ import jd.plugins.FilePackage;
 import jd.plugins.PluginForDecrypt;
 import jd.plugins.hoster.DummyScriptEnginePlugin;
 
-@DecrypterPlugin(revision = "$Revision: 33900 $", interfaceVersion = 3, names = { "bbc.com" }, urls = { "https?://(?:www\\.)?(bbc\\.com|bbc\\.co\\.uk)/.+" }, flags = { 0 })
+@DecrypterPlugin(revision = "$Revision: 32547 $", interfaceVersion = 3, names = { "bbc.com" }, urls = { "https?://(?:www\\.)?(bbc\\.com|bbc\\.co\\.uk)/.+" }, flags = { 0 })
 public class BbcComDecrypter extends PluginForDecrypt {
 
     public BbcComDecrypter(PluginWrapper wrapper) {
@@ -40,6 +40,20 @@ public class BbcComDecrypter extends PluginForDecrypt {
     public ArrayList<DownloadLink> decryptIt(CryptedLink param, ProgressController progress) throws Exception {
         ArrayList<DownloadLink> decryptedLinks = new ArrayList<DownloadLink>();
         final String parameter = param.toString();
+        /* Do NOT check urls for vpids as we will almost always get wrong IDs this way. We NEED the html code containing the IDs! */
+        // final String[] urlids = new Regex(parameter, "/([pb][a-z0-9]{7})/?").getColumn(0);
+        // if (urlids != null && urlids.length > 0) {
+        // for (final String vpid : urlids) {
+        // if (vpid.matches("(program)")) {
+        // /* Skip invalid ids */
+        // continue;
+        // }
+        // final DownloadLink dl = createDownloadlink("http://bbcdecrypted/" + vpid);
+        // dl.setName(vpid + ".mp4");
+        // decryptedLinks.add(dl);
+        // }
+        // return decryptedLinks;
+        // }
         br.getPage(parameter);
         if (br.getHttpConnection().getResponseCode() == 404) {
             decryptedLinks.add(this.createOfflinelink(parameter));
@@ -52,10 +66,6 @@ public class BbcComDecrypter extends PluginForDecrypt {
             /* Type 2 */
             jsons = this.br.getRegex("playlistObject\\s*?:\\s*?(\\{.*?\\}),[\n]+").getColumn(0);
         }
-        if (jsons == null || jsons.length == 0) {
-            /* Type 3 */
-            jsons = this.br.getRegex("_exposedData=(\\{.+),").getColumn(0);
-        }
         if (jsons == null) {
             logger.info("Failed to find any playable content");
             return decryptedLinks;
@@ -63,28 +73,17 @@ public class BbcComDecrypter extends PluginForDecrypt {
         LinkedHashMap<String, Object> entries = null;
         for (final String json : jsons) {
             entries = (LinkedHashMap<String, Object>) jd.plugins.hoster.DummyScriptEnginePlugin.jsonToJavaObject(json);
-            final Object story = entries.get("story");
-            String title = null;
-            String description = null;
-            String vpid = null;
-            if (story != null) {
-                /* Type 3 */
-                entries = (LinkedHashMap<String, Object>) DummyScriptEnginePlugin.walkJson(entries, "story/Content/AssetVideoIb2/{0}");
-                title = (String) entries.get("Title");
-                vpid = (String) entries.get("Vpid");
-            } else {
-                /* Type 1 */
-                Object sourcemapo = DummyScriptEnginePlugin.walkJson(entries, "settings/playlistObject");
-                if (sourcemapo == null) {
-                    /* Type 2 */
-                    sourcemapo = DummyScriptEnginePlugin.walkJson(entries, "allAvailableVersions/{0}/smpConfig");
-                }
-                entries = (LinkedHashMap<String, Object>) sourcemapo;
-                title = (String) entries.get("title");
-                description = (String) entries.get("summary");
-                entries = (LinkedHashMap<String, Object>) DummyScriptEnginePlugin.walkJson(entries, "items/{0}");
-                vpid = (String) entries.get("vpid");
+            /* Type 1 */
+            Object sourcemapo = DummyScriptEnginePlugin.walkJson(entries, "settings/playlistObject");
+            if (sourcemapo == null) {
+                /* Type 2 */
+                sourcemapo = DummyScriptEnginePlugin.walkJson(entries, "allAvailableVersions/{0}/smpConfig");
             }
+            entries = (LinkedHashMap<String, Object>) sourcemapo;
+            String title = (String) entries.get("title");
+            final String description = (String) entries.get("summary");
+            entries = (LinkedHashMap<String, Object>) DummyScriptEnginePlugin.walkJson(entries, "items/{0}");
+            final String vpid = (String) entries.get("vpid");
             if (inValidate(title) || inValidate(vpid)) {
                 continue;
             }

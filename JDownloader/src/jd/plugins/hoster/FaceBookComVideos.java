@@ -45,7 +45,7 @@ import jd.utils.locale.JDL;
 
 import org.jdownloader.captcha.v2.challenge.recaptcha.v1.Recaptcha;
 
-@HostPlugin(revision = "$Revision: 33891 $", interfaceVersion = 2, names = { "facebook.com" }, urls = { "https?://(?:www\\.)?(facebookdecrypted\\.com/(video\\.php\\?v=|photo\\.php\\?fbid=|download/)\\d+|facebook\\.com/download/\\d+)" }, flags = { 2 })
+@HostPlugin(revision = "$Revision: 33841 $", interfaceVersion = 2, names = { "facebook.com" }, urls = { "https?://(?:www\\.)?(facebookdecrypted\\.com/(video\\.php\\?v=|photo\\.php\\?fbid=|download/)\\d+|facebook\\.com/download/\\d+)" }, flags = { 2 })
 public class FaceBookComVideos extends PluginForHost {
 
     private String              FACEBOOKMAINPAGE      = "http://www.facebook.com";
@@ -171,16 +171,19 @@ public class FaceBookComVideos extends PluginForHost {
             }
         } else {
             br.getPage(link.getDownloadURL());
-            /* 2016-05-31: Removed this errorhandling as it caused false-positive-offline urls again and again! */
-            // if (!br.containsHTML("class=\"uiStreamPrivacy inlineBlock fbStreamPrivacy fbPrivacyAudienceIndicator") && !loggedIN) {
-            // accountNeeded = true;
-            // /*
-            // * Actually we cannot know whether the video is online or not but even when we're logged in we can get the message similar
-            // * to this: "This video is offline or you cannot view it due to someone elses privacy settings" --> Basically we can guess
-            // * that most of such URLs added by our users are offline and it is NOT a privacy settings / rights issue!
-            // */
-            // throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
-            // }
+            if (!br.containsHTML("class=\"uiStreamPrivacy inlineBlock fbStreamPrivacy fbPrivacyAudienceIndicator") && !loggedIN) {
+                accountNeeded = true;
+                /*
+                 * Actually we cannot know whether the video is online or not but even when we're logged in we can get the message similar
+                 * to this: "This video is offline or you cannot view it due to someone elses privacy settings" --> Basically we can guess
+                 * that most of such URLs added by our users are offline and it is NOT a privacy settings / rights issue!
+                 */
+                throw new PluginException(LinkStatus.ERROR_FILE_NOT_FOUND);
+                // link.setName(new Regex(link.getDownloadURL(), "(\\d+)$").getMatch(0));
+                // link.getLinkStatus().setStatusText(JDL.L("plugins.hoster.facebookvideos.only4registered",
+                // "Links can only be checked if a valid account is entered"));
+                // return AvailableStatus.UNCHECKABLE;
+            }
             String getThisPage = br.getRegex("window\\.location\\.replace\\(\"(http:.*?)\"").getMatch(0);
             if (getThisPage != null) {
                 br.getPage(getThisPage.replace("\\", ""));
