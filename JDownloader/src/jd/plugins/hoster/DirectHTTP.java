@@ -583,10 +583,10 @@ public class DirectHTTP extends antiDDoSForHost {
                 return AvailableStatus.UNCHECKABLE;
             }
 
-            // Ajout par JC : code 202 pour indiquer que le fichier n'est pas encore disponible sur le disque
+            // Ajout par JCM : code 202 pour indiquer que le fichier n'est pas encore disponible sur le disque
             if (urlConnection.getResponseCode() == 202) {
                 String timeRetry = urlConnection.getHeaderField("X-regards-retry");
-                long time = timeRetry == null ? 15 * 60 * 1000l : Long.valueOf(timeRetry);
+                long time = timeRetry == null ? 5 * 60 * 1000l : Long.valueOf(timeRetry);
                 throw new PluginException(LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE, time);
             }
 
