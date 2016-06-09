@@ -403,11 +403,16 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     void setFileCountInSizeColumnVisible(boolean b);
 
     public static enum SIZEUNIT {
-        TiB(1024 * 1024 * 1024 * 1024l),
-        GiB(1024 * 1024 * 1024l),
-        MiB(1024 * 1024l),
-        KiB(1024),
-        B(1);
+        TiB(
+                1024 * 1024 * 1024 * 1024l),
+        GiB(
+                1024 * 1024 * 1024l),
+        MiB(
+                1024 * 1024l),
+        KiB(
+                1024),
+        B(
+                1);
 
         private final long divider;
 
@@ -427,7 +432,8 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
 
     void setMaxSizeUnit(SIZEUNIT sizeUnit);
 
-    public static enum MacDockProgressDisplay implements LabelInterface {
+    public static enum MacDockProgressDisplay
+            implements LabelInterface {
         TOTAL_PROGRESS() {
 
             @Override
@@ -452,7 +458,8 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
 
     void setMacDockProgressDisplay(MacDockProgressDisplay value);
 
-    public static enum WindowsTaskBarProgressDisplay implements LabelInterface {
+    public static enum WindowsTaskBarProgressDisplay
+            implements LabelInterface {
         TOTAL_PROGRESS() {
 
             @Override
@@ -541,7 +548,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
 
     @AboutConfig
     @RequiresRestart("A JDownloader Restart is Required")
-    @DefaultEnumValue("DEFAULT")
+    @DefaultEnumValue("BLACK_STAR")
     LookAndFeelType getLookAndFeelTheme();
 
     void setLookAndFeelTheme(LookAndFeelType type);
@@ -549,26 +556,46 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     // org.jdownloader.gui.laf.jddefault.JDDefaultLookAndFeel
     public static enum LookAndFeelType {
 
-        ALU_OXIDE("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel"),
-        BLACK_EYE("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel"),
-        BLACK_MOON("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlackMoonLookAndFeel"),
-        BLACK_STAR("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel"),
-        BLUE_ICE("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlueIceLookAndFeel"),
-        BLUE_LIGHT("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlueLightLookAndFeel"),
-        BLUE_MOON("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlueMoonLookAndFeel"),
-        BLUE_STEEL("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlueSteelLookAndFeel"),
-        CLASSY("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaClassyLookAndFeel"),
-        GREEN_DREAM("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaGreenDreamLookAndFeel"),
-        MAUVE_METALLIC("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaMauveMetallicLookAndFeel"),
-        ORANGE_METALLIC("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaOrangeMetallicLookAndFeel"),
-        PLAIN("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel"),
-        SILVER_MOON("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaSilverMoonLookAndFeel"),
-        SIMPLE_2D(null, "de.javasoft.plaf.synthetica.SyntheticaSimple2DLookAndFeel"),
-        SKY_METALLIC("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaSkyMetallicLookAndFeel"),
-        STANDARD("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel"),
-        WHITE_VISION("synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaWhiteVisionLookAndFeel"),
-        JD_PLAIN("theme-plain", "org.jdownloader.gui.laf.plain.PlainLookAndFeel"),
-        DEFAULT(null, "org.jdownloader.gui.laf.jddefault.JDDefaultLookAndFeel");
+        ALU_OXIDE(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel"),
+        BLACK_EYE(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel"),
+        BLACK_MOON(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlackMoonLookAndFeel"),
+        BLACK_STAR(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel"),
+        BLUE_ICE(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlueIceLookAndFeel"),
+        BLUE_LIGHT(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlueLightLookAndFeel"),
+        BLUE_MOON(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlueMoonLookAndFeel"),
+        BLUE_STEEL(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaBlueSteelLookAndFeel"),
+        CLASSY(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaClassyLookAndFeel"),
+        GREEN_DREAM(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaGreenDreamLookAndFeel"),
+        MAUVE_METALLIC(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaMauveMetallicLookAndFeel"),
+        ORANGE_METALLIC(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaOrangeMetallicLookAndFeel"),
+        PLAIN(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel"),
+        SILVER_MOON(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaSilverMoonLookAndFeel"),
+        SIMPLE_2D(
+                null, "de.javasoft.plaf.synthetica.SyntheticaSimple2DLookAndFeel"),
+        SKY_METALLIC(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaSkyMetallicLookAndFeel"),
+        STANDARD(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel"),
+        WHITE_VISION(
+                "synthetica-themes", "de.javasoft.plaf.synthetica.SyntheticaWhiteVisionLookAndFeel"),
+        JD_PLAIN(
+                "theme-plain", "org.jdownloader.gui.laf.plain.PlainLookAndFeel"),
+        DEFAULT(
+                null, "org.jdownloader.gui.laf.jddefault.JDDefaultLookAndFeel");
 
         private final String clazz;
         private final String extensionID;
@@ -821,7 +848,8 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
 
     public void setRlyWarnLevel(RlyWarnLevel level);
 
-    public static enum DeleteFileOptions implements LabelInterface {
+    public static enum DeleteFileOptions
+            implements LabelInterface {
 
         REMOVE_LINKS_ONLY() {
             @Override
@@ -1009,7 +1037,8 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
 
     void setOverviewPanelLinkgrabberStatusOfflineVisible(boolean b);
 
-    public static enum ConfirmIncompleteArchiveAction implements LabelInterface {
+    public static enum ConfirmIncompleteArchiveAction
+            implements LabelInterface {
         ASK() {
 
             @Override
@@ -1179,7 +1208,8 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
 
     void setOverviewPositions(HashMap<String, Position> map);
 
-    public static enum DockingPosition implements LabelInterface {
+    public static enum DockingPosition
+            implements LabelInterface {
         NORTH() {
             @Override
             public String getLabel() {
@@ -1199,7 +1229,8 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
 
     void setLinkgrabberBottombarPosition(DockingPosition pos);
 
-    public static enum DownloadFolderChooserDialogDefaultPath implements LabelInterface {
+    public static enum DownloadFolderChooserDialogDefaultPath
+            implements LabelInterface {
         CURRENT_PATH {
             @Override
             public String getLabel() {
@@ -1226,7 +1257,8 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
 
     void setDownloadFolderChooserDefaultPath(DownloadFolderChooserDialogDefaultPath path);
 
-    public static enum DonateButtonState implements LabelInterface {
+    public static enum DonateButtonState
+            implements LabelInterface {
         AUTO_HIDDEN {
             @Override
             public String getLabel() {
