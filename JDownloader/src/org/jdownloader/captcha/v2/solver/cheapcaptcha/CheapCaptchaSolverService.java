@@ -40,6 +40,11 @@ public class CheapCaptchaSolverService extends AbstractSolverService implements 
         config = JsonConfig.create(CheapCaptchaConfigInterface.class);
 
         AdvancedConfigManager.getInstance().register(config);
+
+        if (!Application.isHeadless()) {
+//            ServicePanel.getInstance().addExtender(this);
+//            initServicePanel(CFG_CHEAP_CAPTCHA.USER_NAME, CFG_CHEAP_CAPTCHA.PASSWORD, CFG_CHEAP_CAPTCHA.ENABLED);
+        }
     }
 
     @Override

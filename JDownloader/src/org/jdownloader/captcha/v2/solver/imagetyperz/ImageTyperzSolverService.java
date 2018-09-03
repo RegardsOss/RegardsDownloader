@@ -41,6 +41,11 @@ public class ImageTyperzSolverService extends AbstractSolverService implements S
         config = JsonConfig.create(ImageTyperzConfigInterface.class);
 
         AdvancedConfigManager.getInstance().register(config);
+
+        if (!Application.isHeadless()) {
+//            ServicePanel.getInstance().addExtender(this);
+//            initServicePanel(CFG_IMAGE_TYPERZ.USER_NAME, CFG_IMAGE_TYPERZ.PASSWORD, CFG_IMAGE_TYPERZ.ENABLED);
+        }
     }
 
     @Override

@@ -39,6 +39,11 @@ public class DeathByCaptchaSolverService extends AbstractSolverService implement
         config = JsonConfig.create(DeathByCaptchaSettings.class);
 
         AdvancedConfigManager.getInstance().register(config);
+
+        if (!Application.isHeadless()) {
+//            ServicePanel.getInstance().addExtender(this);
+//            initServicePanel(CFG_DBC.USER_NAME, CFG_DBC.PASSWORD, CFG_DBC.ENABLED);
+        }
     }
 
     @Override

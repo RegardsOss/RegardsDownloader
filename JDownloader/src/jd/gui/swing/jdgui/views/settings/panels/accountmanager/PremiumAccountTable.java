@@ -99,9 +99,23 @@ public class PremiumAccountTable extends BasicJDTable<AccountEntry> {
         if (elementAt == null || elementAt.getAccount() == null) {
             return null;
         }
+//        try {
+//            final List<ServiceCollection<?>> services = ServicePanel.getInstance().groupServices(PremiumStatusBarDisplay.GROUP_BY_ACCOUNT_TYPE, false, elementAt.getAccount().getHoster(), elementAt.getAccount());
+//            if (services.size() > 0) {
+//                return services.get(0).createTooltip(null);
+//            }
+//        } catch (Exception e) {
+//            // bad sync creates nullpointers..
+//        }
         return null;
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.appwork.swing.exttable.ExtTable#onContextMenu(javax.swing.JPopupMenu , java.lang.Object, java.util.java.util.List,
+     * org.appwork.swing.exttable.ExtColumn)
+     */
     @Override
     protected JPopupMenu onContextMenu(JPopupMenu popup, AccountEntry contextObject, java.util.List<AccountEntry> selection, ExtColumn<AccountEntry> column, MouseEvent ev) {
         if (popup != null) {
