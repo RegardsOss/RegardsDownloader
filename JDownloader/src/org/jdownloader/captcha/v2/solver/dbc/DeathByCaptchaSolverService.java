@@ -41,8 +41,8 @@ public class DeathByCaptchaSolverService extends AbstractSolverService implement
         AdvancedConfigManager.getInstance().register(config);
 
         if (!Application.isHeadless()) {
-//            ServicePanel.getInstance().addExtender(this);
-//            initServicePanel(CFG_DBC.USER_NAME, CFG_DBC.PASSWORD, CFG_DBC.ENABLED);
+            ServicePanel.getInstance().addExtender(this);
+            initServicePanel(CFG_DBC.USER_NAME, CFG_DBC.PASSWORD, CFG_DBC.ENABLED);
         }
     }
 

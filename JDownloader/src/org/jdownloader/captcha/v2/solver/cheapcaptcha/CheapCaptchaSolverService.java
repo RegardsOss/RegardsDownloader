@@ -42,8 +42,8 @@ public class CheapCaptchaSolverService extends AbstractSolverService implements 
         AdvancedConfigManager.getInstance().register(config);
 
         if (!Application.isHeadless()) {
-//            ServicePanel.getInstance().addExtender(this);
-//            initServicePanel(CFG_CHEAP_CAPTCHA.USER_NAME, CFG_CHEAP_CAPTCHA.PASSWORD, CFG_CHEAP_CAPTCHA.ENABLED);
+            ServicePanel.getInstance().addExtender(this);
+            initServicePanel(CFG_CHEAP_CAPTCHA.USER_NAME, CFG_CHEAP_CAPTCHA.PASSWORD, CFG_CHEAP_CAPTCHA.ENABLED);
         }
     }
 

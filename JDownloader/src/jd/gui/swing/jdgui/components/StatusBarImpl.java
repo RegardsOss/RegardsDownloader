@@ -251,11 +251,11 @@ public class StatusBarImpl extends JPanel implements DownloadWatchdogListener {
         sb.append("3");
         setLayout(new MigLayout("ins 0", sb.toString(), "[fill,22!]"));
         super.removeAll();
-//        JScrollPane p = new JScrollPane(ServicePanel.getInstance());
-//        p.setBorder(null);
-//        p.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-//        p.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-//        super.add(p);
+        JScrollPane p = new JScrollPane(ServicePanel.getInstance());
+        p.setBorder(null);
+        p.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        p.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        super.add(p);
         super.add(statusLabel, "height 22!,gapright 10!");
         super.add(reconnectIndicator, "");
         super.add(linkGrabberIndicator, "");

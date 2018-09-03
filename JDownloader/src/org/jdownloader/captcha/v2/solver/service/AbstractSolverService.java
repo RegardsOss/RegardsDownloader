@@ -90,29 +90,29 @@ public abstract class AbstractSolverService implements SolverService {
         getConfig().setEnabled(b);
     }
 
-//    protected void initServicePanel(final KeyHandler... handlers) {
-//        if (!org.appwork.utils.Application.isHeadless()) {
-//            SecondLevelLaunch.GUI_COMPLETE.executeWhenReached(new Runnable() {
-//
-//                @SuppressWarnings("unchecked")
-//                public void run() {
-//                    for (KeyHandler k : handlers) {
-//                        k.getEventSender().addListener(new GenericConfigEventListener<Object>() {
-//
-//                            @Override
-//                            public void onConfigValidatorError(KeyHandler<Object> keyHandler, Object invalidValue, ValidationException validateException) {
-//                            }
-//
-//                            @Override
-//                            public void onConfigValueModified(KeyHandler<Object> keyHandler, Object newValue) {
-//                                ServicePanel.getInstance().requestUpdate(true);
-//                            }
-//                        });
-//                    }
-//                }
-//            });
-//        }
-//    }
+    protected void initServicePanel(final KeyHandler... handlers) {
+        if (!org.appwork.utils.Application.isHeadless()) {
+            SecondLevelLaunch.GUI_COMPLETE.executeWhenReached(new Runnable() {
+
+                @SuppressWarnings("unchecked")
+                public void run() {
+                    for (KeyHandler k : handlers) {
+                        k.getEventSender().addListener(new GenericConfigEventListener<Object>() {
+
+                            @Override
+                            public void onConfigValidatorError(KeyHandler<Object> keyHandler, Object invalidValue, ValidationException validateException) {
+                            }
+
+                            @Override
+                            public void onConfigValueModified(KeyHandler<Object> keyHandler, Object newValue) {
+                                ServicePanel.getInstance().requestUpdate(true);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
 
     public static ArrayList<SolverService> validateWaittimeQueue(SolverService start, SolverService check) {
         if (start == null || check == null) {

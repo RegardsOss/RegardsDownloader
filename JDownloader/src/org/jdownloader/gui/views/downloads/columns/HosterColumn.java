@@ -2,7 +2,6 @@ package org.jdownloader.gui.views.downloads.columns;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -254,8 +253,7 @@ public class HosterColumn extends ExtColumn<AbstractNode> {
                 if (obj instanceof AbstractPackageChildrenNode) {
                     final DomainInfo di = ((AbstractPackageChildrenNode<?>) obj).getDomainInfo();
                     if (di != null) {
-//                        final List<ServiceCollection<?>> services = ServicePanel.getInstance().groupServices(PremiumStatusBarDisplay.GROUP_BY_SUPPORTED_ACCOUNTS, false, di.getTld(), null);
-                        List<ServiceCollection<?>> services = Collections.emptyList();
+                        final List<ServiceCollection<?>> services = ServicePanel.getInstance().groupServices(PremiumStatusBarDisplay.GROUP_BY_SUPPORTED_ACCOUNTS, false, di.getTld(), null);
                         if (services.size() > 0) {
                             ToolTipController.getInstance().show(services.get(0).createTooltip(null));
                         } else {
