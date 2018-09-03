@@ -17,10 +17,9 @@
 
 package jd;
 
-import java.awt.AWTEvent;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.Dialog.ModalityType;
-import java.awt.Toolkit;
-import java.awt.Window;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -39,10 +38,6 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Random;
 import java.util.TreeSet;
-
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JWindow;
 
 import org.appwork.console.ConsoleDialog;
 import org.appwork.controlling.SingleReachableState;
@@ -127,7 +122,6 @@ import com.btr.proxy.selector.pac.PacScriptParser;
 import com.btr.proxy.selector.pac.PacScriptSource;
 import com.btr.proxy.selector.pac.ProxyEvaluationException;
 import com.btr.proxy.selector.pac.RhinoPacScriptParser;
-
 import jd.controlling.AccountController;
 import jd.controlling.ClipboardMonitoring;
 import jd.controlling.DelayWriteController;
@@ -327,7 +321,8 @@ public class SecondLevelLaunch {
             PacProxySelector.SCRIPT_ENGINE_FACTORY = new PACScriptEngineFactory() {
 
                 @Override
-                public PacScriptParser selectEngine(PacProxySelector selector, PacScriptSource pacSource) throws ProxyEvaluationException {
+                public PacScriptParser selectEngine(PacProxySelector selector, PacScriptSource pacSource) throws
+                        ProxyEvaluationException {
                     return new RhinoPacScriptParser(pacSource);
                 }
             };

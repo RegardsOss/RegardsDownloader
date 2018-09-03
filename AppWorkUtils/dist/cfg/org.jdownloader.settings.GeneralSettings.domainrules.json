@@ -1,0 +1,9 @@
+[ {
+  "domainPattern" : ".*jdownloader\\.org",
+  "filenamePattern" : "\\.png$",
+  "accountPattern" : "myUsername",
+  "pluginPattern" : null,
+  "enabled" : false,
+  "maxSimultanDownloads" : 20,
+  "allowToExceedTheGlobalLimit" : false
+} ]

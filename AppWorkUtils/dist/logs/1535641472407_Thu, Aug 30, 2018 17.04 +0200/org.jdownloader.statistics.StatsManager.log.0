@@ -1,0 +1,15 @@
+------------------------Thread: 1:org.jdownloader.statistics.StatsManager.log-----------------------
+--ID:1TS:1535641483356-30/08/18 17:04:43 -  [] -> java.io.FileNotFoundException: /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/build.json (Aucun fichier ou dossier de ce type)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at org.appwork.utils.IO.readFile(Unknown Source)
+	at org.appwork.utils.IO.importFileToString(Unknown Source)
+	at org.appwork.utils.IO.readFileToString(Unknown Source)
+	at org.jdownloader.statistics.StatsManager.<init>(StatsManager.java:205)
+	at org.jdownloader.statistics.StatsManager.<clinit>(StatsManager.java:118)
+	at jd.SecondLevelLaunch.go(SecondLevelLaunch.java:1172)
+	at jd.SecondLevelLaunch.start(SecondLevelLaunch.java:667)
+	at jd.SecondLevelLaunch.mainStart(SecondLevelLaunch.java:411)
+	at org.jdownloader.startup.Main.main(Main.java:263)
+

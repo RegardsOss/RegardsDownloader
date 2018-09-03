@@ -1,0 +1,31 @@
+[ {
+  "proxy" : {
+    "username" : null,
+    "password" : null,
+    "port" : 80,
+    "address" : null,
+    "type" : "NONE",
+    "preferNativeImplementation" : false,
+    "connectMethodPrefered" : false
+  },
+  "rangeRequestsSupported" : true,
+  "filter" : null,
+  "pac" : false,
+  "reconnectSupported" : true,
+  "enabled" : false
+}, {
+  "proxy" : {
+    "username" : null,
+    "password" : null,
+    "port" : 3128,
+    "address" : "proxy2.si.c-s.fr",
+    "type" : "HTTP",
+    "preferNativeImplementation" : false,
+    "connectMethodPrefered" : false
+  },
+  "rangeRequestsSupported" : true,
+  "filter" : null,
+  "pac" : false,
+  "reconnectSupported" : false,
+  "enabled" : true
+} ]

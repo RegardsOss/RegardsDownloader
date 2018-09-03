@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 
+import com.btr.proxy.search.ProxySearchStrategy;
 import jd.config.SubConfiguration;
 import jd.controlling.accountchecker.AccountChecker.AccountCheckJob;
 import jd.controlling.accountchecker.AccountCheckerThread;
@@ -77,7 +78,6 @@ import org.jdownloader.updatev2.InternetConnectionSettings;
 import org.jdownloader.updatev2.ProxyClone;
 import org.jdownloader.updatev2.ProxyData;
 
-import com.btr.proxy.search.ProxySearchStrategy;
 import com.btr.proxy.search.browser.firefox.FirefoxProxySearchStrategy;
 import com.btr.proxy.search.desktop.DesktopProxySearchStrategy;
 import com.btr.proxy.search.env.EnvProxySearchStrategy;
@@ -90,20 +90,6 @@ import com.btr.proxy.selector.whitelist.ProxyBypassListSelector;
 import com.btr.proxy.util.Logger;
 import com.btr.proxy.util.Logger.LogBackEnd;
 import com.btr.proxy.util.Logger.LogLevel;
-
-//import com.btr.proxy.search.ProxySearchStrategy;
-//import com.btr.proxy.search.browser.firefox.FirefoxProxySearchStrategy;
-//import com.btr.proxy.search.desktop.DesktopProxySearchStrategy;
-//import com.btr.proxy.search.env.EnvProxySearchStrategy;
-//import com.btr.proxy.search.java.JavaProxySearchStrategy;
-//import com.btr.proxy.selector.pac.PacProxySelector;
-//import com.btr.proxy.selector.pac.PacScriptParser;
-//import com.btr.proxy.selector.pac.PacScriptSource;
-//import com.btr.proxy.selector.pac.UrlPacScriptSource;
-//import com.btr.proxy.selector.whitelist.ProxyBypassListSelector;
-//import com.btr.proxy.util.Logger;
-//import com.btr.proxy.util.Logger.LogBackEnd;
-//import com.btr.proxy.util.Logger.LogLevel;
 
 public class ProxyController implements ProxySelectorInterface {
 

@@ -1,0 +1,6 @@
+------------------------Thread: 37:jd.controlling.linkcollector.LinkCollector.log-----------------------
+--ID:37TS:1535729348262-31/08/18 17:29:08 -  [jd.controlling.linkcollector.LinkCollector(findAvailableCollectorLists)] -> Collect Lists
+--ID:37TS:1535729348278-31/08/18 17:29:08 -  [jd.controlling.linkcollector.LinkCollector(findAvailableCollectorLists)] -> Lists: [/home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/linkcollector9.zip, /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/linkcollector8.zip, /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/linkcollector7.zip, /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/linkcollector6.zip, /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/linkcollector5.zip, /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/linkcollector4.zip]
+--ID:37TS:1535729348287-31/08/18 17:29:08 -  [jd.controlling.linkcollector.LinkCollector$16(run)] -> CollectorList found: 0/0
+------------------------Thread: 55:jd.controlling.linkcollector.LinkCollector.log-----------------------
+--ID:55TS:1535729355537-31/08/18 17:29:15 -  [jd.controlling.linkcollector.LinkCollector(addCrawlerJob)] -> Added CrawlerJob jd.controlling.linkcollector.LinkCollectingJob@521dbd6e

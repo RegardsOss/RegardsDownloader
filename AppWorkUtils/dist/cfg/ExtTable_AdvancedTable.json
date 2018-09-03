@@ -1,0 +1,23 @@
+{
+  "SORT_ORDER_ID" : null,
+  "WIDTH_COL_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.EditColumn" : 100,
+  "WIDTH_COL_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.AdvancedConfigTableModel$2" : 200,
+  "WIDTH_COL_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.AdvancedConfigTableModel$1" : 200,
+  "VISABLE_COL_ExtCompoundColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.AdvancedValueColumn" : true,
+  "ColumnWidthLocked_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.EditColumn" : false,
+  "WIDTH_COL_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.AdvancedConfigTableModel$3" : 100,
+  "VISABLE_COL_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.AdvancedConfigTableModel$1" : true,
+  "ColumnWidthLocked_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.AdvancedConfigTableModel$2" : false,
+  "VISABLE_COL_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.AdvancedConfigTableModel$2" : true,
+  "WIDTH_COL_ExtCompoundColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.AdvancedValueColumn" : 100,
+  "VISABLE_COL_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.AdvancedConfigTableModel$3" : false,
+  "VISABLE_COL_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.EditColumn" : true,
+  "POS_COL_0" : "",
+  "POS_COL_1" : "",
+  "ColumnWidthLocked_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.AdvancedConfigTableModel$1" : false,
+  "ColumnWidthLocked_ExtCompoundColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.AdvancedValueColumn" : false,
+  "POS_COL_4" : "",
+  "POS_COL_2" : "",
+  "SORTCOLUMN" : "ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.advanced.AdvancedConfigTableModel$1",
+  "POS_COL_3" : ""
+}

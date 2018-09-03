@@ -1,0 +1,9 @@
+{
+  "reconnectallowedtointerruptresumabledownloads" : true,
+  "ipcheckconnecttimeout" : 2000,
+  "successcounter" : 0,
+  "autoreconnectenabled" : true,
+  "activepluginid" : "httpliveheader",
+  "ipcheckreadtimeout" : 10000,
+  "downloadcontrollerprefersreconnectenabled" : true
+}

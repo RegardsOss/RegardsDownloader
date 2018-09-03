@@ -1,0 +1,24 @@
+------------------------Thread: 30:Gui.log-----------------------
+--ID:30TS:1535641482963-30/08/18 17:04:42 -  [jd.gui.swing.jdgui.JDGui(internalInitLocationAndDimension)] -> Check if Screen Location are ok java.awt.Point[x=3131,y=302] - java.awt.Dimension[width=1024,height=728]
+------------------------Thread: 33:Gui.log-----------------------
+--ID:33TS:1535641483357-30/08/18 17:04:43 -  [jd.gui.swing.jdgui.JDGui$27(run)] -> Update bug Finder
+--ID:33TS:1535641483367-30/08/18 17:04:43 -  [jd.gui.swing.jdgui.JDGui$27(run)] -> Find Counter
+--ID:33TS:1535641483367-30/08/18 17:04:43 -  [jd.gui.swing.jdgui.JDGui$27(run)] -> /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/appworkutils.jar
+--ID:33TS:1535641483367-30/08/18 17:04:43 -  [jd.gui.swing.jdgui.JDGui$27(run)] -> Done: 1
+--ID:33TS:1535641513371-30/08/18 17:05:13 -  [jd.gui.swing.jdgui.JDGui$27(run)] -> Handler null
+------------------------Thread: 18:Gui.log-----------------------
+--ID:18TS:1535641795328-30/08/18 17:09:55 -  [jd.gui.swing.jdgui.JDGui$24(edtRun)] -> SilentMode: Mainframe has Focus: 
+--ID:18TS:1535641802218-30/08/18 17:10:02 -  [jd.gui.swing.jdgui.JDGui$34(edtRun)] -> Reset frame to 
+{
+  "extendedState" : "NORMAL",
+  "width" : 1024,
+  "height" : 716,
+  "x" : 3159,
+  "visible" : true,
+  "y" : 306,
+  "silentShutdown" : false,
+  "screenID" : ":0.0",
+  "locationSet" : true,
+  "focus" : false,
+  "active" : false
+}

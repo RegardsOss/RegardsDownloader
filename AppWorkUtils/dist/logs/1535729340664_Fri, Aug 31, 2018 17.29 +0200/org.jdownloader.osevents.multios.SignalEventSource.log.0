@@ -1,0 +1,4 @@
+------------------------Thread: 31:org.jdownloader.osevents.multios.SignalEventSource.log-----------------------
+--ID:31TS:1535729348628-31/08/18 17:29:08 -  [org.jdownloader.osevents.multios.SignalEventSource(reg)] -> Can handle: INT
+--ID:31TS:1535729348628-31/08/18 17:29:08 -  [org.jdownloader.osevents.multios.SignalEventSource(reg)] -> Can handle: TERM
+--ID:31TS:1535729348628-31/08/18 17:29:08 -  [org.jdownloader.osevents.multios.SignalEventSource(reg)] -> Can handle: HUP

@@ -1,0 +1,74 @@
+{
+  "LinkgrabberOverview$OnlineCountEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "LinkgrabberOverview$UnknownCountEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "LinkgrabberOverview$OfflineCountEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "DownloadOverview$LinksCountEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "DownloadOverview$FailedEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "DownloadOverview$DownloadsEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "DownloadOverview$ETAEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "DownloadOverview$BytesLoadedEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "LinkgrabberOverview$HostCountEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "LinkgrabberOverview$LinksCountEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "DownloadOverview$SpeedEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "LinkgrabberOverview$BytesTotalEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "DownloadOverview$SkippedEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "DownloadOverview$ConnectionsEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "DownloadOverview$FinishedEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "LinkgrabberOverview$PackagesEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "DownloadOverview$BytesTotalEntry" : {
+    "x" : -1,
+    "y" : -1
+  },
+  "DownloadOverview$PackagesEntry" : {
+    "x" : -1,
+    "y" : -1
+  }
+}

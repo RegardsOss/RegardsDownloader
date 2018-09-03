@@ -1,0 +1,28 @@
+{
+  "recaptcha" : [ {
+    "limit" : 20,
+    "interval" : 600000
+  }, {
+    "limit" : 4,
+    "interval" : 60000
+  }, {
+    "limit" : 3,
+    "interval" : 30000
+  }, {
+    "limit" : 2,
+    "interval" : 10000
+  } ],
+  "recaptchav2" : [ {
+    "limit" : 60,
+    "interval" : 600000
+  }, {
+    "limit" : 6,
+    "interval" : 60000
+  }, {
+    "limit" : 3,
+    "interval" : 30000
+  }, {
+    "limit" : 2,
+    "interval" : 10000
+  } ]
+}

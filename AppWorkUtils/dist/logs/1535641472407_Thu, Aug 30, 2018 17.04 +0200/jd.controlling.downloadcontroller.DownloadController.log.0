@@ -1,0 +1,6 @@
+------------------------Thread: 39:jd.controlling.downloadcontroller.DownloadController.log-----------------------
+--ID:39TS:1535641483773-30/08/18 17:04:43 -  [jd.controlling.downloadcontroller.DownloadController$7(run)] -> Init DownloadList
+--ID:39TS:1535641483773-30/08/18 17:04:43 -  [jd.controlling.downloadcontroller.DownloadController(findAvailableDownloadLists)] -> Collect Lists
+--ID:39TS:1535641483778-30/08/18 17:04:43 -  [jd.controlling.downloadcontroller.DownloadController(findAvailableDownloadLists)] -> Lists: []
+--ID:39TS:1535641483778-30/08/18 17:04:43 -  [jd.controlling.downloadcontroller.DownloadController$7(run)] -> Try to import old LinkList
+--ID:39TS:1535641483778-30/08/18 17:04:43 -  [jd.controlling.downloadcontroller.DownloadController$7(run)] -> LinkList empty!

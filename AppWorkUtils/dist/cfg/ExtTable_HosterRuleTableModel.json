@@ -1,0 +1,16 @@
+{
+  "WIDTH_COL_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.accountmanager.orderpanel.HosterRuleTableModel$2" : 100,
+  "ColumnWidthLocked_ExtComponentColumn.jd.gui.swing.jdgui.views.settings.panels.accountmanager.orderpanel.HosterRuleTableModel$3" : false,
+  "SORT_ORDER_ID" : null,
+  "VISABLE_COL_ExtComponentColumn.jd.gui.swing.jdgui.views.settings.panels.accountmanager.orderpanel.HosterRuleTableModel$3" : true,
+  "VISABLE_COL_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.accountmanager.orderpanel.HosterRuleTableModel$2" : true,
+  "POS_COL_0" : "",
+  "POS_COL_1" : "",
+  "ColumnWidthLocked_ExtTextColumn.jd.gui.swing.jdgui.views.settings.panels.accountmanager.orderpanel.HosterRuleTableModel$2" : false,
+  "ColumnWidthLocked_ExtCheckColumn.jd.gui.swing.jdgui.views.settings.panels.accountmanager.orderpanel.HosterRuleTableModel$1" : false,
+  "WIDTH_COL_ExtCheckColumn.jd.gui.swing.jdgui.views.settings.panels.accountmanager.orderpanel.HosterRuleTableModel$1" : 100,
+  "VISABLE_COL_ExtCheckColumn.jd.gui.swing.jdgui.views.settings.panels.accountmanager.orderpanel.HosterRuleTableModel$1" : true,
+  "WIDTH_COL_ExtComponentColumn.jd.gui.swing.jdgui.views.settings.panels.accountmanager.orderpanel.HosterRuleTableModel$3" : 37,
+  "POS_COL_2" : "",
+  "SORTCOLUMN" : "ExtCheckColumn.jd.gui.swing.jdgui.views.settings.panels.accountmanager.orderpanel.HosterRuleTableModel$1"
+}

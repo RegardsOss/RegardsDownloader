@@ -1,0 +1,13 @@
+{
+  "autohideguiifsilentupdateswereinstalledenabled" : false,
+  "proxydialogonnoconnectionenabled" : true,
+  "autohideguiiftherearenoupdatesenabled" : false,
+  "doaskmebeforeinstallinganupdateenabled" : false,
+  "updateguialwaysontop" : true,
+  "installupdatesonexitenabled" : true,
+  "doaskbeforedownloadinganupdate" : false,
+  "updateinterval" : 600000,
+  "installupdatessilentlyifpossibleenabled" : true,
+  "autoupdatecheckenabled" : true,
+  "installupdatesonexitpanelvisible" : true
+}

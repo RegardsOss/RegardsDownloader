@@ -1,0 +1,8 @@
+------------------------Thread: 31:org.jdownloader.plugins.controller.host.HostPluginController.log-----------------------
+--ID:31TS:1535729347784-31/08/18 17:29:07 -  [org.jdownloader.plugins.controller.host.HostPluginController(init)] -> HostPluginController: init
+--ID:31TS:1535729347810-31/08/18 17:29:07 -  [org.jdownloader.plugins.controller.host.HostPluginController(init)] -> @HostPluginController: loadFromCache took 26ms for 3
+--ID:31TS:1535729347827-31/08/18 17:29:07 -  [org.jdownloader.plugins.controller.PluginScannerNIO(scan)] -> @PluginController(NIO): scan took 16ms for 3
+--ID:31TS:1535729347827-31/08/18 17:29:07 -  [org.jdownloader.plugins.controller.host.HostPluginController(init)] -> @HostPluginController: update took 17ms for 3
+--ID:31TS:1535729347828-31/08/18 17:29:07 -  [org.jdownloader.plugins.controller.host.HostPluginController(init)] -> @HostPluginController: sort took 1ms for 3
+--ID:31TS:1535729347828-31/08/18 17:29:07 -  [org.jdownloader.plugins.controller.host.HostPluginController(init)] -> @HostPluginController: mapping took 0ms for 3
+--ID:31TS:1535729347828-31/08/18 17:29:07 -  [org.jdownloader.plugins.controller.host.HostPluginController(init)] -> @HostPluginController: init took 44ms for 3

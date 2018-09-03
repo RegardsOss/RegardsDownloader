@@ -3,3 +3,13 @@
 .recommenders/
 *.class
 
+
+JDBrowser/\.idea/
+
+JDownloader/\.idea/
+
+JDownloader/bin/
+
+JDownloader/update/
+
+MyJDownloaderClient/\.idea/

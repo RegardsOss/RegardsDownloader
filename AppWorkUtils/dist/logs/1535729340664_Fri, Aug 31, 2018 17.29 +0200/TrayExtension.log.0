@@ -1,0 +1,6 @@
+------------------------Thread: 18:TrayExtension.log-----------------------
+--ID:18TS:1535729347508-31/08/18 17:29:07 -  [org.jdownloader.extensions.AbstractExtension(init)] -> Init Duration: 135
+--ID:18TS:1535729349037-31/08/18 17:29:09 -  [org.jdownloader.gui.jdtrayicon.TrayExtension$2$1(runInEDT)] -> TrayIconSize:24x24->IconSize:24x24
+--ID:18TS:1535729349038-31/08/18 17:29:09 -  [org.jdownloader.gui.jdtrayicon.TrayExtension$2$1(runInEDT)] -> Apply LinuxTrayIcon workaround
+--ID:18TS:1535729349393-31/08/18 17:29:09 -  [org.jdownloader.gui.jdtrayicon.TrayExtension$2$1(runInEDT)] -> JDLightTrayIcon Init complete
+--ID:18TS:1535729349540-31/08/18 17:29:09 -  [org.jdownloader.gui.jdtrayicon.TrayExtension$1$1(runInEDT)] -> Systemtray OK

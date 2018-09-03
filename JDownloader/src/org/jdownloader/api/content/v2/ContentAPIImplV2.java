@@ -138,7 +138,7 @@ public class ContentAPIImplV2 implements ContentAPIV2 {
         }
         OutputStream out = null;
         try {
-            if ("myjdownloader".equalsIgnoreCase(key)) {
+            if ("org/jdownloader/myjdownloader".equalsIgnoreCase(key)) {
                 key = IconKey.ICON_LOGO_MYJDOWNLOADER;
             }
             /* we force content type to image/png and allow caching of the image */

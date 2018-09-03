@@ -1,0 +1,6 @@
+------------------------Thread: 176:FavIcons-----------------------
+--ID:176TS:1535642163610-30/08/18 17:16:03 -  [jd.controlling.faviconcontroller.FavIcons(downloadFavIcon)] -> Download FavIcon for u-psud.fr
+--ID:176TS:1535642163746-30/08/18 17:16:03 -  [jd.controlling.faviconcontroller.FavIcons(downloadFavIcon)] -> Could not download FavIcon for u-psud.fr
+------------------------Thread: 2745:FavIcons-----------------------
+--ID:2745TS:1535703007197-31/08/18 10:10:07 -  [jd.controlling.faviconcontroller.FavIcons(downloadFavIcon)] -> Download FavIcon for directhttp
+--ID:2745TS:1535703008872-31/08/18 10:10:08 -  [jd.controlling.faviconcontroller.FavIcons(downloadFavIcon)] -> Could not download FavIcon for directhttp
