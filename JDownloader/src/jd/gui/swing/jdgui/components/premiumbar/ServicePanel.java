@@ -84,9 +84,9 @@ public class ServicePanel extends JPanel implements MouseListener, AccountToolti
     }
     private AtomicBoolean                                    redrawing        = new AtomicBoolean(false);
 
-    public static ServicePanel getInstance() {
-        return INSTANCE;
-    }
+//    public static ServicePanel getInstance() {
+//        return INSTANCE;
+//    }
 
     public void addExtender(ServicePanelExtender ex) {
         if (!Application.isHeadless() && extender.addIfAbsent(ex)) {

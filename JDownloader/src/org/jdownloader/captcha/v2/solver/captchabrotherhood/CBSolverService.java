@@ -48,8 +48,8 @@ public class CBSolverService extends AbstractSolverService implements ServicePan
         AdvancedConfigManager.getInstance().register(config);
 
         if (!Application.isHeadless()) {
-            ServicePanel.getInstance().addExtender(this);
-            initServicePanel(CFG_CBH.USER, CFG_CBH.PASS, CFG_CBH.ENABLED);
+//            ServicePanel.getInstance().addExtender(this);
+//            initServicePanel(CFG_CBH.USER, CFG_CBH.PASS, CFG_CBH.ENABLED);
         }
     }
 

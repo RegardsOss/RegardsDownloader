@@ -50,10 +50,10 @@ public class CaptchaMyJDSolverService extends AbstractSolverService implements S
             SecondLevelLaunch.GUI_COMPLETE.executeWhenReached(new Runnable() {
 
                 public void run() {
-                    ServicePanel.getInstance().addExtender(CaptchaMyJDSolverService.this);
-                    initServicePanel(config._getStorageHandler().getKeyHandler("Enabled"));
+//                    ServicePanel.getInstance().addExtender(CaptchaMyJDSolverService.this);
+//                    initServicePanel(config._getStorageHandler().getKeyHandler("Enabled"));
                     MyJDownloaderController.getInstance().getEventSender().addListener(CaptchaMyJDSolverService.this);
-                    ServicePanel.getInstance().requestUpdate(true);
+//                    ServicePanel.getInstance().requestUpdate(true);
                 }
             });
         }
@@ -213,7 +213,7 @@ public class CaptchaMyJDSolverService extends AbstractSolverService implements S
     @Override
     public void onMyJDownloaderConnectionStatusChanged(MyJDownloaderConnectionStatus status, int connections) {
         if (!Application.isHeadless()) {
-            ServicePanel.getInstance().requestUpdate(true);
+//            ServicePanel.getInstance().requestUpdate(true);
         }
     }
 

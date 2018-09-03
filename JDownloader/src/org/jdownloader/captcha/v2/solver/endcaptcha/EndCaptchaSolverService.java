@@ -43,8 +43,8 @@ public class EndCaptchaSolverService extends AbstractSolverService implements Se
         AdvancedConfigManager.getInstance().register(config);
 
         if (!Application.isHeadless()) {
-            ServicePanel.getInstance().addExtender(this);
-            initServicePanel(CFG_END_CAPTCHA.USER_NAME, CFG_END_CAPTCHA.PASSWORD, CFG_END_CAPTCHA.ENABLED);
+//            ServicePanel.getInstance().addExtender(this);
+//            initServicePanel(CFG_END_CAPTCHA.USER_NAME, CFG_END_CAPTCHA.PASSWORD, CFG_END_CAPTCHA.ENABLED);
         }
     }
 

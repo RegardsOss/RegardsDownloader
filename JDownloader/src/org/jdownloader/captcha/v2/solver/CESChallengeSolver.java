@@ -81,7 +81,7 @@ public abstract class CESChallengeSolver<T> extends ChallengeSolver<T> {
 
                             @Override
                             public void onConfigValueModified(KeyHandler<Object> keyHandler, Object newValue) {
-                                ServicePanel.getInstance().requestUpdate(true);
+//                                ServicePanel.getInstance().requestUpdate(true);
                             }
                         });
                     }

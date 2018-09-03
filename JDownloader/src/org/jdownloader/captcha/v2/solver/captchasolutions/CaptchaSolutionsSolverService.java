@@ -45,8 +45,8 @@ public class CaptchaSolutionsSolverService extends AbstractSolverService impleme
         AdvancedConfigManager.getInstance().register(config);
 
         if (!Application.isHeadless()) {
-            ServicePanel.getInstance().addExtender(this);
-            initServicePanel(CFG_CAPTCHA_SOLUTIONS.USER_NAME, CFG_CAPTCHA_SOLUTIONS.PASSWORD, CFG_CAPTCHA_SOLUTIONS.ENABLED);
+//            ServicePanel.getInstance().addExtender(this);
+//            initServicePanel(CFG_CAPTCHA_SOLUTIONS.USER_NAME, CFG_CAPTCHA_SOLUTIONS.PASSWORD, CFG_CAPTCHA_SOLUTIONS.ENABLED);
         }
     }
 
