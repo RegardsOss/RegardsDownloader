@@ -38,8 +38,10 @@ import org.jdownloader.settings.GraphicalUserInterfaceSettings.PremiumStatusBarD
 import org.jdownloader.settings.staticreferences.CFG_GUI;
 
 public class HosterColumn extends ExtColumn<AbstractNode> {
-    private static boolean    COLORED_ICONS;
-    private static boolean    FULL_HOSTNAME;
+
+    private static boolean COLORED_ICONS;
+
+    private static boolean FULL_HOSTNAME;
 
     static {
         COLORED_ICONS = CFG_GUI.COLORED_ICONS_FOR_DISABLED_HOSTER_COLUMN_ENABLED.isEnabled();
@@ -52,32 +54,39 @@ public class HosterColumn extends ExtColumn<AbstractNode> {
             }
 
             @Override
-            public void onConfigValidatorError(KeyHandler<Boolean> keyHandler, Boolean invalidValue, ValidationException validateException) {
+            public void onConfigValidatorError(KeyHandler<Boolean> keyHandler, Boolean invalidValue,
+                    ValidationException validateException) {
             }
         });
-        CFG_GUI.COLORED_ICONS_FOR_DISABLED_HOSTER_COLUMN_ENABLED.getEventSender().addListener(new GenericConfigEventListener<Boolean>() {
+        CFG_GUI.COLORED_ICONS_FOR_DISABLED_HOSTER_COLUMN_ENABLED.getEventSender()
+                .addListener(new GenericConfigEventListener<Boolean>() {
 
-            @Override
-            public void onConfigValueModified(KeyHandler<Boolean> keyHandler, Boolean newValue) {
-                COLORED_ICONS = CFG_GUI.COLORED_ICONS_FOR_DISABLED_HOSTER_COLUMN_ENABLED.isEnabled();
-            }
+                    @Override
+                    public void onConfigValueModified(KeyHandler<Boolean> keyHandler, Boolean newValue) {
+                        COLORED_ICONS = CFG_GUI.COLORED_ICONS_FOR_DISABLED_HOSTER_COLUMN_ENABLED.isEnabled();
+                    }
 
-            @Override
-            public void onConfigValidatorError(KeyHandler<Boolean> keyHandler, Boolean invalidValue, ValidationException validateException) {
-            }
-        });
+                    @Override
+                    public void onConfigValidatorError(KeyHandler<Boolean> keyHandler, Boolean invalidValue,
+                            ValidationException validateException) {
+                    }
+                });
     }
 
     /**
      *
      */
-    private static final long serialVersionUID   = 1L;
-    private int               maxIcons           = 10;
-    private MigPanel          panel;
-    private RenderLabel[]     labels;
-    private final Icon        moreIcon;
+    private static final long serialVersionUID = 1L;
 
-    private static int        DEFAULT_ICON_COUNT = 4;
+    private int maxIcons = 10;
+
+    private MigPanel panel;
+
+    private RenderLabel[] labels;
+
+    private final Icon moreIcon;
+
+    private static int DEFAULT_ICON_COUNT = 4;
 
     public JPopupMenu createHeaderPopup() {
         return FileColumn.createColumnPopup(this, getMinWidth() == getMaxWidth() && getMaxWidth() > 0);
@@ -109,7 +118,7 @@ public class HosterColumn extends ExtColumn<AbstractNode> {
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see org.appwork.swing.exttable.ExtDefaultRowSorter#compare(java.lang .Object, java.lang.Object)
              */
             @Override
@@ -210,7 +219,8 @@ public class HosterColumn extends ExtColumn<AbstractNode> {
         return DEFAULT_ICON_COUNT * 19 + 7;
     }
 
-    public void configureRendererComponent(AbstractNode value, boolean isSelected, boolean hasFocus, int row, int column) {
+    public void configureRendererComponent(AbstractNode value, boolean isSelected, boolean hasFocus, int row,
+            int column) {
         final int width = getTableColumn().getWidth();
         final int count = ((width - 6) / 19);
         if (value instanceof AbstractPackageNode) {
@@ -254,15 +264,8 @@ public class HosterColumn extends ExtColumn<AbstractNode> {
                 if (obj instanceof AbstractPackageChildrenNode) {
                     final DomainInfo di = ((AbstractPackageChildrenNode<?>) obj).getDomainInfo();
                     if (di != null) {
-//                        final List<ServiceCollection<?>> services = ServicePanel.getInstance().groupServices(PremiumStatusBarDisplay.GROUP_BY_SUPPORTED_ACCOUNTS, false, di.getTld(), null);
-                        List<ServiceCollection<?>> services = Collections.emptyList();
-                        if (services.size() > 0) {
-                            ToolTipController.getInstance().show(services.get(0).createTooltip(null));
-                        } else {
-                            ToolTipController.getInstance().show(createToolTip(e.getPoint(), obj));
-                        }
+                        ToolTipController.getInstance().show(createToolTip(e.getPoint(), obj));
                     }
-                } else if (obj instanceof AbstractPackageNode) {
                 }
             }
         });
@@ -291,7 +294,8 @@ public class HosterColumn extends ExtColumn<AbstractNode> {
     }
 
     @Override
-    public JComponent getRendererComponent(AbstractNode value, boolean isSelected, boolean hasFocus, int row, int column) {
+    public JComponent getRendererComponent(AbstractNode value, boolean isSelected, boolean hasFocus, int row,
+            int column) {
         return panel;
     }
 

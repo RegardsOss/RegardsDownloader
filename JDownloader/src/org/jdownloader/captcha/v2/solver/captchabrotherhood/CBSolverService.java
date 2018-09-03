@@ -46,11 +46,6 @@ public class CBSolverService extends AbstractSolverService implements ServicePan
     public CBSolverService() {
         config = JsonConfig.create(CaptchaBrotherHoodSettings.class);
         AdvancedConfigManager.getInstance().register(config);
-
-        if (!Application.isHeadless()) {
-//            ServicePanel.getInstance().addExtender(this);
-//            initServicePanel(CFG_CBH.USER, CFG_CBH.PASS, CFG_CBH.ENABLED);
-        }
     }
 
     @Override

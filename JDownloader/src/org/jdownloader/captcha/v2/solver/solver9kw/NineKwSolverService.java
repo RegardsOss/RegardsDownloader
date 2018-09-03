@@ -187,7 +187,6 @@ public class NineKwSolverService extends AbstractSolverService implements Servic
         if (!Application.isHeadless()) {
             SecondLevelLaunch.GUI_COMPLETE.executeWhenReached(new Runnable() {
                 public void run() {
-//                    ServicePanel.getInstance().addExtender(NineKwSolverService.this);
                     CFG_9KWCAPTCHA.API_KEY.getEventSender().addListener(new GenericConfigEventListener<String>() {
 
                         @Override
