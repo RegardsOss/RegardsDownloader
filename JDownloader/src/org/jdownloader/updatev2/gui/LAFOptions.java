@@ -18,8 +18,10 @@ import org.appwork.utils.logging2.extmanager.LoggerFactory;
 public class LAFOptions {
 
     public static BooleanKeyHandler TABLE_ALTERNATE_ROW_HIGHLIGHT_ENABLED;
+
     public static IntegerKeyHandler CUSTOM_TABLE_ROW_HEIGHT;
-    private static LAFOptions       INSTANCE;
+
+    private static LAFOptions INSTANCE;
 
     /**
      * Increase this value and set ColorForTableRowGap to show a gap between two links. Check CustomTableRowHeight as well
@@ -28,8 +30,6 @@ public class LAFOptions {
 
     /**
      * get the only existing instance of LAFOptions. This is a singleton
-     *
-     * @return
      */
     public static LAFOptions getInstance() {
         if (INSTANCE == null) {
@@ -39,7 +39,8 @@ public class LAFOptions {
         return LAFOptions.INSTANCE;
     }
 
-    private final LAFSettings           cfg;
+    private final LAFSettings cfg;
+
     private static LookAndFeelExtension LAFEXTENSION;
 
     public static LookAndFeelExtension getLookAndFeelExtension() {
@@ -52,24 +53,11 @@ public class LAFOptions {
 
     /**
      * Create a new instance of LAFOptions. This is a singleton class. Access the only existing instance by using {@link #getInstance()}.
-     *
-     * @param laf
      */
     private LAFOptions(String laf) {
         final int i = laf.lastIndexOf(".");
         final String name = (i >= 0 ? laf.substring(i + 1) : laf);
         final String path = "cfg/laf/" + name;
-        LookAndFeelExtension ext = null;
-//        if (!"org.jdownloader.gui.laf.jddefault.JDDefaultLookAndFeel".equals(laf)) {
-//            try {
-//                ext = (LookAndFeelExtension) Class.forName(laf + "Extension").newInstance();
-//            } catch (Throwable e) {
-//                LoggerFactory.getDefaultLogger().log(e);
-//            }
-//        }
-//        if (ext == null) {
-//            ext = new DefaultLookAndFeelExtension();
-//        }
 
         LAFEXTENSION = new DefaultLookAndFeelExtension();
         cfg = JsonConfig.create(Application.getResource(path), LAFSettings.class);
@@ -85,10 +73,10 @@ public class LAFOptions {
             return;
         }
         INSTANCE = new LAFOptions(laf);
-        // LINK_TABLE_HORIZONTAL_ROW_LINE_WEIGHT = INSTANCE.getCfg()._getStorageHandler().getKeyHandler("LinkTableHorizontalRowLineWeight",
-        // IntegerKeyHandler.class);
-        CUSTOM_TABLE_ROW_HEIGHT = INSTANCE.getCfg()._getStorageHandler().getKeyHandler("CustomTableRowHeight", IntegerKeyHandler.class);
-        TABLE_ALTERNATE_ROW_HIGHLIGHT_ENABLED = INSTANCE.getCfg()._getStorageHandler().getKeyHandler("TableAlternateRowHighlightEnabled", BooleanKeyHandler.class);
+        CUSTOM_TABLE_ROW_HEIGHT = INSTANCE.getCfg()._getStorageHandler()
+                .getKeyHandler("CustomTableRowHeight", IntegerKeyHandler.class);
+        TABLE_ALTERNATE_ROW_HIGHLIGHT_ENABLED = INSTANCE.getCfg()._getStorageHandler()
+                .getKeyHandler("TableAlternateRowHighlightEnabled", BooleanKeyHandler.class);
     }
 
     private static HashMap<String, Color> CACHE = new HashMap<String, Color>();
