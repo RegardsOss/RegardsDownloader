@@ -47,6 +47,7 @@ import org.appwork.utils.swing.windowmanager.WindowsWindowManager;
 import org.jdownloader.gui.IconKey;
 import org.jdownloader.gui.translate._GUI;
 import org.jdownloader.images.AbstractIcon;
+import org.jdownloader.images.NewTheme;
 import org.jdownloader.logging.LogController;
 import org.jdownloader.settings.GraphicalUserInterfaceSettings;
 import org.jdownloader.settings.GraphicalUserInterfaceSettings.LookAndFeelType;
@@ -55,22 +56,23 @@ import org.jdownloader.updatev2.UpdateController;
 import org.jdownloader.updatev2.gui.LAFOptions;
 
 public class LookAndFeelController implements LAFManagerInterface {
-    public static final String                 DE_JAVASOFT_PLAF_SYNTHETICA_SYNTHETICA_SIMPLE2D_LOOK_AND_FEEL = "org.jdownloader.gui.laf.jddefault.JDDefaultLookAndFeel";
-    public static final String                 JD_PLAIN                                                      = "org.jdownloader.gui.laf.plain.PlainLookAndFeel";
 
-    private static final LookAndFeelController INSTANCE                                                      = new LookAndFeelController();
+    public static final String DE_JAVASOFT_PLAF_SYNTHETICA_SYNTHETICA_SIMPLE2D_LOOK_AND_FEEL = "org.jdownloader.gui.laf.jddefault.JDDefaultLookAndFeel";
+
+    public static final String JD_PLAIN = "org.jdownloader.gui.laf.plain.PlainLookAndFeel";
+
+    private static final LookAndFeelController INSTANCE = new LookAndFeelController();
 
     /**
      * get the only existing instance of LookAndFeelController. This is a singleton
-     *
-     * @return
      */
     public static LookAndFeelController getInstance() {
         return LookAndFeelController.INSTANCE;
     }
 
     private GraphicalUserInterfaceSettings config;
-    private LogSource                      logger;
+
+    private LogSource logger;
 
     /**
      * Create a new instance of LookAndFeelController. This is a singleton class. Access the only existing instance by using
@@ -92,7 +94,8 @@ public class LookAndFeelController implements LAFManagerInterface {
                     }
 
                     @Override
-                    public void onConfigValidatorError(KeyHandler<Enum> keyHandler, Enum invalidValue, ValidationException validateException) {
+                    public void onConfigValidatorError(KeyHandler<Enum> keyHandler, Enum invalidValue,
+                            ValidationException validateException) {
                     }
                 });
                 handleThemesInstallation();
@@ -118,9 +121,13 @@ public class LookAndFeelController implements LAFManagerInterface {
         if (UpdateController.getInstance().isExtensionInstalled(lafTheme.getExtensionID())) {
             return;
         }
-        if (UIOManager.I().showConfirmDialog(0, _GUI.T.LookAndFeelController_handleThemesInstallation_title_(), _GUI.T.LookAndFeelController_handleThemesInstallation_message_(lafTheme.name()), new AbstractIcon(IconKey.ICON_UPDATERICON0, 64), null, null)) {
+        if (UIOManager.I().showConfirmDialog(0, _GUI.T.LookAndFeelController_handleThemesInstallation_title_(),
+                                             _GUI.T.LookAndFeelController_handleThemesInstallation_message_(
+                                                     lafTheme.name()), new AbstractIcon(IconKey.ICON_UPDATERICON0, 64),
+                                             null, null)) {
             final LookAndFeelType finalLafTheme = lafTheme;
             new Thread("Install Extension") {
+
                 public void run() {
                     try {
                         UpdateController.getInstance().setGuiVisible(true);
@@ -147,7 +154,8 @@ public class LookAndFeelController implements LAFManagerInterface {
      */
 
     public static final String DEFAULT_PREFIX = "LAF_CFG";
-    private static boolean     uiInitated     = false;
+
+    private static boolean uiInitated = false;
 
     /**
      * setups the correct Look and Feel
@@ -159,10 +167,8 @@ public class LookAndFeelController implements LAFManagerInterface {
             uiInitated = true;
         }
         initWindowManager();
-        long t = System.currentTimeMillis();
         try {
             // de.javasoft.plaf.synthetica.SyntheticaLookAndFeel.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel");
-            // if (true) return;
             String laf = null;
             try {
                 final String customLookAndFeel = config.getCustomLookAndFeelClass();
@@ -188,72 +194,10 @@ public class LookAndFeelController implements LAFManagerInterface {
             } finally {
                 org.appwork.utils.logging2.extmanager.LoggerFactory.getDefaultLogger().info("Use Look & Feel: " + laf);
             }
-            if (laf.contains("Synthetica") || laf.equals(DE_JAVASOFT_PLAF_SYNTHETICA_SYNTHETICA_SIMPLE2D_LOOK_AND_FEEL) || laf.equals(JD_PLAIN)) {
-                //
-                String liz = null;
-                try {
-                    if (!Application.isJared(LookAndFeelController.class)) {
-                        // enable the synthetica dev license for people working on our offical repo at svn.jdownloader.org
-                        // for all other mirror repos: please do not use our license
-                        URL url = Application.getRessourceURL("");
-                        File bin = new File(url.toURI());
-                        File db = new File(bin.getParent(), ".svn/wc.db");
-                        if (db.exists()) {
-                            String str = IO.readFileToString(db);
-                            if (str.contains("svn://svn.jdownloader.org/jdownloader") || str.contains("SQLite format")) {
-                                str = null;
-                                if (Application.getResource("JDownloader.jar").exists()) {
-                                    JarFile jf = null;
-                                    try {
-                                        jf = new JarFile(Application.getResource("JDownloader.jar"));
-                                        JarEntry je = jf.getJarEntry("cfg/synthetica-license.key");
-                                        liz = IO.readInputStreamToString(jf.getInputStream(je));
-                                    } finally {
-                                        if (jf != null) {
-                                            jf.close();
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            String str = IO.readFileToString(new File(bin.getParent(), ".svn/entries"));
-                            if (str != null && str.contains("svn://svn.jdownloader.org/jdownloader/trunk")) {
-                                str = null;
-                                if (Application.getResource("JDownloader.jar").exists()) {
-                                    JarFile jf = null;
-                                    try {
-                                        jf = new JarFile(Application.getResource("JDownloader.jar"));
-                                        JarEntry je = jf.getJarEntry("cfg/synthetica-license.key");
-                                        liz = IO.readInputStreamToString(jf.getInputStream(je));
-                                    } finally {
-                                        if (jf != null) {
-                                            jf.close();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                }
-                LAFOptions.init(laf);
-                if (Application.isHeadless()) {
-                    final URL url = Application.getRessourceURL("cfg/synthetica-license.key");
-                    if (url != null) {
-                        liz = IO.readURLToString(url);
-                    }
-                    new SyntheticaHelper(LAFOptions.getInstance().getCfg()).setLicense(liz);
-                } else {
-                    new SyntheticaHelper(LAFOptions.getInstance().getCfg()).load(laf, liz);
-                }
-                ExtTooltip.setForgroundColor(LAFOptions.getInstance().getColorForTooltipForeground());
-            } else {
-                /* init for all other laf */
-                UIManager.setLookAndFeel(laf);
-                LAFOptions.init(laf);
-            }
+            LAFOptions.init(laf);
+            ExtTooltip.setForgroundColor(LAFOptions.getInstance().getColorForTooltipForeground());
+            new SyntheticaHelper(LAFOptions.getInstance().getCfg()).load();
         } catch (Throwable e) {
-            LogController.CL().log(e);
             try {
                 LookAndFeel currentLaf = UIManager.getLookAndFeel();
                 // this may happen if the updater launcher already has set the look and feel.
@@ -263,51 +207,16 @@ public class LookAndFeelController implements LAFManagerInterface {
                 }
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 LAFOptions.init(UIManager.getSystemLookAndFeelClassName());
-            } catch (ClassNotFoundException e1) {
-                e1.printStackTrace();
-            } catch (InstantiationException e1) {
-                e1.printStackTrace();
-            } catch (IllegalAccessException e1) {
-                e1.printStackTrace();
-            } catch (UnsupportedLookAndFeelException e1) {
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e1) {
                 e1.printStackTrace();
             }
         } finally {
             try {
                 final String theme = LAFOptions.getInstance().getCfg().getIconSetID();
-                org.jdownloader.images.NewTheme.getInstance().setTheme(theme);
-                if (!StringUtils.equals("standard", theme) && StringUtils.isNotEmpty(theme)) {
-                    SecondLevelLaunch.UPDATE_HANDLER_SET.executeWhenReached(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            if (Application.isJared(null)) {
-                                SecondLevelLaunch.INIT_COMPLETE.executeWhenReached(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        final String extensionID = "iconset-" + theme;
-                                        if (!UpdateController.getInstance().isExtensionInstalled(extensionID)) {
-                                            try {
-
-                                                UpdateController.getInstance().setGuiVisible(true);
-                                                UpdateController.getInstance().runExtensionInstallation(extensionID);
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    }
-                                });
-                            }
-
-                        }
-                    });
-
-                }
+                NewTheme.getInstance().setTheme(theme);
             } catch (Throwable e) {
                 LoggerFactory.getDefaultLogger().log(e);
             }
-            org.appwork.utils.logging2.extmanager.LoggerFactory.getDefaultLogger().info("LAF init: " + (System.currentTimeMillis() - t));
         }
     }
 
@@ -322,53 +231,61 @@ public class LookAndFeelController implements LAFManagerInterface {
             wwm.setAltWorkaroundEnabled(CFG_GUI.CFG.isWindowsWindowManagerAltKeyWorkaroundEnabled());
             wwm.setAltWorkaroundKeys(CFG_GUI.CFG.getWindowsWindowManagerAltKeyCombi());
             try {
-                CFG_GUI.CFG.setWindowsWindowManagerForegroundLockTimeout(WindowsWindowManager.readForegroundLockTimeout());
+                CFG_GUI.CFG
+                        .setWindowsWindowManagerForegroundLockTimeout(WindowsWindowManager.readForegroundLockTimeout());
             } catch (Exception e) {
                 CFG_GUI.CFG.setWindowsWindowManagerForegroundLockTimeout(-1);
                 logger.log(e);
             }
-            CFG_GUI.WINDOWS_WINDOW_MANAGER_FOREGROUND_LOCK_TIMEOUT.getEventSender().addListener(new GenericConfigEventListener<Integer>() {
+            CFG_GUI.WINDOWS_WINDOW_MANAGER_FOREGROUND_LOCK_TIMEOUT.getEventSender()
+                    .addListener(new GenericConfigEventListener<Integer>() {
 
-                @Override
-                public void onConfigValidatorError(KeyHandler<Integer> keyHandler, Integer invalidValue, ValidationException validateException) {
-                }
-
-                @Override
-                public void onConfigValueModified(KeyHandler<Integer> keyHandler, Integer newValue) {
-                    try {
-                        if (newValue >= 0 && newValue != WindowsWindowManager.readForegroundLockTimeout()) {
-
-                            WindowsWindowManager.writeForegroundLockTimeout(newValue);
-                            Dialog.getInstance().showMessageDialog(_GUI.T.LookAndFeelController_onConfigValueModified_reboot_required());
+                        @Override
+                        public void onConfigValidatorError(KeyHandler<Integer> keyHandler, Integer invalidValue,
+                                ValidationException validateException) {
                         }
-                    } catch (Exception e) {
-                        logger.log(e);
-                        Dialog.getInstance().showExceptionDialog(_GUI.T.lit_error_occured(), e.getMessage(), e);
-                    }
-                }
-            });
-            CFG_GUI.WINDOWS_WINDOW_MANAGER_ALT_KEY_WORKAROUND_ENABLED.getEventSender().addListener(new GenericConfigEventListener<Boolean>() {
 
-                @Override
-                public void onConfigValidatorError(KeyHandler<Boolean> keyHandler, Boolean invalidValue, ValidationException validateException) {
-                }
+                        @Override
+                        public void onConfigValueModified(KeyHandler<Integer> keyHandler, Integer newValue) {
+                            try {
+                                if (newValue >= 0 && newValue != WindowsWindowManager.readForegroundLockTimeout()) {
 
-                @Override
-                public void onConfigValueModified(KeyHandler<Boolean> keyHandler, Boolean newValue) {
-                    wwm.setAltWorkaroundEnabled(CFG_GUI.CFG.isWindowsWindowManagerAltKeyWorkaroundEnabled());
-                }
-            });
-            CFG_GUI.WINDOWS_WINDOW_MANAGER_ALT_KEY_COMBI.getEventSender().addListener(new GenericConfigEventListener<int[]>() {
+                                    WindowsWindowManager.writeForegroundLockTimeout(newValue);
+                                    Dialog.getInstance().showMessageDialog(
+                                            _GUI.T.LookAndFeelController_onConfigValueModified_reboot_required());
+                                }
+                            } catch (Exception e) {
+                                logger.log(e);
+                                Dialog.getInstance().showExceptionDialog(_GUI.T.lit_error_occured(), e.getMessage(), e);
+                            }
+                        }
+                    });
+            CFG_GUI.WINDOWS_WINDOW_MANAGER_ALT_KEY_WORKAROUND_ENABLED.getEventSender()
+                    .addListener(new GenericConfigEventListener<Boolean>() {
 
-                @Override
-                public void onConfigValueModified(KeyHandler<int[]> keyHandler, int[] newValue) {
-                    wwm.setAltWorkaroundKeys(CFG_GUI.CFG.getWindowsWindowManagerAltKeyCombi());
-                }
+                        @Override
+                        public void onConfigValidatorError(KeyHandler<Boolean> keyHandler, Boolean invalidValue,
+                                ValidationException validateException) {
+                        }
 
-                @Override
-                public void onConfigValidatorError(KeyHandler<int[]> keyHandler, int[] invalidValue, ValidationException validateException) {
-                }
-            });
+                        @Override
+                        public void onConfigValueModified(KeyHandler<Boolean> keyHandler, Boolean newValue) {
+                            wwm.setAltWorkaroundEnabled(CFG_GUI.CFG.isWindowsWindowManagerAltKeyWorkaroundEnabled());
+                        }
+                    });
+            CFG_GUI.WINDOWS_WINDOW_MANAGER_ALT_KEY_COMBI.getEventSender()
+                    .addListener(new GenericConfigEventListener<int[]>() {
+
+                        @Override
+                        public void onConfigValueModified(KeyHandler<int[]> keyHandler, int[] newValue) {
+                            wwm.setAltWorkaroundKeys(CFG_GUI.CFG.getWindowsWindowManagerAltKeyCombi());
+                        }
+
+                        @Override
+                        public void onConfigValidatorError(KeyHandler<int[]> keyHandler, int[] invalidValue,
+                                ValidationException validateException) {
+                        }
+                    });
         }
     }
 

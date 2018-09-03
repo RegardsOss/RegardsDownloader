@@ -1,4 +1,0 @@
-------------------------Thread: 43:org.jdownloader.extensions.ExtensionController.log-----------------------
---ID:43TS:1535729348615-31/08/18 17:29:08 -  [org.jdownloader.extensions.ExtensionController(loadJared)] -> []
---ID:43TS:1535729348717-31/08/18 17:29:08 -  [org.jdownloader.extensions.ExtensionController(init)] -> @ExtensionController: init in113ms :0
---ID:43TS:1535729348717-31/08/18 17:29:08 -  [org.jdownloader.extensions.ExtensionController(init)] -> @ExtensionController: WTF, no extensions!

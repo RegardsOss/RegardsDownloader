@@ -1,6 +1,0 @@
-------------------------Thread: 36:jd.controlling.downloadcontroller.DownloadController.log-----------------------
---ID:36TS:1535729348245-31/08/18 17:29:08 -  [jd.controlling.downloadcontroller.DownloadController$7(run)] -> Init DownloadList
---ID:36TS:1535729348253-31/08/18 17:29:08 -  [jd.controlling.downloadcontroller.DownloadController(findAvailableDownloadLists)] -> Collect Lists
---ID:36TS:1535729348268-31/08/18 17:29:08 -  [jd.controlling.downloadcontroller.DownloadController(findAvailableDownloadLists)] -> Lists: [/home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/downloadList22.zip, /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/downloadList21.zip, /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/downloadList20.zip, /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/downloadList19.zip, /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/downloadList18.zip, /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/downloadList17.zip]
---ID:36TS:1535729348268-31/08/18 17:29:08 -  [jd.controlling.downloadcontroller.DownloadController(loadFile)] -> Load List: /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/downloadList22.zip
---ID:36TS:1535729348285-31/08/18 17:29:08 -  [jd.controlling.downloadcontroller.DownloadController$7(run)] -> LinkList found: 0/0

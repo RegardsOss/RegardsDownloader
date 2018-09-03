@@ -1,6 +1,0 @@
-{
-  "linkcrawlerrulesenabled" : true,
-  "maxthreads" : 12,
-  "threadkeepalive" : 20000,
-  "directhttppermission" : "ALWAYS"
-}

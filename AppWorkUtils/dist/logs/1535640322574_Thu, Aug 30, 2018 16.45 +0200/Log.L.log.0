@@ -1,4 +1,0 @@
-------------------------Thread: 1:Log.L.log-----------------------
---ID:1TS:1535640323344-30/08/18 16:45:23 -  [org.appwork.utils.Application(setApplication)] -> Application Root: /home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist
---ID:1TS:1535640323358-30/08/18 16:45:23 -  [org.appwork.storage.config.handler.StorageHandler(<init>)] -> Init StorageHandler for Interface:org.jdownloader.settings.GraphicalUserInterfaceSettings|Path:/home/oroussel/dev/RegardsDownloader/AppWorkUtils/dist/cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings
---ID:1TS:1535640323426-30/08/18 16:45:23 -  [org.appwork.txtresource.TranslationHandler(createTranslationResource)] -> Translation file missing:org/jdownloader/gui/translate/GuiTranslation.en.lngUse Annotation Dev fallback

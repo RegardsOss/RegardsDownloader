@@ -1,6 +1,0 @@
-{
-  "dialogcountdownfordownloadsenabled" : true,
-  "captchamode" : "NORMAL",
-  "captchaexchangechancetoskipbubbletimeout" : 10000,
-  "remotecaptchabubbleenabled" : true
-}

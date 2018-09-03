@@ -1,6 +1,0 @@
-{
-  "proxyvoleautodetectionenabled" : true,
-  "httpconnecttimeout" : 20000,
-  "localpacscript" : null,
-  "httpreadtimeout" : 60000
-}

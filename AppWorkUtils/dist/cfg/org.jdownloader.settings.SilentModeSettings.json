@@ -1,8 +1,0 @@
-{
-  "manualenabled" : false,
-  "autoresetonstartupenabled" : true,
-  "ondialogduringsilentmodeactiontimeout" : 30000,
-  "autosilentmodeinidlestate" : 0,
-  "autotrigger" : "NEVER",
-  "ondialogduringsilentmodeaction" : "WAIT_IN_BACKGROUND_UNTIL_WINDOW_GETS_FOCUS_OR_TIMEOUT"
-}

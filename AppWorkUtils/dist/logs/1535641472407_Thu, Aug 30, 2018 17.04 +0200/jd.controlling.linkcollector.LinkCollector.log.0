@@ -1,6 +1,0 @@
-------------------------Thread: 41:jd.controlling.linkcollector.LinkCollector.log-----------------------
---ID:41TS:1535641483792-30/08/18 17:04:43 -  [jd.controlling.linkcollector.LinkCollector(findAvailableCollectorLists)] -> Collect Lists
---ID:41TS:1535641483802-30/08/18 17:04:43 -  [jd.controlling.linkcollector.LinkCollector(findAvailableCollectorLists)] -> Lists: []
---ID:41TS:1535641483802-30/08/18 17:04:43 -  [jd.controlling.linkcollector.LinkCollector$16(run)] -> CollectorList empty!
-------------------------Thread: 57:jd.controlling.linkcollector.LinkCollector.log-----------------------
---ID:57TS:1535641487181-30/08/18 17:04:47 -  [jd.controlling.linkcollector.LinkCollector(addCrawlerJob)] -> Added CrawlerJob jd.controlling.linkcollector.LinkCollectingJob@4564d8c8

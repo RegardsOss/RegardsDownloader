@@ -60,18 +60,18 @@ public class LAFOptions {
         final String name = (i >= 0 ? laf.substring(i + 1) : laf);
         final String path = "cfg/laf/" + name;
         LookAndFeelExtension ext = null;
-        if (!"org.jdownloader.gui.laf.jddefault.JDDefaultLookAndFeel".equals(laf)) {
-            try {
-                ext = (LookAndFeelExtension) Class.forName(laf + "Extension").newInstance();
-            } catch (Throwable e) {
-                LoggerFactory.getDefaultLogger().log(e);
-            }
-        }
-        if (ext == null) {
-            ext = new DefaultLookAndFeelExtension();
-        }
+//        if (!"org.jdownloader.gui.laf.jddefault.JDDefaultLookAndFeel".equals(laf)) {
+//            try {
+//                ext = (LookAndFeelExtension) Class.forName(laf + "Extension").newInstance();
+//            } catch (Throwable e) {
+//                LoggerFactory.getDefaultLogger().log(e);
+//            }
+//        }
+//        if (ext == null) {
+//            ext = new DefaultLookAndFeelExtension();
+//        }
 
-        LAFEXTENSION = ext;
+        LAFEXTENSION = new DefaultLookAndFeelExtension();
         cfg = JsonConfig.create(Application.getResource(path), LAFSettings.class);
 
     }
