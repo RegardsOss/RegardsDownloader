@@ -49,17 +49,17 @@ public class MacRestarter extends LinuxRestarter {
             }
         }
 
-        if ((ret = new File(root, "JDownloader2.app")).exists()) {
+        if ((ret = new File(root, "RegardsDownloader.app")).exists()) {
             // folder installer?
             getLogger().info("Found Launcher " + ret);
             return ret;
         }
-        if ((ret = new File(root, "JDownloader 2.app")).exists()) {
+        if ((ret = new File(root, "RegardsDownloader.app")).exists()) {
             // folder installer?
             getLogger().info("Found Launcher " + ret);
             return ret;
         }
-        String appname = "JDownloader.app";
+        String appname = "RegardsDownloader.app";
         File apppath = new File(root, "../../../../");
         try {
             getLogger().info("Look in " + apppath + " - " + apppath.getCanonicalPath());

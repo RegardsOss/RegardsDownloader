@@ -120,6 +120,9 @@ public interface JdownloaderTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "No Internet connection?" })
     String plugins_errors_nointernetconn();
 
+    @Default(lngs = { "en "}, values = { "File not yet available"})
+    String plugins_errors_notyetavailablefile();
+
     @Default(lngs = { "en" }, values = { "Download from this host is currently not possible" })
     String downloadlink_status_error_hoster_temp_unavailable();
 

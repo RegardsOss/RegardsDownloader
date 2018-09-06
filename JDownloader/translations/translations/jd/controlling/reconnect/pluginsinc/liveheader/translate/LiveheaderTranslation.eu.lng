@@ -1,4 +1,4 @@
-AutoDetectAction_run_failed=JDownloader-ek ezin du aurkitu martxan dagoen Live Header birkonexio scripta.\nMesedez ziur egon informazio zuzena sartu duzula eta IP helbide dinamikoa duzula konexioan.
+AutoDetectAction_run_failed=RegardsDownloader-ek ezin du aurkitu martxan dagoen Live Header birkonexio scripta.\nMesedez ziur egon informazio zuzena sartu duzula eta IP helbide dinamikoa duzula konexioan.
 DataCompareDialog_DataCompareDialog_=Bideratzailearen informazioa konparatu
 DataCompareDialog_layoutDialogContent__desc=Mesedez egiaztatu hurrengo informazioa, eta saiatu hutsik dauden  ahalik eta  eremu gehien betetzen.
 DataCompareDialog_layoutDialogContent_firmware=Firmware/Bertsioa
@@ -16,7 +16,7 @@ DataCompareDialog_layoutDialogContent_router_desc=Informazio hau oso garrantzits
 DataCompareDialog_layoutDialogContent_user=Erabiltzaile-izena
 DataCompareDialog_layoutDialogContent_user_help=Sartu web interfazearen erabiltzaile-izena...
 DataCompareDialog_layoutDialogContent_webinterface=Bideratzaile web interfazea
-DataCompareDialog_layoutDialogContent_webinterface_desc=Birkonexio bat burutzeko. JDownloader-ek bideratzailearen web interfazearen erabiltzailea behar du.\nSarritan erabiltzaile bideratzailean atzekaldean aurki dezakezu.\nErabiltzailea ez badezu zure sare kudeatzaileari galdetu
+DataCompareDialog_layoutDialogContent_webinterface_desc=Birkonexio bat burutzeko. RegardsDownloader-ek bideratzailearen web interfazearen erabiltzailea behar du.\nSarritan erabiltzaile bideratzailean atzekaldean aurki dezakezu.\nErabiltzailea ez badezu zure sare kudeatzaileari galdetu
 DataCompareDialog_open_webinterface=Ireki web interfazea
 EditScriptAction_EditScriptAction_=Editatu scripta
 EditScriptAction_EditScriptAction_tt=Sartu bere birkonexio scripta, edo aldatu existitzen dena.

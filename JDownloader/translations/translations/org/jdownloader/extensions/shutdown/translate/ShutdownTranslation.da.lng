@@ -8,6 +8,6 @@ addons_jdshutdown_statusmessage_disabled=Systemet vil IKKE blive lukket ned af j
 gui_config_jdshutdown_hibernate=Dvale (Virker ikke i alle OS)
 gui_config_jdshutdown_standby=Standby (Virker ikke i alle OS)
 jd_plugins_optional_jdshutdown=JDShutdown
-addons_jdshutdown_statusmessage_enabled=JDownloader vil lukke din computer ned efter endt download
+addons_jdshutdown_statusmessage_enabled=RegardsDownloader vil lukke din computer ned efter endt download
 interaction_shutdown_dialog_msg_standby=<h2><font color="red">Systemet vil blive sat i standby tilstand!</font></h2>
 interaction_shutdown_dialog_msg_hibernate=<h2><font color="red">Systemet vil blive sat i dvale tilstand!</font></h2>

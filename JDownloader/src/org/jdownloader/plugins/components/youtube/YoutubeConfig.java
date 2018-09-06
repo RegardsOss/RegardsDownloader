@@ -345,12 +345,12 @@ public interface YoutubeConfig extends PluginConfigInterface {
 
     @CustomValueGetter(NotNullCustomGetter.class)
     @DefaultStringValue("*CONTAINER* *AUDIO_BITRATE* *SPATIAL* kbit/s")
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     String getVariantNamePatternAudio();
 
     @AboutConfig
     @DefaultStringValue("*3D* *360* *HEIGHT*p *FPS*fps *CONTAINER* - Video *AUDIO_CODEC* - Audio")
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("ID Pattern for dupe filtering. Tags: *CONTAINER**HEIGHT**FPS**AUDIO_CODEC**3D**AUDIO_BITRATE**SPATIAL*")
 
     @CustomValueGetter(NotNullCustomGetter.class)
@@ -363,7 +363,7 @@ public interface YoutubeConfig extends PluginConfigInterface {
 
     @AboutConfig
     @DefaultBooleanValue(false)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     boolean isAdvancedVariantNamesEnabled();
 
     @DefaultBooleanValue(false)

@@ -38,14 +38,14 @@ public interface UpdateSettings extends ConfigInterface {
 
     @AboutConfig
     @DefaultBooleanValue(true)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("If true, JDownloader will check for updates in an interval (see: Update Interval)")
     boolean isAutoUpdateCheckEnabled();
 
     void setAutoUpdateCheckEnabled(boolean enabled);
 
     @DefaultBooleanValue(true)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @AboutConfig
     @DescriptionForConfigEntry("If enabled, the Updater Gui will always be on top of all other windows")
     boolean isUpdateGuiAlwaysOnTop();

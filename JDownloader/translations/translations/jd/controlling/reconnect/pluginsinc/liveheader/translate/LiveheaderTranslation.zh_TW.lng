@@ -1,4 +1,4 @@
-AutoDetectAction_run_failed=JDownloader 找不到可以使用的 LiveHeader 重新連線指令碼。\n\n請確保您輸入的資訊正確，並且您具有動態 IP 連線。
+AutoDetectAction_run_failed=RegardsDownloader 找不到可以使用的 LiveHeader 重新連線指令碼。\n\n請確保您輸入的資訊正確，並且您具有動態 IP 連線。
 DataCompareDialog_DataCompareDialog_=比較路由器資訊
 DataCompareDialog_layoutDialogContent__desc=請檢查以下資訊，並盡可能準確的填寫空白欄位。
 DataCompareDialog_layoutDialogContent_firmware=韌體/版本
@@ -16,7 +16,7 @@ DataCompareDialog_layoutDialogContent_router_desc=這些資訊是非常重要的
 DataCompareDialog_layoutDialogContent_user=使用者名稱
 DataCompareDialog_layoutDialogContent_user_help=輸入網頁介面使用者名稱...
 DataCompareDialog_layoutDialogContent_webinterface=路由器網頁介面
-DataCompareDialog_layoutDialogContent_webinterface_desc=若要執行重新連線，JDownloader 需要路由器的登錄介面。\n\n很多時候，可以在您的路由器後面找到登錄介面。\n\n如果不清楚，請詢問您的網路系統管理員
+DataCompareDialog_layoutDialogContent_webinterface_desc=若要執行重新連線，RegardsDownloader 需要路由器的登錄介面。\n\n很多時候，可以在您的路由器後面找到登錄介面。\n\n如果不清楚，請詢問您的網路系統管理員
 DataCompareDialog_open_webinterface=開啟網頁介面
 EditScriptAction_EditScriptAction_=編輯指令碼
 EditScriptAction_EditScriptAction_tt=輸入自己的重新連線指令碼，或修改一個現有的。

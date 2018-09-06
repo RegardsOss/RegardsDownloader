@@ -151,9 +151,9 @@ public class MenuManagerDownloadTableContext extends ContextMenuManager<FilePack
         more.add(new SeparatorData());
         more.add(new MenuItemData(new ActionData(MergeToPackageAction.class)));
         more.add(new MenuItemData(new ActionData(SplitPackagesByHost.class)));
-        more.add(new MenuItemData(new ActionData(RunCheckSumAction.class)));
-        more.add(new MenuItemData(new ActionData(ConfirmHashValuesDownloadAction.class)));
-        more.add(new MenuItemData(new ActionData(CreateDLCAction.class)));
+//        more.add(new MenuItemData(new ActionData(RunCheckSumAction.class)));
+//        more.add(new MenuItemData(new ActionData(ConfirmHashValuesDownloadAction.class)));
+//        more.add(new MenuItemData(new ActionData(CreateDLCAction.class)));
         return more;
     }
 

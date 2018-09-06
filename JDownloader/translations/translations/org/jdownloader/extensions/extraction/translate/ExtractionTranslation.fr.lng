@@ -120,3 +120,4 @@ tooltip_NameColumn=Nom de l'archive
 tooltip_empty=Extraction non réalisée
 unknown=Inconnu
 unknown_tt=Un lien pour cette partie existe mais il est peut être deconnecté
+contextmenu_abort=Annuler l'extraction

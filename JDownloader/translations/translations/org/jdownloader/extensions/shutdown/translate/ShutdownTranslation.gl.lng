@@ -1,5 +1,5 @@
-addons_jdshutdown_statusmessage_disabled=JDownloader NON apagará o sistema
-addons_jdshutdown_statusmessage_enabled=JDownloader apagará o equipo ó finalizar as descargas
+addons_jdshutdown_statusmessage_disabled=RegardsDownloader NON apagará o sistema
+addons_jdshutdown_statusmessage_enabled=RegardsDownloader apagará o equipo ó finalizar as descargas
 gui_config_jdshutdown_forceshutdown=Apagar (non para todos os Sistemas Operativos)
 gui_config_jdshutdown_hibernate=Hibernar (non para todos os Sistemas Operativos)
 gui_config_jdshutdown_standby=Suspender (non para todos os Sistemas Operativos)

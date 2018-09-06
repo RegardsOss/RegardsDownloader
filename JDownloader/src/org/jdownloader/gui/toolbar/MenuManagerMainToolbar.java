@@ -131,14 +131,14 @@ public class MenuManagerMainToolbar extends ContextMenuManager<FilePackage, Down
         mr.add(new SeparatorData());
 
         mr.add(ClipBoardToggleAction.class);
-        mr.add(AutoReconnectToggleAction.class);
-        mr.add(GlobalPremiumSwitchToggleAction.class);
+//        mr.add(AutoReconnectToggleAction.class);
+//        mr.add(GlobalPremiumSwitchToggleAction.class);
         mr.add(SilentModeToggleAction.class);
         mr.add(setVisible(new MenuItemData(SpeedLimiterToggleAction.class), false));
-        mr.add(new SeparatorData());
+//        mr.add(new SeparatorData());
 
-        mr.add(ReconnectAction.class);
-        mr.add(UpdateAction.class);
+//        mr.add(ReconnectAction.class);
+//        mr.add(UpdateAction.class);
 
         // if (!Application.isJared(MainToolbarManager.class)) {
         // MenuContainer opt;
@@ -148,7 +148,7 @@ public class MenuManagerMainToolbar extends ContextMenuManager<FilePackage, Down
         // }
         OptionalContainer opt;
         mr.add(opt = new OptionalContainer(false));
-        opt.add(MyJDownloaderStatusAction.class);
+//        opt.add(MyJDownloaderStatusAction.class);
         if (!Application.isJared(MainToolBar.class)) {
             opt.add(DoAnyThingForADeveloperAction.class);
         }
@@ -162,7 +162,7 @@ public class MenuManagerMainToolbar extends ContextMenuManager<FilePackage, Down
         opt.add(AddLinksMenuAction.class);
         opt.add(AddContainerAction.class);
         opt.add(SetProxySetupAction.class);
-        opt.add(RestartAction.class);
+//        opt.add(RestartAction.class);
         opt.add(SettingsAction.class);
 
         SettingsMenuContainer ret = new SettingsMenuContainer();
@@ -175,34 +175,34 @@ public class MenuManagerMainToolbar extends ContextMenuManager<FilePackage, Down
         ret.add(new ParallelDownloadsPerHostEditorLink());
         //
         ret.add(new SpeedlimitEditorLink());
-        opt.add(LatestChangesAction.class);
+//        opt.add(LatestChangesAction.class);
         opt.add(KnowledgeAction.class);
-        opt.add(LogSendAction.class);
+//        opt.add(LogSendAction.class);
         opt.add(RenameAction.class);
 
-        CaptchaQuickSettingsContainer ocr;
-        opt.add(ocr = new CaptchaQuickSettingsContainer());
-        ocr.add(CaptchaModeChangeAction.class);
-
-        // ocr.add(CaptchaExchangeToogleAction.class);
-
-        // ocr.add(RemoteCaptchaToogleAction.class);
-        ocr.add(CaptchaToogle9KWAction.class);
-        ocr.add(CaptchaToogleCBAction.class);
-        ocr.add(CaptchaToogleDBCAction.class);
-        ocr.add(CaptchaToogleCheapCaptchaAction.class);
-        ocr.add(CaptchaToogleDialogAction.class);
-        ocr.add(CaptchaToogleBrowserSolverAction.class);
-        ocr.add(CaptchaToogleJACAction.class);
-        ocr.add(CaptchaToogleMyJDAutoAction.class);
-        ocr.add(CaptchaToogleMyJDRemoteAction.class);
+//        CaptchaQuickSettingsContainer ocr;
+//        opt.add(ocr = new CaptchaQuickSettingsContainer());
+//        ocr.add(CaptchaModeChangeAction.class);
+//
+//        // ocr.add(CaptchaExchangeToogleAction.class);
+//
+//        // ocr.add(RemoteCaptchaToogleAction.class);
+//        ocr.add(CaptchaToogle9KWAction.class);
+//        ocr.add(CaptchaToogleCBAction.class);
+//        ocr.add(CaptchaToogleDBCAction.class);
+//        ocr.add(CaptchaToogleCheapCaptchaAction.class);
+//        ocr.add(CaptchaToogleDialogAction.class);
+//        ocr.add(CaptchaToogleBrowserSolverAction.class);
+//        ocr.add(CaptchaToogleJACAction.class);
+//        ocr.add(CaptchaToogleMyJDAutoAction.class);
+//        ocr.add(CaptchaToogleMyJDRemoteAction.class);
         opt.add(setIconKey(new ActionData(GenericDeleteFromTableToolbarAction.class).putSetup(GenericDeleteFromTableToolbarAction.DELETE_ALL, true).putSetup(GenericDeleteFromTableToolbarAction.ONLY_SELECTED_ITEMS, true), IconKey.ICON_DELETE));
         opt.add(createDeleteMenu());
 
         opt.add(CollapseExpandAllAction.class);
         opt.add(ExportMenuItemsAction.class);
         opt.add(ImportMenuItemsAction.class);
-        opt.add(ConvertCLRScriptAction.class);
+//        opt.add(ConvertCLRScriptAction.class);
         opt.add(MoveToNewFolderToolbarAction.class);
         return mr;
     }

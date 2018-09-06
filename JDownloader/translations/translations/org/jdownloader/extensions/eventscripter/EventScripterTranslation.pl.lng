@@ -6,7 +6,7 @@ ON_DOWNLOADS_STOPPED=Pobieranie wstrzymane
 ON_DOWNLOAD_CONTROLLER_START=Pobieranie rozpoczęte
 ON_DOWNLOAD_CONTROLLER_STOPPED=Pobieranie zatrzymane
 ON_GENERIC_EXTRACTION=Dowolne zdarzenie rozpakowywania
-ON_JDOWNLOADER_STARTED=JDownloader uruchomiony
+ON_JDOWNLOADER_STARTED=RegardsDownloader uruchomiony
 ON_NEW_CRAWLER_JOB=Nowe zadanie Przeszukiwania
 ON_NEW_FILE=Utworzenie nowego pliku
 ON_OUTGOING_REMOTE_API_EVENT=Zdarzenie API: Zdalny Dostęp rozpoczęte
@@ -16,7 +16,7 @@ allow=zezwól
 btnExampleScripts=Przykładowe Skrypty
 classes=/* ===== Klasy ===== */
 deny=odmów
-description=Nasłuchuje wewnętrznych zdarzeń JDownloadera i pozwala na uruchomienie odpowiedniego skryptu (Javascript).
+description=Nasłuchuje wewnętrznych zdarzeń RegardsDownloadera i pozwala na uruchomienie odpowiedniego skryptu (Javascript).
 downloadLink=// Link Pobierania
 edit_script=Edycja Skryptu
 editor_autoformat=Automatyczny Format

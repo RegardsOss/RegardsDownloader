@@ -27,7 +27,7 @@ public interface MyJDownloaderSettings extends ConfigInterface {
     }
 
     @DefaultStringValue("api.jdownloader.org")
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @AboutConfig
     public String getConnectIP();
 
@@ -46,7 +46,7 @@ public interface MyJDownloaderSettings extends ConfigInterface {
     public void setDebugEnabled(boolean s);
 
     @DefaultIntValue(80)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @AboutConfig
     public int getClientConnectPort();
 
@@ -95,7 +95,7 @@ public interface MyJDownloaderSettings extends ConfigInterface {
 
     @AboutConfig
     @DefaultEnumValue("LAN")
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     public DIRECTMODE getDirectConnectMode();
 
     public void setDirectConnectMode(DIRECTMODE mode);
@@ -103,7 +103,7 @@ public interface MyJDownloaderSettings extends ConfigInterface {
     @AboutConfig
     @DefaultIntValue(3129)
     @SpinnerValidator(min = 1025, max = 65000)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("Try to use given local port for DirectConnectMode=LAN_WAN_MANUAL")
     public int getManualLocalPort();
 
@@ -123,7 +123,7 @@ public interface MyJDownloaderSettings extends ConfigInterface {
 
     @AboutConfig
     @DefaultIntValue(3129)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @SpinnerValidator(min = 80, max = 65000)
     @DescriptionForConfigEntry("Try to use given remove port for DirectConnectMode=LAN_WAN_MANUAL")
     public int getManualRemotePort();

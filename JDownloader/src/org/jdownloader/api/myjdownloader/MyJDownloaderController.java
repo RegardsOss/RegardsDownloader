@@ -105,7 +105,7 @@ public class MyJDownloaderController implements ShutdownVetoListener, GenericCon
                     cd.printLines(_JDT.T.MyJDownloaderController_onError_badlogins());
                     try {
                         while (true) {
-                            cd.waitYesOrNo(0, "Enter Logins", "Exit JDownloader");
+                            cd.waitYesOrNo(0, "Enter Logins", "Exit RegardsDownloader");
 
                             email = cd.ask("Please Enter your MyJDownloader Email:");
                             password = cd.askHidden("Please Enter your MyJDownloader Password:");
@@ -277,7 +277,7 @@ public class MyJDownloaderController implements ShutdownVetoListener, GenericCon
 
                         try {
                             while (true) {
-                                cd.waitYesOrNo(0, "Enter Logins", "Exit JDownloader");
+                                cd.waitYesOrNo(0, "Enter Logins", "Exit RegardsDownloader");
 
                                 String email = cd.ask("Please Enter your MyJDownloader Email:");
                                 String password = cd.askHidden("Please Enter your MyJDownloader Password:");
@@ -321,7 +321,7 @@ public class MyJDownloaderController implements ShutdownVetoListener, GenericCon
 
                         try {
                             while (true) {
-                                cd.waitYesOrNo(0, "Enter Logins", "Exit JDownloader");
+                                cd.waitYesOrNo(0, "Enter Logins", "Exit RegardsDownloader");
 
                                 String email = cd.ask("Please Enter your MyJDownloader Email:");
                                 String password = cd.ask("Please Enter your MyJDownloader Password:");

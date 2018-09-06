@@ -104,20 +104,20 @@ public class MenuManagerMainmenu extends ContextMenuManager<FilePackage, Downloa
 
         opt.add(RenameAction.class);
 
-        CaptchaQuickSettingsContainer ocr;
-        opt.add(ocr = new CaptchaQuickSettingsContainer());
-        ocr.add(CaptchaModeChangeAction.class);
-        ocr.add(CaptchaToogle9KWAction.class);
-        ocr.add(CaptchaToogleCBAction.class);
-        ocr.add(CaptchaToogleDBCAction.class);
-        ocr.add(CaptchaToogleCheapCaptchaAction.class);
-        ocr.add(CaptchaToogleImageTyperzAction.class);
-        ocr.add(CaptchaToogleEndCaptchaAction.class);
-        ocr.add(CaptchaToogleDialogAction.class);
-        ocr.add(CaptchaToogleBrowserSolverAction.class);
-        ocr.add(CaptchaToogleJACAction.class);
-        ocr.add(CaptchaToogleMyJDAutoAction.class);
-        ocr.add(CaptchaToogleMyJDRemoteAction.class);
+//        CaptchaQuickSettingsContainer ocr;
+//        opt.add(ocr = new CaptchaQuickSettingsContainer());
+//        ocr.add(CaptchaModeChangeAction.class);
+//        ocr.add(CaptchaToogle9KWAction.class);
+//        ocr.add(CaptchaToogleCBAction.class);
+//        ocr.add(CaptchaToogleDBCAction.class);
+//        ocr.add(CaptchaToogleCheapCaptchaAction.class);
+//        ocr.add(CaptchaToogleImageTyperzAction.class);
+//        ocr.add(CaptchaToogleEndCaptchaAction.class);
+//        ocr.add(CaptchaToogleDialogAction.class);
+//        ocr.add(CaptchaToogleBrowserSolverAction.class);
+//        ocr.add(CaptchaToogleJACAction.class);
+//        ocr.add(CaptchaToogleMyJDAutoAction.class);
+//        ocr.add(CaptchaToogleMyJDRemoteAction.class);
         // HorizontalBoxItem h = new HorizontalBoxItem();
         // h.setVisible(true);
         // mr.add(h);
@@ -127,13 +127,13 @@ public class MenuManagerMainmenu extends ContextMenuManager<FilePackage, Downloa
 
     public AboutMenuContainer createAboutMenu() {
         AboutMenuContainer ret = new AboutMenuContainer();
-        ret.add(LatestChangesAction.class);
+//        ret.add(LatestChangesAction.class);
         ret.add(KnowledgeAction.class);
-        ret.add(LogSendAction.class);
+//        ret.add(LogSendAction.class);
         ret.add(new SeparatorData());
-        ret.add(CheckForUpdatesAction.class);
+//        ret.add(CheckForUpdatesAction.class);
         ret.add(AboutAction.class);
-        ret.add(DonateAction.class);
+//        ret.add(DonateAction.class);
         return ret;
     }
 
@@ -150,7 +150,7 @@ public class MenuManagerMainmenu extends ContextMenuManager<FilePackage, Downloa
         SettingsMenuContainer ret = new SettingsMenuContainer();
 
         ret.add(SettingsAction.class);
-        ret.add(MyJDownloaderTabAction.class);
+//        ret.add(MyJDownloaderTabAction.class);
         ret.add(hide(new MenuItemData(SettingsAccountUsageRulesAction.class)));
         ret.add(new SeparatorData());
         // add(new ChunksEditor());
@@ -185,7 +185,7 @@ public class MenuManagerMainmenu extends ContextMenuManager<FilePackage, Downloa
         backup.add(BackupCreateAction.class);
         backup.add(BackupRestoreAction.class);
         ret.add(backup);
-        ret.add(RestartAction.class);
+//        ret.add(RestartAction.class);
         ret.add(new ActionData(ExitAction.class).putSetup(ExitAction.HIDE_ON_MAC, true));
 
         return ret;

@@ -2645,10 +2645,16 @@ public class DownloadWatchDog implements DownloadControllerListener, StateMachin
             } else if (throwable instanceof ConditionalSkipReasonException) {
                 conditionalSkipReason = ((ConditionalSkipReasonException) throwable).getConditionalSkipReason();
             } else if (throwable instanceof NoInternetConnection) {
-                DownloadLinkCandidateResult ret = new DownloadLinkCandidateResult(RESULT.CONNECTION_ISSUES, throwable, pluginHost);
+                DownloadLinkCandidateResult ret = new DownloadLinkCandidateResult(RESULT.CONNECTION_ISSUES, throwable,
+                                                                                  pluginHost);
                 ret.setWaitTime(JsonConfig.create(GeneralSettings.class).getNetworkIssuesTimeout());
                 ret.setMessage(_JDT.T.plugins_errors_nointernetconn());
                 return ret;
+            } else if (throwable instanceof FileNotYetAvailableException) {
+                    DownloadLinkCandidateResult ret = new DownloadLinkCandidateResult(RESULT.CONNECTION_ISSUES, throwable, pluginHost);
+                    ret.setWaitTime(JsonConfig.create(GeneralSettings.class).getWaitTimeBeforeRetry());
+                    ret.setMessage(_JDT.T.plugins_errors_notyetavailablefile());
+                    return ret;
             } else if (throwable instanceof UnknownHostException) {
                 DownloadLinkCandidateResult ret = new DownloadLinkCandidateResult(RESULT.CONNECTION_ISSUES, throwable, pluginHost);
                 ret.setWaitTime(JsonConfig.create(GeneralSettings.class).getNetworkIssuesTimeout());

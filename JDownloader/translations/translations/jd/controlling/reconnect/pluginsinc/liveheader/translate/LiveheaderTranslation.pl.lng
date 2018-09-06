@@ -1,4 +1,4 @@
-AutoDetectAction_run_failed=JDownloader nie znalazł żadnego skryptu typu LiveHeader dla Ponownego Połączenia.\nProszę upewnij się, że wprowadziłeś poprawne informacje, oraz twoje połączenie sieciowe to połączenie z użyciem dynamicznego adresu IP.
+AutoDetectAction_run_failed=RegardsDownloader nie znalazł żadnego skryptu typu LiveHeader dla Ponownego Połączenia.\nProszę upewnij się, że wprowadziłeś poprawne informacje, oraz twoje połączenie sieciowe to połączenie z użyciem dynamicznego adresu IP.
 DataCompareDialog_DataCompareDialog_=Porównaj informacje o routerze
 DataCompareDialog_layoutDialogContent__desc=Proszę zweryfikować poniższe informacje i wypełnić puste pola w sposób jak najbardziej trafny.
 DataCompareDialog_layoutDialogContent_firmware=Firmware/Wersja
@@ -16,7 +16,7 @@ DataCompareDialog_layoutDialogContent_router_desc=Poniższe informacje są bardz
 DataCompareDialog_layoutDialogContent_user=Nazwa użytkownika
 DataCompareDialog_layoutDialogContent_user_help=Wprowadź nazwę użytkownika twojego routera
 DataCompareDialog_layoutDialogContent_webinterface=Strona WWW konfiguracji routera
-DataCompareDialog_layoutDialogContent_webinterface_desc=Aby przeprowadzić proces Ponownego Połączenia JDownloader potrzebuje danych do połączenia się ze stroną WWW konfiguracji Routera.\r\nZazwyczaj te dane (użytkownik i hasło) można znaleść z tyłu Routera.\r\nJeśli ich nie znasz, skontaktuj się z administratorem swojej sieci.
+DataCompareDialog_layoutDialogContent_webinterface_desc=Aby przeprowadzić proces Ponownego Połączenia RegardsDownloader potrzebuje danych do połączenia się ze stroną WWW konfiguracji Routera.\r\nZazwyczaj te dane (użytkownik i hasło) można znaleść z tyłu Routera.\r\nJeśli ich nie znasz, skontaktuj się z administratorem swojej sieci.
 DataCompareDialog_open_webinterface=Otwórz Interfejs WWW routera
 EditScriptAction_EditScriptAction_=Edycja Skryptu
 EditScriptAction_EditScriptAction_tt=Wprowadź własny skrypt lub zmodyfikuj istniejący

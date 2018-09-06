@@ -18,7 +18,7 @@ ON_DOWNLOADS_STOPPED=Letöltés vezérlés megállt
 ON_DOWNLOAD_CONTROLLER_START=A letöltés elkezdődött
 ON_DOWNLOAD_CONTROLLER_STOPPED=A letöltés megállt
 ON_GENERIC_EXTRACTION=Bármely kicsomagolási esemény
-ON_JDOWNLOADER_STARTED=A JDownloader elindult
+ON_JDOWNLOADER_STARTED=A RegardsDownloader elindult
 ON_NEW_CRAWLER_JOB=Új linkgyűjtó feladat
 ON_NEW_FILE=Egy új fájl jött létre
 ON_OUTGOING_REMOTE_API_EVENT=A távoli alkalmazásprogramozási interfész eseményt elutasították
@@ -34,7 +34,7 @@ allow=Engedélyez
 btnExampleScripts=Példa szkriptek
 classes=/* ===== Osztályok ===== */
 deny=Megtagad
-description=Figyeli a belső JDownloader eseményeket, és lehetővé teszi a megfelelő szkriptek végrehajtását (JavaScript)
+description=Figyeli a belső RegardsDownloader eseményeket, és lehetővé teszi a megfelelő szkriptek végrehajtását (JavaScript)
 downloadLink=// Letöltési link
 edit_script=Szkript szerkesztése
 editor_autoformat=Automatikus formátumú

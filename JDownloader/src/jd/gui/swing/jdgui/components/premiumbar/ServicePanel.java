@@ -211,34 +211,34 @@ public class ServicePanel extends JPanel implements MouseListener, AccountToolti
                                         }
 
                                     }
-                                    if (!hasValidAccount && CFG_GUI.CFG.isStatusBarAddPremiumButtonVisible()) {
-                                        ExtButton addPremium = new ExtButton(new AppAction() {
-                                            {
-                                                setName(_GUI.T.StatusBarImpl_add_premium());
-                                            }
-
-                                            @Override
-                                            public void actionPerformed(ActionEvent e) {
-                                                JsonConfig.create(GraphicalUserInterfaceSettings.class).setConfigViewVisible(true);
-                                                JDGui.getInstance().setContent(ConfigurationView.getInstance(), true);
-                                                ConfigurationView.getInstance().setSelectedSubPanel(AccountManagerSettings.class);
-                                                SwingUtilities.invokeLater(new Runnable() {
-
-                                                    @Override
-                                                    public void run() {
-                                                        AddAccountDialog.showDialog(null, null);
-                                                    }
-                                                });
-
-                                            }
-                                        });
-                                        addPremium.setRolloverEffectEnabled(true);
-                                        addPremium.setHorizontalAlignment(SwingConstants.LEFT);
-                                        addPremium.setIcon(new AbstractIcon(IconKey.ICON_ADD, 18));
-                                        // addPremium.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                                        add(addPremium, "height 20!,gapright 10!");
-
-                                    }
+//                                    if (!hasValidAccount && CFG_GUI.CFG.isStatusBarAddPremiumButtonVisible()) {
+//                                        ExtButton addPremium = new ExtButton(new AppAction() {
+//                                            {
+//                                                setName(_GUI.T.StatusBarImpl_add_premium());
+//                                            }
+//
+//                                            @Override
+//                                            public void actionPerformed(ActionEvent e) {
+//                                                JsonConfig.create(GraphicalUserInterfaceSettings.class).setConfigViewVisible(true);
+//                                                JDGui.getInstance().setContent(ConfigurationView.getInstance(), true);
+//                                                ConfigurationView.getInstance().setSelectedSubPanel(AccountManagerSettings.class);
+//                                                SwingUtilities.invokeLater(new Runnable() {
+//
+//                                                    @Override
+//                                                    public void run() {
+//                                                        AddAccountDialog.showDialog(null, null);
+//                                                    }
+//                                                });
+//
+//                                            }
+//                                        });
+//                                        addPremium.setRolloverEffectEnabled(true);
+//                                        addPremium.setHorizontalAlignment(SwingConstants.LEFT);
+//                                        addPremium.setIcon(new AbstractIcon(IconKey.ICON_ADD, 18));
+//                                        // addPremium.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//                                        add(addPremium, "height 20!,gapright 10!");
+//
+//                                    }
                                     revalidate();
                                     repaint();
                                 } catch (final Throwable e) {

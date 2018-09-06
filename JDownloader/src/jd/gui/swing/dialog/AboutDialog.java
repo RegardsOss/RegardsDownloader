@@ -69,7 +69,8 @@ public class AboutDialog extends AbstractDialog<Integer> {
     private int labelHeight;
 
     public AboutDialog() {
-        super(UIOManager.BUTTONS_HIDE_CANCEL | UIOManager.BUTTONS_HIDE_OK | Dialog.STYLE_HIDE_ICON, _GUI.T.jd_gui_swing_components_AboutDialog_title(), null, null, null);
+        super(UIOManager.BUTTONS_HIDE_CANCEL | UIOManager.BUTTONS_HIDE_OK | Dialog.STYLE_HIDE_ICON,
+              _GUI.T.jd_gui_swing_components_AboutDialog_title(), null, null, null);
     }
 
     @Override
@@ -87,41 +88,48 @@ public class AboutDialog extends AbstractDialog<Integer> {
         this.labelHeight = new JLabel("HeightTester").getPreferredSize().height;
         final JPanel contentpane = new JPanel();
 
-        JLabel lbl = new JLabel("JDownloader® 2");
+        JLabel lbl = new JLabel("RegardsDownloader");
         lbl.setFont(lbl.getFont().deriveFont(lbl.getFont().getSize() * 2.0f));
 
         JPanel links = new JPanel(new MigLayout("ins 0", "[]push[]push[]push[]"));
         try {
-            JButton btn = Factory.createButton(_GUI.T.jd_gui_swing_components_AboutDialog_license(), new AbstractIcon(IconKey.ICON_PREMIUM, 16), new ActionListener() {
+            JButton btn = Factory.createButton(_GUI.T.jd_gui_swing_components_AboutDialog_license(),
+                                               new AbstractIcon(IconKey.ICON_PREMIUM, 16), new ActionListener() {
 
-                public void actionPerformed(ActionEvent e) {
-                    String license = JDIO.readFileToString(JDUtilities.getResourceFile("licenses/jdownloader.license"));
-                    try {
-                        ConfirmDialog d = new ConfirmDialog(Dialog.STYLE_LARGE | Dialog.STYLE_HIDE_ICON | UIOManager.BUTTONS_HIDE_CANCEL, _GUI.T.jd_gui_swing_components_AboutDialog_license_title(), license, null, null, null) {
+                        public void actionPerformed(ActionEvent e) {
+                            String license = JDIO
+                                    .readFileToString(JDUtilities.getResourceFile("licenses/jdownloader.license"));
+                            try {
+                                ConfirmDialog d = new ConfirmDialog(
+                                        Dialog.STYLE_LARGE | Dialog.STYLE_HIDE_ICON | UIOManager.BUTTONS_HIDE_CANCEL,
+                                        _GUI.T.jd_gui_swing_components_AboutDialog_license_title(), license, null, null,
+                                        null) {
 
-                            @Override
-                            protected boolean isResizable() {
-                                return true;
+                                    @Override
+                                    protected boolean isResizable() {
+                                        return true;
+                                    }
+
+                                };
+                                d.setPreferredSize(JDGui.getInstance().getMainFrame().getSize());
+
+                                Dialog.getInstance().showDialog(d);
+                            } catch (DialogClosedException e1) {
+                                e1.printStackTrace();
+                            } catch (DialogCanceledException e1) {
+                                e1.printStackTrace();
                             }
+                        }
 
-                        };
-                        d.setPreferredSize(JDGui.getInstance().getMainFrame().getSize());
-
-                        Dialog.getInstance().showDialog(d);
-                    } catch (DialogClosedException e1) {
-                        e1.printStackTrace();
-                    } catch (DialogCanceledException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-
-            });
+                    });
             btn.setBorder(null);
 
             links.add(btn);
-            links.add(new JLink(_GUI.T.jd_gui_swing_components_AboutDialog_homepage(), new AbstractIcon(IconKey.ICON_URL, 16), new URL("http://www.jdownloader.org/home?lng=en")));
-            links.add(new JLink(_GUI.T.jd_gui_swing_components_AboutDialog_forum(), new AbstractIcon(IconKey.ICON_BOARD, 16), new URL("http://board.jdownloader.org")));
-            links.add(new JLink(_GUI.T.jd_gui_swing_components_AboutDialog_contributers(), new AbstractIcon(IconKey.ICON_CONTRIBUTER, 16), new URL("http://jdownloader.org/knowledge/wiki/contributers")));
+            links.add(new JLink(_GUI.T.jd_gui_swing_components_AboutDialog_homepage(),
+                                new AbstractIcon(IconKey.ICON_URL, 16),
+                                new URL("http://www.jdownloader.org/home?lng=en")));
+            //            links.add(new JLink(_GUI.T.jd_gui_swing_components_AboutDialog_forum(), new AbstractIcon(IconKey.ICON_BOARD, 16), new URL("http://board.jdownloader.org")));
+            //            links.add(new JLink(_GUI.T.jd_gui_swing_components_AboutDialog_contributers(), new AbstractIcon(IconKey.ICON_CONTRIBUTER, 16), new URL("http://jdownloader.org/knowledge/wiki/contributers")));
         } catch (MalformedURLException e1) {
             e1.printStackTrace();
         }
@@ -129,7 +137,9 @@ public class AboutDialog extends AbstractDialog<Integer> {
         contentpane.setLayout(new MigLayout("ins 10, wrap 1", "[grow,fill]"));
         contentpane.add(new JLabel(new AbstractIcon(IconKey.ICON_LOGO_JD_LOGO_64_64, -1)), "aligny center, spany 6");
 
-        contentpane.add(lbl, "split 2");
+//        contentpane.add(lbl, "split 2");
+        contentpane.add(lbl, "h 40!");
+        contentpane.add(new JLabel("RegardsDownloader is based uppon JDownloader® 2"), "h 20!");
         // this has been the branch label
         contentpane.add(new JLabel(""), "pushx,growx");
 
@@ -139,7 +149,8 @@ public class AboutDialog extends AbstractDialog<Integer> {
 
         HashMap<String, Object> map = null;
         try {
-            map = JSonStorage.restoreFromString(IO.readFileToString(Application.getResource("build.json")), TypeRef.HASHMAP);
+            map = JSonStorage
+                    .restoreFromString(IO.readFileToString(Application.getResource("build.json")), TypeRef.HASHMAP);
             stats.add(new JLabel(_GUI.T.jd_gui_swing_components_AboutDialog_trademark()), "spanx,alignx center");
             // stats.add(new JLabel(_GUI.T.jd_gui_swing_components_AboutDialog_beta()), "spanx,alignx center");
             // contentpane.add(btn, "aligny center, spany 3");
@@ -194,9 +205,14 @@ public class AboutDialog extends AbstractDialog<Integer> {
         stats.add(disable("Copyright \u00A9 2009-2016 JDownloader Community"));
         try {
             stats.add(new JLabel("Java:"), "");
-            java.lang.management.MemoryUsage memory = java.lang.management.ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
+            java.lang.management.MemoryUsage memory = java.lang.management.ManagementFactory.getMemoryMXBean()
+                    .getHeapMemoryUsage();
             ExtButton comp;
-            stats.add(comp = disable(System.getProperty("java.vendor") + " - " + System.getProperty("java.version") + (Application.is64BitJvm() ? "(64bit)" : "(32bit)") + " (" + SizeFormatter.formatBytes(memory.getUsed()) + "/" + SizeFormatter.formatBytes(memory.getCommitted()) + "/" + SizeFormatter.formatBytes(memory.getMax()) + ")"));
+            stats.add(comp = disable(
+                    System.getProperty("java.vendor") + " - " + System.getProperty("java.version") + (Application
+                            .is64BitJvm() ? "(64bit)" : "(32bit)") + " (" + SizeFormatter.formatBytes(memory.getUsed())
+                            + "/" + SizeFormatter.formatBytes(memory.getCommitted()) + "/" + SizeFormatter
+                            .formatBytes(memory.getMax()) + ")"));
             comp.addActionListener(new ActionListener() {
 
                 @Override
@@ -204,7 +220,8 @@ public class AboutDialog extends AbstractDialog<Integer> {
 
                     CrossSystem.showInExplorer(new File(CrossSystem.getJavaBinary()));
                     try {
-                        java.lang.management.RuntimeMXBean runtimeMxBean = java.lang.management.ManagementFactory.getRuntimeMXBean();
+                        java.lang.management.RuntimeMXBean runtimeMxBean = java.lang.management.ManagementFactory
+                                .getRuntimeMXBean();
                         List<String> arguments = runtimeMxBean.getInputArguments();
                         StringBuilder sb = new StringBuilder();
                         for (String s : arguments) {
@@ -223,7 +240,8 @@ public class AboutDialog extends AbstractDialog<Integer> {
                 }
             });
             try {
-                java.lang.management.RuntimeMXBean runtimeMxBean = java.lang.management.ManagementFactory.getRuntimeMXBean();
+                java.lang.management.RuntimeMXBean runtimeMxBean = java.lang.management.ManagementFactory
+                        .getRuntimeMXBean();
                 List<String> arguments = runtimeMxBean.getInputArguments();
                 StringBuilder sb = new StringBuilder();
                 for (String s : arguments) {
@@ -284,6 +302,7 @@ public class AboutDialog extends AbstractDialog<Integer> {
     private ExtButton disable(final Object object) {
 
         ExtButton ret = new ExtButton(new AppAction() {
+
             {
                 setName(object + "");
             }
@@ -295,7 +314,9 @@ public class AboutDialog extends AbstractDialog<Integer> {
 
                     @Override
                     public AbstractNotifyWindow<?> buildAbstractNotifyWindow() {
-                        return new BasicNotify(_GUI.T.lit_clipboard(), _GUI.T.AboutDialog_actionPerformed_clipboard_(getName()), new AbstractIcon(IconKey.ICON_CLIPBOARD, 20));
+                        return new BasicNotify(_GUI.T.lit_clipboard(),
+                                               _GUI.T.AboutDialog_actionPerformed_clipboard_(getName()),
+                                               new AbstractIcon(IconKey.ICON_CLIPBOARD, 20));
                     }
                 });
 

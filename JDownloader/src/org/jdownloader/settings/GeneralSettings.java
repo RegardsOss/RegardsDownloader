@@ -84,7 +84,7 @@ public interface GeneralSettings extends ConfigInterface {
     @AboutConfig
     @DefaultEnumValue("AUTO")
     @DescriptionForConfigEntry("Delay writes to disk of background tasks")
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     DelayWriteMode getDelayWriteMode();
 
     public void setDelayWriteMode(DelayWriteMode mode);
@@ -215,7 +215,7 @@ public interface GeneralSettings extends ConfigInterface {
     @AboutConfig
     @DescriptionForConfigEntry("How often a Plugin restarts a download if download failed")
     @DefaultIntValue(3)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     int getMaxPluginRetries();
 
     @AboutConfig
@@ -241,8 +241,14 @@ public interface GeneralSettings extends ConfigInterface {
     @DescriptionForConfigEntry("Timeout for network problems")
     @SpinnerValidator(min = 0, max = 1000000)
     @DefaultIntValue(15000)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     int getNetworkIssuesTimeout();
+
+    @AboutConfig
+    @DescriptionForConfigEntry("Waiting time before retrying to download file when it is not yet available")
+    @SpinnerValidator(min = 0, max = 1000000)
+    @DefaultIntValue(60000)
+    int getWaitTimeBeforeRetry();
 
     @AboutConfig
     @DescriptionForConfigEntry("Pause Speed. in Pause Mode we limit speed to this value to keep connections open, but use hardly bandwidth")
@@ -353,7 +359,7 @@ public interface GeneralSettings extends ConfigInterface {
 
     @DefaultBooleanValue(true)
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("Correct paths relative to JDownloader root")
     void setConvertRelativePathsJDRoot(boolean b);
 
@@ -398,6 +404,8 @@ public interface GeneralSettings extends ConfigInterface {
     void setMaxSimultaneDownloadsPerHost(int num);
 
     void setNetworkIssuesTimeout(int timeout);
+
+    void setWaitTimeBeforeRetry(int timeout);
 
     void setPauseSpeed(int kb);
 
@@ -575,7 +583,7 @@ public interface GeneralSettings extends ConfigInterface {
     void setAccountTemporarilyDisabledDefaultTimeout(long ms);
 
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DefaultIntValue(25)
     @DescriptionForConfigEntry("How many entries will be in the download Destination quick selection")
     int getDownloadDestinationHistoryLength();
@@ -599,7 +607,7 @@ public interface GeneralSettings extends ConfigInterface {
     @AboutConfig
     @DefaultBooleanValue(true)
     @DescriptionForConfigEntry("If Enabled, the linkgrabber will detect links that are already in the downloadlist")
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     boolean isDupeManagerEnabled();
 
     void setDupeManagerEnabled(boolean b);
@@ -613,7 +621,7 @@ public interface GeneralSettings extends ConfigInterface {
 
     @AboutConfig
     @DefaultBooleanValue(false)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("The Autosolver is still very buggy. Use at your own risk!")
     boolean isMyJDownloaderCaptchaSolverEnabled();
 
@@ -621,7 +629,7 @@ public interface GeneralSettings extends ConfigInterface {
 
     @AboutConfig
     @DefaultBooleanValue(false)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("Enable shared memory state info.")
     boolean isSharedMemoryStateEnabled();
 
@@ -629,7 +637,7 @@ public interface GeneralSettings extends ConfigInterface {
 
     @AboutConfig
     @DefaultBooleanValue(false)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("Prefer BouncyCastle for TLS")
     boolean isPreferBouncyCastleForTLS();
 

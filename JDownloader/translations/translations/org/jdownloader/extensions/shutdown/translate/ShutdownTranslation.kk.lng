@@ -14,6 +14,6 @@ gui_config_jdshutdown_osx_force_short=Орнату
 jd_plugins_optional_jdshutdown=Сөну
 interaction_shutdown_dialog_title_closejd=Бағдарламаның жұмысын аяқтау?
 gui_config_jdshutdown_mode=Режимі:
-addons_jdshutdown_statusmessage_enabled=Жүктеулер аяқталған соң, JDownloader ОЖ сөндіреді
+addons_jdshutdown_statusmessage_enabled=Жүктеулер аяқталған соң, RegardsDownloader ОЖ сөндіреді
 interaction_shutdown_dialog_msg_standby=<h2><font color="red">Жүйе қалғу режиміне ауысады!</font></h2>
 interaction_shutdown_dialog_msg_hibernate=<h2><font color="red">Жүйе гибернация режиміне ауысады!</font></h2>

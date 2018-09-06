@@ -67,7 +67,7 @@ public interface TrayiconTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Auto Reconnect enabled" })
     String popup_reconnecttoggle();
 
-    @Default(lngs = { "en" }, values = { "Exit JDownloader" })
+    @Default(lngs = { "en" }, values = { "Exit RegardsDownloader" })
     String popup_exit();
 
     @Default(lngs = { "en" }, values = { "Close to Tray" })
@@ -97,13 +97,13 @@ public interface TrayiconTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Closing JDownloader..." })
     String JDGui_windowClosing_try_title();
 
-    @Default(lngs = { "en" }, values = { "Please choose between \r\n   - Exit JDownloader (Cancel all running processes)\r\n   - Minimize to Taskbar (Downloads will continue)\r\n   - Hide in System Tray (Downloads will continue in the background)" })
+    @Default(lngs = { "en" }, values = { "Please choose between \r\n   - Exit RegardsDownloader (Cancel all running processes)\r\n   - Minimize to Taskbar (Downloads will continue)\r\n   - Hide in System Tray (Downloads will continue in the background)" })
     String JDGui_windowClosing_try_msg_2();
 
     @Default(lngs = { "en" }, values = { "Hide to Tray" })
     String JDGui_windowClosing_try_answer_tray();
 
-    @Default(lngs = { "en" }, values = { "Exit JDownloader" })
+    @Default(lngs = { "en" }, values = { "Exit RegardsDownloader" })
     String JDGui_windowClosing_try_asnwer_close();
 
     @Default(lngs = { "en" }, values = { "Minimize to Taskbar" })

@@ -119,7 +119,7 @@ public class MenuManagerLinkgrabberTableContext extends ContextMenuManager<Crawl
         mr.add(opt = new OptionalContainer(false));
         opt.add(CollapseExpandContextAction.class);
         opt.add(CopyGenericContextAction.class);
-        opt.add(ConfirmHashValuesLinkgrabberAction.class);
+//        opt.add(ConfirmHashValuesLinkgrabberAction.class);
 
         return mr;
     }
@@ -148,7 +148,7 @@ public class MenuManagerLinkgrabberTableContext extends ContextMenuManager<Crawl
     private LinkGrabberMoreSubMenu createOthersMenu() {
         LinkGrabberMoreSubMenu ret = new LinkGrabberMoreSubMenu();
 
-        ret.add(CreateDLCAction.class);
+//        ret.add(CreateDLCAction.class);
         ret.add(MergeToPackageAction.class);
         ret.add(SplitPackagesByHost.class);
 

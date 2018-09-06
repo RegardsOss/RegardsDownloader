@@ -74,7 +74,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     @DescriptionForConfigEntry("Refreshrate in ms for the DownloadView")
     @DefaultLongValue(500)
     @SpinnerValidator(min = 50, max = 5000, step = 25)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     public long getDownloadViewRefresh();
 
     FrameStatus getLastFrameStatus();
@@ -92,17 +92,17 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     // @AboutConfig
     // @Description("Enable/Disable the Linkgrabber Sidebar")
     // @DefaultBooleanValue(true)
-    // @RequiresRestart("A JDownloader Restart is Required")
+    // @RequiresRestart("A RegardsDownloader restart is required")
     // boolean isDownloadViewSidebarEnabled();
     //
     // @AboutConfig
     // @Description("Enable/Disable the DownloadView Sidebar QuicktoggleButton")
     // @DefaultBooleanValue(true)
-    // @RequiresRestart("A JDownloader Restart is Required")
+    // @RequiresRestart("A RegardsDownloader restart is required")
     // boolean isDownloadViewSidebarToggleButtonEnabled();
     //
     // @DefaultBooleanValue(true)
-    // @RequiresRestart("A JDownloader Restart is Required")
+    // @RequiresRestart("A RegardsDownloader restart is required")
     // boolean isDownloadViewSidebarVisible();
 
     @AboutConfig
@@ -123,14 +123,14 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     @AboutConfig
     @DefaultBooleanValue(true)
     @DescriptionForConfigEntry("Enable/disable HTML-Flavor(Browser selection) Clipboard monitoring")
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     boolean isClipboardMonitorProcessHTMLFlavor();
 
     void setClipboardMonitorProcessHTMLFlavor(boolean b);
 
     @AboutConfig
     @DescriptionForConfigEntry("Blacklist(regex) of processes to ignore Clipboard monitoring")
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     String[] getClipboardProcessBlacklist();
 
     void setClipboardProcessBlacklist(String[] blackList);
@@ -149,7 +149,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     @AboutConfig
     @DescriptionForConfigEntry("Highlight Table in Downloadview if table is filtered")
     @DefaultBooleanValue(true)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     boolean isFilterHighlightEnabled();
 
     @AboutConfig
@@ -233,7 +233,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     void setOverviewPanelSmartInfoVisible(boolean b);
 
     @DefaultBooleanValue(true)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     boolean isLinkgrabberSidebarVisible();
 
     @DefaultBooleanValue(false)
@@ -266,7 +266,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     @AboutConfig
     @DescriptionForConfigEntry("Highlight Column in Downloadview if table is not in downloadsortorder")
     @DefaultBooleanValue(true)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     boolean isSortColumnHighlightEnabled();
 
     @AboutConfig
@@ -282,7 +282,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     @AboutConfig
     @DescriptionForConfigEntry("If true, java will try to use D3D for graphics")
     @DefaultBooleanValue(false)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     boolean isUseD3D();
 
     public void setUseD3D(boolean b);
@@ -371,7 +371,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     @AboutConfig
     @DefaultIntValue(2000)
     @SpinnerValidator(min = 50, max = 5000, step = 50)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     int getTooltipDelay();
 
     void setTooltipDelay(int t);
@@ -397,7 +397,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
 
     @DefaultBooleanValue(true)
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     boolean isFileCountInSizeColumnVisible();
 
     void setFileCountInSizeColumnVisible(boolean b);
@@ -427,7 +427,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     }
 
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     SIZEUNIT getMaxSizeUnit();
 
     void setMaxSizeUnit(SIZEUNIT sizeUnit);
@@ -530,7 +530,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
 
     void setHorizontalScrollbarsInLinkgrabberTableEnabled(boolean b);
 
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DefaultBooleanValue(true)
     @DescriptionForConfigEntry("The row that is 'touched' by the mouse cursor gets a darker shadow")
     @AboutConfig
@@ -538,7 +538,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
 
     void setTableMouseOverHighlightEnabled(boolean b);
 
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DefaultBooleanValue(true)
     @DescriptionForConfigEntry("Packages get a different background color if enabled")
     @AboutConfig
@@ -547,7 +547,7 @@ public interface GraphicalUserInterfaceSettings extends ConfigInterface {
     void setPackagesBackgroundHighlightEnabled(boolean b);
 
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DefaultEnumValue("BLACK_STAR")
     LookAndFeelType getLookAndFeelTheme();
 

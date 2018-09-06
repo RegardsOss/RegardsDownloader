@@ -24,14 +24,14 @@ public interface InternetConnectionSettings extends ConfigInterface {
     @DescriptionForConfigEntry("Timeout for connecting to a httpserver")
     @SpinnerValidator(min = 0, max = 600000)
     @DefaultIntValue(20000)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     int getHttpConnectTimeout();
 
     @AboutConfig
     @DescriptionForConfigEntry("Timeout for reading from a httpserver")
     @SpinnerValidator(min = 0, max = 600000)
     @DefaultIntValue(60000)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     int getHttpReadTimeout();
 
     void setHttpConnectTimeout(int seconds);
@@ -61,7 +61,7 @@ public interface InternetConnectionSettings extends ConfigInterface {
 
     @AboutConfig
     @DefaultBooleanValue(true)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("Proxy Vole is used to autodetect your proxy settings. If you know how to setup your proxy, you can disable this.")
     boolean isProxyVoleAutodetectionEnabled();
 

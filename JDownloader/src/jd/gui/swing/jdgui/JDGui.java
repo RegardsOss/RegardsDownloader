@@ -1829,7 +1829,7 @@ public class JDGui implements UpdaterListener, OwnerFinder {
     }
 
     protected void updateTitle() {
-        String title = "JDownloader 2";
+        String title = "RegardsDownloader";
         title = generateTitle(title);
         getMainFrame().setTitle(title);
     }

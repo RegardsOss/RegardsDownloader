@@ -12,7 +12,7 @@ public interface RemoteAPIConfig extends ConfigInterface {
 
     @DefaultBooleanValue(true)
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("ExternInterface(Cnl2,Flashgot) will listen on 9666")
     boolean isExternInterfaceEnabled();
 
@@ -20,7 +20,7 @@ public interface RemoteAPIConfig extends ConfigInterface {
 
     @DefaultBooleanValue(true)
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("ExternInterface(Cnl2,Flashgot) will listen on localhost only")
     boolean isExternInterfaceLocalhostOnly();
 

@@ -356,10 +356,10 @@ public class SettingsSidebarModel extends DefaultListModel implements GenericCon
             public void run() {
                 try {
                     synchronized (lock) {
-                        boolean withExtensions = finalWithExtensions;
-                        if (SecondLevelLaunch.EXTENSIONS_LOADED.isReached()) {
-                            withExtensions = true;
-                        }
+                        boolean withExtensions = false;
+//                        if (SecondLevelLaunch.EXTENSIONS_LOADED.isReached()) {
+//                            withExtensions = true;
+//                        }
                         LazyExtension extract = null;
                         try {
                             if (withExtensions) {
@@ -380,23 +380,23 @@ public class SettingsSidebarModel extends DefaultListModel implements GenericCon
 
                         edtAllElement(getConfigPanelGeneral());
 
-                        edtAllElement(getReconnectSettings());
+//                        edtAllElement(getReconnectSettings());
 
                         edtAllElement(getProxyConfig());
 
-                        edtAllElement(getAccountManagerSettings());
+//                        edtAllElement(getAccountManagerSettings());
 
                         edtAllElement(getBasicAuthentication());
 
-                        edtAllElement(getPluginSettings());
+//                        edtAllElement(getPluginSettings());
 
-                        edtAllElement(getAntiCaptchaConfigPanel());
+//                        edtAllElement(getAntiCaptchaConfigPanel());
 
                         edtAllElement(getGUISettings());
 
                         edtAllElement(getNotifierConfigPanel());
 
-                        edtAllElement(getMyJDownloaderPanel());
+//                        edtAllElement(getMyJDownloaderPanel());
 
                         edtAllElement(getLinkgrabber());
 
@@ -406,7 +406,7 @@ public class SettingsSidebarModel extends DefaultListModel implements GenericCon
                             edtAllElement(finalExtract);
                         }
                         edtAllElement(JDGui.getInstance().getTray());
-                        edtAllElement(getAdvancedSettings());
+//                        edtAllElement(getAdvancedSettings());
                         if (withExtensions) {
                             final AtomicBoolean firstExtension = new AtomicBoolean(true);
                             List<Object> pluginsOptional = new ArrayList<Object>();

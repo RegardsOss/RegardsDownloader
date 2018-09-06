@@ -11,10 +11,10 @@ import org.jdownloader.plugins.components.youtube.variants.VariantGroup;
 @Defaults(lngs = { "en" })
 public interface GuiTranslation extends TranslateInterface {
 
-    @Default(lngs = { "en" }, values = { "About JDownloader" })
+    @Default(lngs = { "en" }, values = { "About RegardsDownloader" })
     String action_aboutaction();
 
-    @Default(lngs = { "en" }, values = { "About JDownloader" })
+    @Default(lngs = { "en" }, values = { "About RegardsDownloader" })
     String action_aboutaction_tooltip();
 
     @Default(lngs = { "en" }, values = { "Add a new Premium Account" })
@@ -36,7 +36,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Exit" })
     String action_exit();
 
-    @Default(lngs = { "en" }, values = { "Exit JDownloader" })
+    @Default(lngs = { "en" }, values = { "Exit RegardsDownloader" })
     String action_exit_tooltip();
 
     @Default(lngs = { "en" }, values = { "Help" })
@@ -60,7 +60,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Restart" })
     String action_restart();
 
-    @Default(lngs = { "en" }, values = { "Restart JDownloader" })
+    @Default(lngs = { "en" }, values = { "Restart RegardsDownloader" })
     String action_restart_tooltip();
 
     // action_//
@@ -106,10 +106,10 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Enter Captcha for %s1 to continue!" })
     String gui_captchaWindow_askForInput(String hoster);
 
-    @Default(lngs = { "en", "de" }, values = { "Enable shared IP workaround?", "Aktiviere shared IP workaround?\r\nSofern du deine share-online Accounts mit einem VPN benutzt oder mit Freunden teilst kann dieser von share-online temporär gesperrt werden.\r\nEr wird dann normalerweise auch in JDownloader temporär deaktiviert.\r\nDiese Einstellung bewirkt, dass der Account aktiv bleibt und die Downloads nach einiger Zeit erneut versucht werden." })
+    @Default(lngs = { "en", "de" }, values = { "Enable shared IP workaround?", "Aktiviere shared IP workaround?\r\nSofern du deine share-online Accounts mit einem VPN benutzt oder mit Freunden teilst kann dieser von share-online temporär gesperrt werden.\r\nEr wird dann normalerweise auch in RegardsDownloader temporär deaktiviert.\r\nDiese Einstellung bewirkt, dass der Account aktiv bleibt und die Downloads nach einiger Zeit erneut versucht werden." })
     String gui_plugin_settings_share_online_shared_ip_workaround();
 
-    @Default(lngs = { "en", "de" }, values = { "Enable traffic workaround?", "Aktiviere traffic workaround?\r\nShare-Online.biz hat ein premium fair-use-Limit von 100 GB pro Tag - danach kann man gedrosselt weiter herunterladen.\r\nNormalerweise deaktiviert JDownloader Accounts ohne Traffic - wenn aktiviert werden betroffene share-online Accounts in diesem Fall trotzdem weiter verwendet." })
+    @Default(lngs = { "en", "de" }, values = { "Enable traffic workaround?", "Aktiviere traffic workaround?\r\nShare-Online.biz hat ein premium fair-use-Limit von 100 GB pro Tag - danach kann man gedrosselt weiter herunterladen.\r\nNormalerweise deaktiviert RegardsDownloader Accounts ohne Traffic - wenn aktiviert werden betroffene share-online Accounts in diesem Fall trotzdem weiter verwendet." })
     String gui_plugin_settings_share_online_traffic_workaround();
 
     @Default(lngs = { "en", "de" }, values = { "Prefer HTTPS communication?\r\nOnly available for premium user and will be limited in speed.", "Bevorzuge sichere Kommunikation per HTTPS?\r\nVerringert die Downloadgeschwindigkeit und ist nur für Premium Nutzer verfügbar!" })
@@ -260,10 +260,10 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Show license" })
     String jd_gui_swing_components_AboutDialog_license();
 
-    @Default(lngs = { "en" }, values = { "JDownloader License" })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader License" })
     String jd_gui_swing_components_AboutDialog_license_title();
 
-    @Default(lngs = { "en" }, values = { "About JDownloader" })
+    @Default(lngs = { "en" }, values = { "About RegardsDownloader" })
     String jd_gui_swing_components_AboutDialog_title();
 
     @Default(lngs = { "en" }, values = { "Name:" })
@@ -308,7 +308,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Username:" })
     String jd_gui_swing_dialog_ProxyDialog_username();
 
-    @Default(lngs = { "en" }, values = { "This option needs a JDownloader restart." })
+    @Default(lngs = { "en" }, values = { "This option needs a RegardsDownloader restart." })
     String jd_gui_swing_jdgui_settings_ConfigPanel_restartquestion();
 
     @Default(lngs = { "en" }, values = { "Restart NOW!" })
@@ -320,7 +320,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Settings" })
     String jd_gui_swing_jdgui_views_configurationview_tab_title();
 
-    @Default(lngs = { "en" }, values = { "All options and settings for JDownloader" })
+    @Default(lngs = { "en" }, values = { "All options and settings for RegardsDownloader" })
     String jd_gui_swing_jdgui_views_configurationview_tab_tooltip();
 
     @Default(lngs = { "en" }, values = { "Download" })
@@ -475,7 +475,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Check Account" })
     String accountdialog_check();
 
-    @Default(lngs = { "en" }, values = { "JDownloader checks if logins are correct" })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader checks if logins are correct" })
     String accountdialog_check_msg();
 
     @Default(lngs = { "en" }, values = { "Cannot add Account because %s1" })
@@ -659,7 +659,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Continue" })
     String AddLinksDialog_AddLinksDialog_confirm();
 
-    @Default(lngs = { "en" }, values = { "JDownloader helps you to parse text or websites for links. Enter Links, URLs, Websites, or text below, \r\nchoose a Download Destination, and click 'Start Analyse'. \r\nAll 'downloadable' Files will be listed in the the Linkgrabber view afterwards." })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader helps you to parse text or websites for links. Enter Links, URLs, Websites, or text below, \r\nchoose a Download Destination, and click 'Start Analyse'. \r\nAll 'downloadable' Files will be listed in the the Linkgrabber view afterwards." })
     String AddLinksDialog_layoutDialogContent_description();
 
     @Default(lngs = { "en" }, values = { "Enter Links, URLs, Websites, or any other text here..." })
@@ -668,7 +668,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Please choose Download Destination here." })
     String AddLinksDialog_layoutDialogContent_save_tt();
 
-    @Default(lngs = { "en" }, values = { "Choose a Package Name for the Downloads above. If empty, JDownloader will create Packages based on the filenames" })
+    @Default(lngs = { "en" }, values = { "Choose a Package Name for the Downloads above. If empty, RegardsDownloader will create Packages based on the filenames" })
     String AddLinksDialog_layoutDialogContent_package_tt();
 
     @Default(lngs = { "en" }, values = { "Enter a Package name, or leave empty for auto mode" })
@@ -716,7 +716,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Extraction Activity" })
     String StatusBarImpl_initGUI_extract();
 
-    @Default(lngs = { "en" }, values = { "JDownloader is crawling links for you. Open Linkgrabber to see the results." })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader is crawling links for you. Open Linkgrabber to see the results." })
     String StatusBarImpl_initGUI_linkgrabber_desc();
 
     @Default(lngs = { "en" }, values = { " - idle - " })
@@ -776,7 +776,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Automatic Proxy Detection" })
     String ProxyAutoAction_actionPerformed_d_title();
 
-    @Default(lngs = { "en" }, values = { "Please wait. JDownloader tries to find the correct settings for your internet connection. \r\nThis may take several minutes." })
+    @Default(lngs = { "en" }, values = { "Please wait. RegardsDownloader tries to find the correct settings for your internet connection. \r\nThis may take several minutes." })
     String AutoDetectAction_actionPerformed_d_msg();
 
     @Default(lngs = { "en" }, values = { "It seems that you are using a Direct Modem Connection to access the internet.\r\nReconnect for Modem Connections have to be set up manually.\r\n\r\nDo you use a Router or a Modem to connect to the internet?" })
@@ -809,7 +809,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Optimize Reconnect - Do tests to improve timing ..." })
     String AutoDetectAction_actionPerformed_dooptimization_title();
 
-    @Default(lngs = { "en" }, values = { "JDownloader found %s1 working Reconnect Script(s). \r\nTo improve Reconnect Timings, you should do some automatic tests runs. These tests would take about %s2. \r\nIf you skip this step, your current Reconnect Settings will need about %s3 to perform a successful Reconnect." })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader found %s1 working Reconnect Script(s). \r\nTo improve Reconnect Timings, you should do some automatic tests runs. These tests would take about %s2. \r\nIf you skip this step, your current Reconnect Settings will need about %s3 to perform a successful Reconnect." })
     String AutoDetectAction_actionPerformed_dooptimization_msg(int scriptNum, String optiDuration, String bestDuration);
 
     @Default(lngs = { "en" }, values = { "Continue" })
@@ -821,7 +821,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Found successful Script" })
     String LiveHeaderDetectionWizard_testList_firstSuccess_title();
 
-    @Default(lngs = { "en" }, values = { "JDownloader found a working Reconnect Script. \r\nGetting a new IP took %s1 with this Script. \r\nThere might be a faster one. Do you want JDownloader to continue scanning for faster scripts?" })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader found a working Reconnect Script. \r\nGetting a new IP took %s1 with this Script. \r\nThere might be a faster one. Do you want RegardsDownloader to continue scanning for faster scripts?" })
     String LiveHeaderDetectionWizard_testList_firstsuccess_msg(String time);
 
     @Default(lngs = { "en" }, values = { "Yes, please try it!" })
@@ -1130,7 +1130,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Avoid %s1 Captchas" })
     String PremiumInfoDialog_PremiumInfoDialog_(String tld);
 
-    @Default(lngs = { "en" }, values = { "JDownloader is able to auto recognize most of the Captchas out there.\r\nHowever, %s1 unfortunately uses a Captcha Type which cannot be recognized.\r\nTo download without interruptions, we recommend to use %s1's Premium Mode." })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader is able to auto recognize most of the Captchas out there.\r\nHowever, %s1 unfortunately uses a Captcha Type which cannot be recognized.\r\nTo download without interruptions, we recommend to use %s1's Premium Mode." })
     String PremiumInfoDialog_layoutDialogContent_explain(String name);
 
     @Default(lngs = { "en" }, values = { "Unlimited Downloadspeed - use your full Internet Bandwidth!" })
@@ -1677,7 +1677,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Autostart Downloads" })
     String gui_config_download_autostart();
 
-    @Default(lngs = { "en" }, values = { "Choose if, and when JDownloader should start pending downloads without user interaction..." })
+    @Default(lngs = { "en" }, values = { "Choose if, and when RegardsDownloader should start pending downloads without user interaction..." })
     String gui_config_download_autostart_desc();
 
     @Default(lngs = { "en" }, values = { "Checking for Updates" })
@@ -1686,7 +1686,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Password required" })
     String JDGui_setVisible_password_();
 
-    @Default(lngs = { "en" }, values = { "Enter the Password to open JDownloader:" })
+    @Default(lngs = { "en" }, values = { "Enter the Password to open RegardsDownloader:" })
     String JDGui_setVisible_password_msg();
 
     @Default(lngs = { "en" }, values = { "The entered Password was wrong!" })
@@ -1707,13 +1707,13 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Stop Mark for Download Links" })
     String StopsignAction_actionPerformed_help_title_();
 
-    @Default(lngs = { "en" }, values = { "If you set a Stop Mark on a Download Link, JDownloader will stop downloading after this file has been loaded.\r\nIf you want to download until this Package is finished, you should set the Stop Mark on the Package instead." })
+    @Default(lngs = { "en" }, values = { "If you set a Stop Mark on a Download Link, RegardsDownloader will stop downloading after this file has been loaded.\r\nIf you want to download until this Package is finished, you should set the Stop Mark on the Package instead." })
     String StopsignAction_actionPerformed_help_msg_();
 
     @Default(lngs = { "en" }, values = { "Stop Mark for Packages" })
     String StopsignAction_actionPerformed_help_title_package_();
 
-    @Default(lngs = { "en" }, values = { "If you set a Stop Mark on a Package, JDownloader will stop downloading after all files in this Package have finished." })
+    @Default(lngs = { "en" }, values = { "If you set a Stop Mark on a Package, RegardsDownloader will stop downloading after all files in this Package have finished." })
     String StopsignAction_actionPerformed_help_msg_package_();
 
     @Default(lngs = { "en" }, values = { "Save DLC File to..." })
@@ -1782,7 +1782,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Add a Premium Account" })
     String BuyAndAddPremiumAccount_BuyAndAddPremiumAccount_title_();
 
-    @Default(lngs = { "en" }, values = { "JDownloader downloads as fast as possible.\r\nHowever, %s1 seems to limit the speed in free mode.\r\nTo download without interruptions and full speed, we recommend to use %s1's Premium Mode." })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader downloads as fast as possible.\r\nHowever, %s1 seems to limit the speed in free mode.\r\nTo download without interruptions and full speed, we recommend to use %s1's Premium Mode." })
     String SpeedColumn_getDescription_object_(String tld);
 
     @Default(lngs = { "en" }, values = { "Speed Alarm for %s1" })
@@ -1800,7 +1800,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "The current IP is blocked by %s1" })
     String TaskColumn_onSingleClick_object_(String host);
 
-    @Default(lngs = { "en" }, values = { "%s1 has blocked your current IP (Internet Address).\r\nIn many cases, JDownloader is able to do a Reconnect and get a new IP.\r\nIf this is not possible, we recommend to use %s1's Premium Mode." })
+    @Default(lngs = { "en" }, values = { "%s1 has blocked your current IP (Internet Address).\r\nIn many cases, RegardsDownloader is able to do a Reconnect and get a new IP.\r\nIf this is not possible, we recommend to use %s1's Premium Mode." })
     String TaskColumn_getDescription_object_(String tld);
 
     @Default(lngs = { "en" }, values = { "Premium Alerts" })
@@ -1845,13 +1845,13 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Restart Required!" })
     String GUISettings_save_language_changed_restart_required_title();
 
-    @Default(lngs = { "en" }, values = { "You have to restart JDownloader for a language change. Restart now?" })
+    @Default(lngs = { "en" }, values = { "You have to restart RegardsDownloader for a language change. Restart now?" })
     String GUISettings_save_language_changed_restart_required_msg();
 
     @Default(lngs = { "en" }, values = { "Nothing found!" })
     String AddLinksAction_actionPerformed_deep_title();
 
-    @Default(lngs = { "en" }, values = { "JDownloader couldn't find any links to download on this website.\r\nWould you like to perform a deep link analysis to show all the files that can be downloaded from it?" })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader couldn't find any links to download on this website.\r\nWould you like to perform a deep link analysis to show all the files that can be downloaded from it?" })
     String AddLinksAction_actionPerformed_deep_msg();
 
     @Default(lngs = { "en" }, values = { "Download can be resumed" })
@@ -1911,7 +1911,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "If there ever has been any warranty for anything, it ends here!" })
     String AdvancedSettings_onShow_title_();
 
-    @Default(lngs = { "en" }, values = { "These advanced settings should not be modified unless you know what you are doing. \r\nChanging them may affect stability, security and performance of JDownloader.\r\nYou have been warned." })
+    @Default(lngs = { "en" }, values = { "These advanced settings should not be modified unless you know what you are doing. \r\nChanging them may affect stability, security and performance of RegardsDownloader.\r\nYou have been warned." })
     String AdvancedSettings_onShow_msg_();
 
     @Default(lngs = { "en" }, values = { "Filter Settings" })
@@ -1932,7 +1932,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "We need your help" })
     String JDGui_showStatsDialog_title_();
 
-    @Default(lngs = { "en" }, values = { "To get a even better user experience in JDownloader 2,\r\nwe need some information about how you use JDownloader, which features you like, and which not.\r\nTo get this information, JDownloader will collect anonymous usage statistics. We understand that there might be users that do not want this. \r\nYou can disable the Stats Manager in the Advanced Settings at any time.\r\n\r\nIf you have any questions about this, feel free to contact our Developer Team in our Support Chat. " })
+    @Default(lngs = { "en" }, values = { "To get a even better user experience in RegardsDownloader 2,\r\nwe need some information about how you use RegardsDownloader, which features you like, and which not.\r\nTo get this information, RegardsDownloader will collect anonymous usage statistics. We understand that there might be users that do not want this. \r\nYou can disable the Stats Manager in the Advanced Settings at any time.\r\n\r\nIf you have any questions about this, feel free to contact our Developer Team in our Support Chat. " })
     String JDGui_showStatsDialog_message_();
 
     @Default(lngs = { "en" }, values = { "I want to help" })
@@ -2142,7 +2142,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Start Downloads" })
     String ForceDownloadAction_actionPerformed_help_title_();
 
-    @Default(lngs = { "en" }, values = { "...you just forced JDownloader to start the selected Link(s) as soon as possible.\r\nThis ignores all limitations you set up (e.g. Maximum simultane Downloads).\r\nIf you just want to start all Downloads from top to bottom, you should use the 'Start Downloads' Button (The Playback Icon) in the Toolbar above." })
+    @Default(lngs = { "en" }, values = { "...you just forced RegardsDownloader to start the selected Link(s) as soon as possible.\r\nThis ignores all limitations you set up (e.g. Maximum simultane Downloads).\r\nIf you just want to start all Downloads from top to bottom, you should use the 'Start Downloads' Button (The Playback Icon) in the Toolbar above." })
     String ForceDownloadAction_actionPerformed_help_msg_();
 
     @Default(lngs = { "en" }, values = { "Download is waiting for a prioritized start" })
@@ -2157,13 +2157,13 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Unskip Download" })
     String ForceDownloadAction_UnskipDownloadAction();
 
-    @Default(lngs = { "en" }, values = { "Move downloaded Files to Trash & remove Links from JDownloader" })
+    @Default(lngs = { "en" }, values = { "Move downloaded Files to Trash & remove Links from RegardsDownloader" })
     String ConfirmDeleteLinksDialog_layoutDialogContent_Recycle_2();
 
-    @Default(lngs = { "en" }, values = { "Delete downloaded Files permanently from harddisk & remove Links from JDownloader" })
+    @Default(lngs = { "en" }, values = { "Delete downloaded Files permanently from harddisk & remove Links from RegardsDownloader" })
     String ConfirmDeleteLinksDialog_layoutDialogContent_delete_2();
 
-    @Default(lngs = { "en" }, values = { "Keep all downloaded Files - just remove Links from JDownloader" })
+    @Default(lngs = { "en" }, values = { "Keep all downloaded Files - just remove Links from RegardsDownloader" })
     String ConfirmDeleteLinksDialog_layoutDialogContent_no_filedelete2();
 
     @Default(lngs = { "en" }, values = { "\r\n%s1 Links(s) to delete\r\n%s4 Files(%s2) on Disk\r\nLinks left in Downloadlist: %s3" })
@@ -2184,7 +2184,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Right Click Menu: Linkgrabber Table" })
     String gui_config_menumanager_linkgrabber();
 
-    @Default(lngs = { "en" }, values = { "You can customize many menus in JDownloader - Main Toolbar, Context menus,..." })
+    @Default(lngs = { "en" }, values = { "You can customize many menus in RegardsDownloader - Main Toolbar, Context menus,..." })
     String gui_config_menumanager_desc();
 
     @Default(lngs = { "en" }, values = { "Advanced Options to add Links..." })
@@ -2367,7 +2367,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "User Interface" })
     String GUISettings_getTitle();
 
-    @Default(lngs = { "en" }, values = { "Customize JDownloader -  Mofify the User Interface, Menus, Language, ... whatever" })
+    @Default(lngs = { "en" }, values = { "Customize RegardsDownloader -  Mofify the User Interface, Menus, Language, ... whatever" })
     String GUISettings_GUISettings_description();
 
     @Default(lngs = { "en" }, values = { "Tray Menu" })
@@ -2379,7 +2379,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Restart required for %s1" })
     String AdvancedConfigEntry_setValue_restart_warning_title(String key);
 
-    @Default(lngs = { "en" }, values = { "You changed the %s1-option. You have to restart JDownloader to reinitialize this option." })
+    @Default(lngs = { "en" }, values = { "You changed the %s1-option. You have to restart RegardsDownloader to reinitialize this option." })
     String AdvancedConfigEntry_setValue_restart_warning(String key);
 
     @Default(lngs = { "en" }, values = { "Enable/Disable captcha handling" })
@@ -2509,7 +2509,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "My.JDownloader" })
     String MyJDownloaderSettingsPanel_MyJDownloaderSettingsPanel_title_();
 
-    @Default(lngs = { "en" }, values = { "Sign up for an account at my.jdownloader.org, and access a lot of premium features like a JDownloader Remotecontrol via a Webinterface for your Browser, or apps for Android, IPhone and WindowsPhone" })
+    @Default(lngs = { "en" }, values = { "Sign up for an account at my.jdownloader.org, and access a lot of premium features like a RegardsDownloader Remotecontrol via a Webinterface for your Browser, or apps for Android, IPhone and WindowsPhone" })
     String MyJDownloaderSettingsPanel_MyJDownloaderSettingsPanel_description();
 
     @Default(lngs = { "en" }, values = { "Go to My.JDownloader.org" })
@@ -2560,7 +2560,7 @@ public interface GuiTranslation extends TranslateInterface {
     // String MyJDownloaderSettingsPanel_MyJDownloaderSettingsPanel_autoconnect_();
 
     // TODO Remove unused code found by UCDetector
-    // @Default(lngs = { "en" }, values = { "Auto connect on JDownloader start" })
+    // @Default(lngs = { "en" }, values = { "Auto connect on RegardsDownloader start" })
     // String MyJDownloaderSettingsPanel_MyJDownloaderSettingsPanel_autoconnect_tt();
 
     // TODO Remove unused code found by UCDetector
@@ -2574,13 +2574,13 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Save Changes" })
     String MyJDownloaderSettingsPanel_MyJDownloaderSettingsPanel_reconnect_();
 
-    @Default(lngs = { "en" }, values = { "Enter the device name of this JDownloader instance. You can manage different JDownloader instances in one My.JDownloader Account." })
+    @Default(lngs = { "en" }, values = { "Enter the device name of this RegardsDownloader instance. You can manage different RegardsDownloader instances in one My.RegardsDownloader Account." })
     String MyJDownloaderSettingsPanel_MyJDownloaderSettingsPanel_jd_name();
 
     @Default(lngs = { "en" }, values = { "Device Name" })
     String MyJDownloaderSettingsPanel_MyJDownloaderSettingsPanel_devicename_();
 
-    @Default(lngs = { "en" }, values = { "Enter your My.JDownloader Logins below. If you do not have an account yet, click the Link above and register for an account. It's free!" })
+    @Default(lngs = { "en" }, values = { "Enter your My.RegardsDownloader Logins below. If you do not have an account yet, click the Link above and register for an account. It's free!" })
     String MyJDownloaderSettingsPanel_MyJDownloaderSettingsPanel_jd_logins();
 
     @Default(lngs = { "en" }, values = { "Updates available!" })
@@ -2643,7 +2643,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Silent Mode" })
     String GUISettings_GUISettings_sielntMode();
 
-    @Default(lngs = { "en" }, values = { "If the Silentmode is enabled, you will not get any Popup, Dialogs, Captcharequests or other notifications unless JDownloader is your active Window." })
+    @Default(lngs = { "en" }, values = { "If the Silentmode is enabled, you will not get any Popup, Dialogs, Captcharequests or other notifications unless RegardsDownloader is your active Window." })
     String GUISettings_GUISettings_sielntMode_description();
 
     @Default(lngs = { "en" }, values = { "according to %s1 specifications" })
@@ -2730,16 +2730,16 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "an Update is ready for installation" })
     String plugins_optional_JDLightTray_ballon_updates2();
 
-    @Default(lngs = { "en" }, values = { "JDownloader Updates available!" })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader Updates available!" })
     String balloon_updates();
 
-    @Default(lngs = { "en" }, values = { "New Updates for JDownloader are available.\r\nClick here to start Installation!" })
+    @Default(lngs = { "en" }, values = { "New Updates for RegardsDownloader are available.\r\nClick here to start Installation!" })
     String balloon_updates_msg();
 
     @Default(lngs = { "en" }, values = { "during a Reconnect" })
     String plugins_optional_JDLightTray_ballon_reconnectstart3();
 
-    @Default(lngs = { "en" }, values = { "JDownloader Reconnect" })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader Reconnect" })
     String balloon_reconnect();
 
     @Default(lngs = { "en" }, values = { "Bubble Settings" })
@@ -2778,7 +2778,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Plugins" })
     String PluginSettings_getTitle();
 
-    @Default(lngs = { "en" }, values = { "Many services ask you to enter a so called 'Captcha'. Usually, a captcha is a tiny image that contains a few letters. You have to type these letters to proove that you are human. JDownloader will try to solve these captchas without asking you. However, there are captchas that are too hard to read for JDownloader - thus JD will ask you." })
+    @Default(lngs = { "en" }, values = { "Many services ask you to enter a so called 'Captcha'. Usually, a captcha is a tiny image that contains a few letters. You have to type these letters to proove that you are human. RegardsDownloader will try to solve these captchas without asking you. However, there are captchas that are too hard to read for RegardsDownloader - thus JD will ask you." })
     String AntiCaptchaConfigPanel_onShow_description();
 
     @Default(lngs = { "en" }, values = { "Play Notify Sound for Captchas" })
@@ -2832,13 +2832,13 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "List crawler" })
     String NinekwService_createPanel_btnUserDebug3crawler();
 
-    @Default(lngs = { "en" }, values = { "List all Linkhoster from JDownloader." })
+    @Default(lngs = { "en" }, values = { "List all Linkhoster from RegardsDownloader." })
     String NinekwService_createPanel_btnUserDebug3crawler_tooltiptext();
 
     @Default(lngs = { "en" }, values = { "List hoster" })
     String NinekwService_createPanel_btnUserDebug3hoster();
 
-    @Default(lngs = { "en" }, values = { "List all Downloadhoster from JDownloader." })
+    @Default(lngs = { "en" }, values = { "List all Downloadhoster from RegardsDownloader." })
     String NinekwService_createPanel_btnUserDebug3hoster_tooltiptext();
 
     @Default(lngs = { "en" }, values = { "Clear log" })
@@ -3342,7 +3342,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Delete Links: " })
     String GenericDeleteSelectedToolbarAction_updateName_object();
 
-    @Default(lngs = { "en" }, values = { "Below, all premium accounts and the 'free download' option for %s1 are listed. You can set up a custom order here. JDownloader will try to use the account(s) in the first group for downloading. If all Accounts in the first group fail, it will try the second group, and so on. If there are several accounts in one group, the group's 'Distribution Rule' will be used to select the next account." })
+    @Default(lngs = { "en" }, values = { "Below, all premium accounts and the 'free download' option for %s1 are listed. You can set up a custom order here. RegardsDownloader will try to use the account(s) in the first group for downloading. If all Accounts in the first group fail, it will try the second group, and so on. If there are several accounts in one group, the group's 'Distribution Rule' will be used to select the next account." })
     String EditHosterRuleDialog_layoutDialogContent_description_(String hoster);
 
     @Default(lngs = { "en" }, values = { "Remove group" })
@@ -3642,7 +3642,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Filesize is not available/known yet" })
     String SizeColumn_getSizeString_zero_tt();
 
-    @Default(lngs = { "en" }, values = { "Captcha solved by My.JDownloader Remote Applications (Webinterface,Mobile Apps,...)" })
+    @Default(lngs = { "en" }, values = { "Captcha solved by My.RegardsDownloader Remote Applications (Webinterface,Mobile Apps,...)" })
     String MyJDownloaderService_getDescription_tt_();
 
     @Default(lngs = { "en" }, values = { "Captchas solved by the 9kw.eu Captcha Exchange System" })
@@ -3651,16 +3651,16 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Always" })
     String BubbleNotifyConfigPanel_BubbleNotifyConfigPanel_always();
 
-    @Default(lngs = { "en" }, values = { "Only if JDownloader is not the active application" })
+    @Default(lngs = { "en" }, values = { "Only if RegardsDownloader is not the active application" })
     String BubbleNotifyConfigPanel_BubbleNotifyConfigPanel_jdnotactive();
 
-    @Default(lngs = { "en" }, values = { "Only if JDownloader is minimized to tray or taskbar" })
+    @Default(lngs = { "en" }, values = { "Only if RegardsDownloader is minimized to tray or taskbar" })
     String BubbleNotifyConfigPanel_BubbleNotifyConfigPanel_trayortask();
 
-    @Default(lngs = { "en" }, values = { "Only if JDownloader is minimized to taskbar" })
+    @Default(lngs = { "en" }, values = { "Only if RegardsDownloader is minimized to taskbar" })
     String BubbleNotifyConfigPanel_BubbleNotifyConfigPanel_taskbar();
 
-    @Default(lngs = { "en" }, values = { "Only if JDownloader is minimized to tray" })
+    @Default(lngs = { "en" }, values = { "Only if RegardsDownloader is minimized to tray" })
     String BubbleNotifyConfigPanel_BubbleNotifyConfigPanel_tray();
 
     @Default(lngs = { "en" }, values = { "Never" })
@@ -3675,7 +3675,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Memory Problem detected!" })
     String MEMORY_RESTART_TITLE();
 
-    @Default(lngs = { "en" }, values = { "It seems that there is a memory Problem. A Restart of JDownloader is required to fix this problem.\r\nIf even 2 restarts do not fix it, please visit our support chat." })
+    @Default(lngs = { "en" }, values = { "It seems that there is a memory Problem. A Restart of RegardsDownloader is required to fix this problem.\r\nIf even 2 restarts do not fix it, please visit our support chat." })
     String MEMORY_RESTART_MSG();
 
     @Default(lngs = { "en" }, values = { "Restart" })
@@ -3966,7 +3966,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "FFmpeg is missing!" })
     String FFMpegInstallTypeChooserDialog_FFMpegInstallTypeChooserDialog_title();
 
-    @Default(lngs = { "en" }, values = { "<html>To %s1, the \"Third party\" application FFmpeg™ is required.FFmpeg™ is a leading multimedia application that can be started by JDownloader to merge video and audio streams and vice versa. Unfortunately, JDownloader could not find FFmpeg™ installed on your system.</html>" })
+    @Default(lngs = { "en" }, values = { "<html>To %s1, the \"Third party\" application FFmpeg™ is required.FFmpeg™ is a leading multimedia application that can be started by RegardsDownloader to merge video and audio streams and vice versa. Unfortunately, RegardsDownloader could not find FFmpeg™ installed on your system.</html>" })
     String FFMpegInstallTypeChooserDialog_FFMpegInstallTypeChooserDialog_message_parameterd_2(String str);
 
     @Default(lngs = { "en" }, values = { "Ok, but what now?" })
@@ -3997,13 +3997,13 @@ public interface GuiTranslation extends TranslateInterface {
     // String FFMpegInstallTypeChooserDialog_FFMpegInstallTypeChooserDialog_message_install();
 
     // TODO Remove unused code found by UCDetector
-    // @Default(lngs = { "en" }, values = { "Tell JDownloader the Installation Location" })
+    // @Default(lngs = { "en" }, values = { "Tell RegardsDownloader the Installation Location" })
     // String FFMpegInstallTypeChooserDialog_FFMpegInstallTypeChooserDialog_message_path();
 
     @Default(lngs = { "en" }, values = { "What's the matter?" })
     String FFMpegInstallTypeChooserDialog_layoutDialogContent_problem();
 
-    @Default(lngs = { "en" }, values = { "<html>If you want JDownloader to download and install the required official FFmpeg™ Package, please click [Install FFmpeg™ now].</html>" })
+    @Default(lngs = { "en" }, values = { "<html>If you want RegardsDownloader to download and install the required official FFmpeg™ Package, please click [Install FFmpeg™ now].</html>" })
     String FFMpegInstallTypeChooserDialog_FFMpegInstallTypeChooserDialog_solve2();
 
     // TODO Remove unused code found by UCDetector
@@ -4097,9 +4097,9 @@ public interface GuiTranslation extends TranslateInterface {
     // TODO Remove unused code found by UCDetector
     // @Default(lngs = { "en" }, values = {
     // "<html><b>JDownloader</b> has partnered with the <b>Open Source Research Group at Friedrich-Alexander University
-    // Erlangen-Nürnberg</b> to conduct a series of surveys. The research is intended to improve the JDownloader experience and/or promote
+    // Erlangen-Nürnberg</b> to conduct a series of surveys. The research is intended to improve the RegardsDownloader experience and/or promote
     // academic research into applied software development. There is no financial motivation behind this collaboration, but the whole
-    // JDownloader Project will profit from the survey results.<br>Please consider taking a moment to support this research.</html>"
+    // RegardsDownloader Project will profit from the survey results.<br>Please consider taking a moment to support this research.</html>"
     // })
     // String osr_dialog_message();
 
@@ -4164,7 +4164,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Done - %s1!" })
     String ConvertCLRAction_actionPerformed_finished_title(String lh);
 
-    @Default(lngs = { "en" }, values = { "Please copy & paste your script to the JDownloader Liveheader reconnect Section." })
+    @Default(lngs = { "en" }, values = { "Please copy & paste your script to the RegardsDownloader Liveheader reconnect Section." })
     String ConvertCLRAction_actionPerformed_finished_msg();
 
     @Default(lngs = { "en" }, values = { "Adopt Checksums" })
@@ -4267,7 +4267,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Create a Link for the best Subtitles" })
     String YoutubeDashConfigPanel_allowedtypoes_best_subtitle();
 
-    @Default(lngs = { "en" }, values = { "<html>If you want JDownloader to create more links besides the 'Best Quality Links', you can set this up below.</html>" })
+    @Default(lngs = { "en" }, values = { "<html>If you want RegardsDownloader to create more links besides the 'Best Quality Links', you can set this up below.</html>" })
     String YoutubeDashConfigPanel_YoutubeDashConfigPanel_extra_desc();
 
     @Default(lngs = { "en" }, values = { "Paste Links (Deep Crawler)" })
@@ -4773,7 +4773,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "%s1 Free Download" })
     String PluginForHost_showFreeDialog_title(String domain);
 
-    @Default(lngs = { "en" }, values = { "You are using the %s1 Free Mode.\r\nJDownloader always tries to get the best out of each hoster's free mode!\r\n\r\n                           However, if you want to download multiple files\r\n                        - possibly at fullspeed and without any wait times - \r\n                        you really should have a look at the Premium Mode.\r\n\r\nIn our experience, Premium is well worth the money. Decide for yourself, though. Let's give it a try?" })
+    @Default(lngs = { "en" }, values = { "You are using the %s1 Free Mode.\r\nRegardsDownloader always tries to get the best out of each hoster's free mode!\r\n\r\n                           However, if you want to download multiple files\r\n                        - possibly at fullspeed and without any wait times - \r\n                        you really should have a look at the Premium Mode.\r\n\r\nIn our experience, Premium is well worth the money. Decide for yourself, though. Let's give it a try?" })
     String PluginForHost_showFreeDialog_message(String domain);
 
     @Default(lngs = { "en" }, values = { "192kbit/s M4A-Audio" })
@@ -4818,7 +4818,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "We need your help!" })
     String UploadSessionLogDialog_UploadSessionLogDialog_object_title2();
 
-    @Default(lngs = { "en" }, values = { "A unknown problem occured while downloading a file. To solve this problem, we need more details about the reason. JDownloader is able to collect all required informations about the bug automatically. Please help us to fix that problem as soon as possible by sending these informations." })
+    @Default(lngs = { "en" }, values = { "A unknown problem occured while downloading a file. To solve this problem, we need more details about the reason. RegardsDownloader is able to collect all required informations about the bug automatically. Please help us to fix that problem as soon as possible by sending these informations." })
     String UploadSessionLogDialog_UploadSessionLogDialog_object_msg2();
 
     @Default(lngs = { "en" }, values = { "I want to help! Continue." })
@@ -4848,7 +4848,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Collect & Upload Bug Information" })
     String StatsManager_run_upload_error_title();
 
-    @Default(lngs = { "en" }, values = { "Please wait.\r\nJDownloader is collecting information about the download problem." })
+    @Default(lngs = { "en" }, values = { "Please wait.\r\nRegardsDownloader is collecting information about the download problem." })
     String StatsManager_run_upload_error_message();
 
     @Default(lngs = { "en" }, values = { "Thank you for contributing. Your Error-Code is %s1" })
@@ -4963,7 +4963,7 @@ public interface GuiTranslation extends TranslateInterface {
 
     // TODO Remove unused code found by UCDetector
     // @Default(lngs = { "en" }, values = {
-    // "If this proxy does not work with certain domains, JDownloader will ban the proxy for a few minutes. If the proxy is banned right
+    // "If this proxy does not work with certain domains, RegardsDownloader will ban the proxy for a few minutes. If the proxy is banned right
     // now, you will see an entry here."
     // })
     // String proxyDetailsDialog_white_bans_explain();
@@ -5022,11 +5022,11 @@ public interface GuiTranslation extends TranslateInterface {
 
     // TODO Remove unused code found by UCDetector
     // @Default(lngs = { "en" }, values = {
-    // "To download through Premium Accounts, JDownloader requires at least one active Gateway or Proxy!" })
+    // "To download through Premium Accounts, RegardsDownloader requires at least one active Gateway or Proxy!" })
     // String proxytablemodel_atleastone_premium();
 
     // TODO Remove unused code found by UCDetector
-    // @Default(lngs = { "en" }, values = { "To download, JDownloader requires at least one active Gateway or Proxy!" })
+    // @Default(lngs = { "en" }, values = { "To download, RegardsDownloader requires at least one active Gateway or Proxy!" })
     // String proxytablemodel_atleastone_free();
 
     // TODO Remove unused code found by UCDetector
@@ -5103,13 +5103,13 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "The file %s1 exists. Do you want to overwrite it?" })
     String file_exists_want_to_overwrite_question(String filename);
 
-    @Default(lngs = { "en" }, values = { "To create a backup of all settings, JDownloader has to restart. Continue?" })
+    @Default(lngs = { "en" }, values = { "To create a backup of all settings, RegardsDownloader has to restart. Continue?" })
     String BackupCreateAction_run_restart_ask();
 
     @Default(lngs = { "en" }, values = { "Open" })
     String lit_open();
 
-    @Default(lngs = { "en" }, values = { "To restore a backup, JDownloader has to restart.\r\nIf you load a backup, JDownloader will replace all current settings and linklists with the one from the backup file.\r\nHowever, JDownloader will create an auto-backup of the current settings in %s1 before the restore process.\r\nContinue?" })
+    @Default(lngs = { "en" }, values = { "To restore a backup, RegardsDownloader has to restart.\r\nIf you load a backup, RegardsDownloader will replace all current settings and linklists with the one from the backup file.\r\nHowever, RegardsDownloader will create an auto-backup of the current settings in %s1 before the restore process.\r\nContinue?" })
     String BackupRestoreAction_run_restart_ask(String autobackuppath);
 
     @Default(lngs = { "en" }, values = { "First Steps: Packagizer" })
@@ -5196,13 +5196,13 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Display or copy Url types" })
     String UrlColumn_onDoubleClick_help_title();
 
-    @Default(lngs = { "en" }, values = { "JDownloader knows several Url types. It's up to you which address is shown, and which will be copied to the clipboard.\r\nYou can set up the display order in      Settings -> Advanced -> GeneralSettings: Url Display Order" })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader knows several Url types. It's up to you which address is shown, and which will be copied to the clipboard.\r\nYou can set up the display order in      Settings -> Advanced -> GeneralSettings: Url Display Order" })
     String UrlColumn_onDoubleClick_help_msg();
 
-    @Default(lngs = { "en" }, values = { "JDownloader Look And Feel Update" })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader Look And Feel Update" })
     String LookAndFeelController_handleThemesInstallation_title_();
 
-    @Default(lngs = { "en" }, values = { "You changed the JDownloader Look&Feel to %s1. This Look&Feel is not installed. Do you want to install it now? \r\n\r\nPlease note, \r\nthat you may have to change several colors in the Advanced Settings to make JDownloader look good after the Look&Feel change.\r\nPlease press [OK] to continue the Look&Feel Installation, or [CANCEL] to reset the Look&Feel to default. " })
+    @Default(lngs = { "en" }, values = { "You changed the RegardsDownloader Look&Feel to %s1. This Look&Feel is not installed. Do you want to install it now? \r\n\r\nPlease note, \r\nthat you may have to change several colors in the Advanced Settings to make RegardsDownloader look good after the Look&Feel change.\r\nPlease press [OK] to continue the Look&Feel Installation, or [CANCEL] to reset the Look&Feel to default. " })
     String LookAndFeelController_handleThemesInstallation_message_(String type);
 
     @Default(lngs = { "en" }, values = { "Click to open the Account Usage Rules Settings Panel" })
@@ -5217,7 +5217,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Downloadlink address display" })
     String GUISettings_GUISettings_object_urls();
 
-    @Default(lngs = { "en" }, values = { "When you add links, JDownloader starts a crawling process and tries to find every downloadable content. Each resulting Downloadlink thus may contain several addresses(urls). By ordering the list below, you can tell JDownloader which address to show. Please note that all types except the Data-Address are optional. The first type has the highest priority." })
+    @Default(lngs = { "en" }, values = { "When you add links, RegardsDownloader starts a crawling process and tries to find every downloadable content. Each resulting Downloadlink thus may contain several addresses(urls). By ordering the list below, you can tell RegardsDownloader which address to show. Please note that all types except the Data-Address are optional. The first type has the highest priority." })
     String GUISettings_GUISettings_object_urls_description();
 
     @Default(lngs = { "en" }, values = { "Address(Url) type" })
@@ -5325,7 +5325,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "720p 60fps" })
     String YoutubeVariant_filenametag_WEBM_720_60FPS();
 
-    @Default(lngs = { "en" }, values = { "There are several ways to solve a captcha in JDownloader. You can change the general order/priority of these \"Solvers\" and the time a solver waits for its predecessors.\r\nExample:\r\nBy default, the manual Dialog solvers wait upto 60 seconds for all automated solvers." })
+    @Default(lngs = { "en" }, values = { "There are several ways to solve a captcha in RegardsDownloader. You can change the general order/priority of these \"Solvers\" and the time a solver waits for its predecessors.\r\nExample:\r\nBy default, the manual Dialog solvers wait upto 60 seconds for all automated solvers." })
     String CaptchaConfigPanel_order_description();
 
     @Default(lngs = { "en" }, values = { "Captcha Solver Priority" })
@@ -5343,7 +5343,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Manual Captcha Solving in Browser" })
     String BrowserSolverService_getName();
 
-    @Default(lngs = { "en" }, values = { "Dialog (Window) in JDownloader" })
+    @Default(lngs = { "en" }, values = { "Dialog (Window) in RegardsDownloader" })
     String DialogBasicCaptchaSolver_gettypeName();
 
     @Default(lngs = { "en" }, values = { "Dialog (Window) in Browser(Chrome, Firefox, Internet Explorer,..." })
@@ -5487,10 +5487,10 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Event Scripter" })
     String ExtensionController_initUninstalledExtensions_EventScripterExtension();
 
-    @Default(lngs = { "en" }, values = { "Listens to internal JDownloader event, and allows to execute relevant scripts (Javascript). This makes JDownloader even more customizable." })
+    @Default(lngs = { "en" }, values = { "Listens to internal RegardsDownloader event, and allows to execute relevant scripts (Javascript). This makes RegardsDownloader even more customizable." })
     String ExtensionController_initUninstalledExtensions_EventScripterExtension_description();
 
-    @Default(lngs = { "en" }, values = { "%s1\r\n\r\nThis extension is not installed yet. Click [Install now], and JDownloader will start the installation immediately" })
+    @Default(lngs = { "en" }, values = { "%s1\r\n\r\nThis extension is not installed yet. Click [Install now], and RegardsDownloader will start the installation immediately" })
     String UninstalledExtension_getDescription_object_(String description);
 
     @Default(lngs = { "en" }, values = { "Installation in Progress" })
@@ -5499,19 +5499,19 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Install now" })
     String UninstalledExtension_getPanel_();
 
-    @Default(lngs = { "en" }, values = { "Please restart JDownloader to finish the installation." })
+    @Default(lngs = { "en" }, values = { "Please restart RegardsDownloader to finish the installation." })
     String UninstalledExtension_waiting_for_restart();
 
     @Default(lngs = { "en" }, values = { "Support Chat" })
     String ExtensionController_initUninstalledExtensions_JDChat();
 
-    @Default(lngs = { "en" }, values = { "Contact JDownloader Developers and Supporters" })
+    @Default(lngs = { "en" }, values = { "Contact RegardsDownloader Developers and Supporters" })
     String ExtensionController_initUninstalledExtensions_JDChat_description();
 
     @Default(lngs = { "en" }, values = { "Folder Watch" })
     String ExtensionController_initUninstalledExtensions_FolderWatchExtension();
 
-    @Default(lngs = { "en" }, values = { "Add Links to JDownloader just by putting Linklist files (*.crawljob) in a special folder on your harddisk." })
+    @Default(lngs = { "en" }, values = { "Add Links to RegardsDownloader just by putting Linklist files (*.crawljob) in a special folder on your harddisk." })
     String ExtensionController_initUninstalledExtensions_FolderWatchExtension_description();
 
     @Default(lngs = { "en" }, values = { "Scheduler" })
@@ -5523,7 +5523,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Translator" })
     String ExtensionController_initUninstalledExtensions_TranslatorExtension();
 
-    @Default(lngs = { "en" }, values = { "This Extension can be used to edit JDownloader translations. You need a developer account to use this extension. If you do not want to translate, but just change the current language, please do NOT install this extension, but click on 'User Interface'->'Language' above." })
+    @Default(lngs = { "en" }, values = { "This Extension can be used to edit RegardsDownloader translations. You need a developer account to use this extension. If you do not want to translate, but just change the current language, please do NOT install this extension, but click on 'User Interface'->'Language' above." })
     String ExtensionController_initUninstalledExtensions_TranslatorExtension_description();
 
     @Default(lngs = { "en" }, values = { "Not installed yet" })
@@ -5622,10 +5622,10 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Contribute" })
     String DonateAction();
 
-    @Default(lngs = { "en" }, values = { "Contribute (Donate) to the JDownloader development" })
+    @Default(lngs = { "en" }, values = { "Contribute (Donate) to the RegardsDownloader development" })
     String DonateAction_tt();
 
-    @Default(lngs = { "en" }, values = { "The JDownloader project needs your help!" })
+    @Default(lngs = { "en" }, values = { "The RegardsDownloader project needs your help!" })
     String DonationDialog_DonationDialog_title_();
 
     @Default(lngs = { "en" }, values = { "Donate now" })
@@ -5658,7 +5658,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Donating is disabled right now. Please try again later..." })
     String DonationDialog_layoutDialogContent_donation_disabled();
 
-    @Default(lngs = { "en" }, values = { "If you are a satisfied user of JDownloader, please think about contributing to this project. JDownloader is the result of daily hard work since more than 8 years. We need your help to keep it free of charge, free of advertising, free of installer bundles and to improve JDownloader even more. Moreover, donating is a good way to tell us what modules we should focus our work on." })
+    @Default(lngs = { "en" }, values = { "If you are a satisfied user of RegardsDownloader, please think about contributing to this project. RegardsDownloader is the result of daily hard work since more than 8 years. We need your help to keep it free of charge, free of advertising, free of installer bundles and to improve RegardsDownloader even more. Moreover, donating is a good way to tell us what modules we should focus our work on." })
     String DonationDialog_layoutDialogContent_top_text();
 
     @Default(lngs = { "en" }, values = { "Thank you for contributing!" })
@@ -5703,7 +5703,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "We need your help!" })
     String StatsManager_StatsManager_advanced_survey_title();
 
-    @Default(lngs = { "en" }, values = { "We would like to improve the settings panels and to create a setup wizard that guides you through the most important settings. To do this, we need to know which options are used most.\r\nYou can help us by allowing JDownloader to send a list of all options that have been changed by you. This does not contain any personal data. Click [Show List] if you want to check the list before sending it." })
+    @Default(lngs = { "en" }, values = { "We would like to improve the settings panels and to create a setup wizard that guides you through the most important settings. To do this, we need to know which options are used most.\r\nYou can help us by allowing RegardsDownloader to send a list of all options that have been changed by you. This does not contain any personal data. Click [Show List] if you want to check the list before sending it." })
     String StatsManager_StatsManager_advanced_survey_msg();
 
     @Default(lngs = { "en" }, values = { "Send list now!" })
@@ -5796,7 +5796,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "The donation has been cancelled.\r\nPlease help us by telling us what happened and why you cancelled the donation:" })
     String DonateFeedback_reportCanceled_title_message();
 
-    @Default(lngs = { "en" }, values = { "The module %s2 does not work properly.\r\nIt seems that there is a problem with the installation directory of JDownloader.\r\nPlease make sure that the installation directory dies not contain any special chars.\r\nYour Installation Directory: %s1" })
+    @Default(lngs = { "en" }, values = { "The module %s2 does not work properly.\r\nIt seems that there is a problem with the installation directory of RegardsDownloader.\r\nPlease make sure that the installation directory dies not contain any special chars.\r\nYour Installation Directory: %s1" })
     String special_char_lib_loading_problem(String dir, String module);
 
     @Default(lngs = { "en" }, values = { "Youtube offers video streams up to a resolution of 4320p. If you want to download these streams, please uncheck the box below." })
@@ -5820,7 +5820,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "New Feature: Browser Loop" })
     String RecaptchaV1Handler_load_help__title();
 
-    @Default(lngs = { "en" }, values = { "JDownloader just opened your browser, did some captcha magic and closed it a few seconds later. Thanks to this 'Browser Loop', JD is able to show you captchas that are much easier to read and solve. If you do not want to use this new feature, click [Disable Browser Loop]. You can enable or disable the browser loop at any time in the advanced options." })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader just opened your browser, did some captcha magic and closed it a few seconds later. Thanks to this 'Browser Loop', JD is able to show you captchas that are much easier to read and solve. If you do not want to use this new feature, click [Disable Browser Loop]. You can enable or disable the browser loop at any time in the advanced options." })
     String RecaptchaV1Handler_load_help_msg();
 
     @Default(lngs = { "en" }, values = { "Keep Browser Loop enabled" })
@@ -5895,7 +5895,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "My.JDownloader" })
     String MyJDownloaderView_title();
 
-    @Default(lngs = { "en" }, values = { "Use a My.JDownloader.org account to access advanced JDownloader features and full remote control." })
+    @Default(lngs = { "en" }, values = { "Use a My.JDownloader.org account to access advanced RegardsDownloader features and full remote control." })
     String MyJDownloaderView_tooltip();
 
     @Default(lngs = { "en" }, values = { "Save & Close" })
@@ -5931,16 +5931,16 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Remote Control" })
     String RemoteControlPanel_title();
 
-    @Default(lngs = { "en" }, values = { "Via My.JDownloader, you can control your JDownloader from almost everywhere you want. Just install one of our mobile apps or visit the webinterface. Use your My.JDownloader account to establish a connection between your JDownloader and your remote control device." })
+    @Default(lngs = { "en" }, values = { "Via My.JDownloader, you can control your RegardsDownloader from almost everywhere you want. Just install one of our mobile apps or visit the webinterface. Use your My.RegardsDownloader account to establish a connection between your RegardsDownloader and your remote control device." })
     String RemoteControlPanel_description();
 
-    @Default(lngs = { "en" }, values = { "The Webinterface is developed by the JDownloader Team. Open http://my.jdownloader.org in any modern browser you want, log in and control the most important parts of JDownloader in your browser. This includes download list, linkgrabber, confirm dialogs, captcha windows..." })
+    @Default(lngs = { "en" }, values = { "The Webinterface is developed by the RegardsDownloader Team. Open http://my.jdownloader.org in any modern browser you want, log in and control the most important parts of RegardsDownloader in your browser. This includes download list, linkgrabber, confirm dialogs, captcha windows..." })
     String RemoteControlPanel_Webinterface();
 
-    @Default(lngs = { "en" }, values = { "The mobile apps grant you almost full control over most JDownloader features. Whenever your JDownloader needs you, e.g. to enter a captcha code, the apps will notify you. Add links, start or stop downloads, answer dialogs or captchas, and much more.\r\nPlease note that only the android app is developed by the JDownloader Team. For iOS and Windows phone, there are 3rd-party applications." })
+    @Default(lngs = { "en" }, values = { "The mobile apps grant you almost full control over most RegardsDownloader features. Whenever your RegardsDownloader needs you, e.g. to enter a captcha code, the apps will notify you. Add links, start or stop downloads, answer dialogs or captchas, and much more.\r\nPlease note that only the android app is developed by the RegardsDownloader Team. For iOS and Windows phone, there are 3rd-party applications." })
     String RemoteControlPanel_mobile_desc();
 
-    @Default(lngs = { "en" }, values = { "Open the Android Playstore\r\nDeveloper: JDownloader Team" })
+    @Default(lngs = { "en" }, values = { "Open the Android Playstore\r\nDeveloper: RegardsDownloader Team" })
     String RemoteControlPanel_android_open();
 
     @Default(lngs = { "en" }, values = { "Open the iTunes Store\r\nDeveloper: Oliver Fürst" })
@@ -5949,19 +5949,19 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Open File.recon Website\r\nDeveloper: Christof Rakowski" })
     String RemoteControlPanel_file_recon_open();
 
-    @Default(lngs = { "en" }, values = { "Open the Webinterface\r\nDeveloper: JDownloader Team" })
+    @Default(lngs = { "en" }, values = { "Open the Webinterface\r\nDeveloper: RegardsDownloader Team" })
     String RemoteControlPanel_website_open();
 
-    @Default(lngs = { "en" }, values = { "This extension intergrates JDownloader into your Chrome Browser. It enables you to send links, selections and image urls directly to one of your connected JDownloader." })
+    @Default(lngs = { "en" }, values = { "This extension intergrates RegardsDownloader into your Chrome Browser. It enables you to send links, selections and image urls directly to one of your connected JDownloader." })
     String RemoteControlPanel_browser_extension_desc();
 
-    @Default(lngs = { "en" }, values = { "Open the Chrome Extension Webstore\r\nDeveloper: JDownloader Team" })
+    @Default(lngs = { "en" }, values = { "Open the Chrome Extension Webstore\r\nDeveloper: RegardsDownloader Team" })
     String RemoteControlPanel_chrome_open();
 
-    @Default(lngs = { "en" }, values = { "Open the Firefox Add-ons\r\nDeveloper: JDownloader Team" })
+    @Default(lngs = { "en" }, values = { "Open the Firefox Add-ons\r\nDeveloper: RegardsDownloader Team" })
     String RemoteControlPanel_firefox_open();
 
-    @Default(lngs = { "en" }, values = { "Open the My.JDownloader Panel" })
+    @Default(lngs = { "en" }, values = { "Open the My.RegardsDownloader Panel" })
     String action_myjdownloader_menu_tooltip();
 
     @Default(lngs = { "en" }, values = { "My.JDownloader" })
@@ -5979,16 +5979,16 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "New payment options available!" })
     String donation_news_title();
 
-    @Default(lngs = { "en" }, values = { "JDownloader 1 import?" })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader 1 import?" })
     String jd1_import_title();
 
-    @Default(lngs = { "en" }, values = { "JDownloader 2 import?" })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader 2 import?" })
     String jd2_import_title();
 
-    @Default(lngs = { "en" }, values = { "Import %s1 package(s) and %s2 link(s) from JDownloader 1 to" })
+    @Default(lngs = { "en" }, values = { "Import %s1 package(s) and %s2 link(s) from RegardsDownloader 1 to" })
     String jd1_import_message(int numberOfPackages, int numberOfLinks);
 
-    @Default(lngs = { "en" }, values = { "Import %s1 package(s) and %s2 link(s) from JDownloader 2 to %s3" })
+    @Default(lngs = { "en" }, values = { "Import %s1 package(s) and %s2 link(s) from RegardsDownloader 2 to %s3" })
     String jd2_import_message(int numberOfPackages, int numberOfLinks, String destination);
 
     @Default(lngs = { "en" }, values = { "EndCaptcha.com" })
@@ -6042,13 +6042,13 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "... Force Start" })
     String ConfirmSelectionBarAction_sub_button_add_and_force_all();
 
-    @Default(lngs = { "en" }, values = { "Ary ou sure? You are trying to disable all premium accounts.\r\nIf you continue, JDownloader will NOT use your premium accounts unless you re-enable this feature." })
+    @Default(lngs = { "en" }, values = { "Ary ou sure? You are trying to disable all premium accounts.\r\nIf you continue, RegardsDownloader will NOT use your premium accounts unless you re-enable this feature." })
     String are_you_sure_disabled_premium();
 
-    @Default(lngs = { "en" }, values = { "Premium Account usage enabled. If you add a premium account, JDownloader will use it." })
+    @Default(lngs = { "en" }, values = { "Premium Account usage enabled. If you add a premium account, RegardsDownloader will use it." })
     String Premium_enabled_button_tooltip_selected();
 
-    @Default(lngs = { "en" }, values = { "Premium Account usage disabled!. JDownloader will not use ANY accounts to download." })
+    @Default(lngs = { "en" }, values = { "Premium Account usage disabled!. RegardsDownloader will not use ANY accounts to download." })
     String Premium_enabled_button_tooltip_not_selected();
 
     @Default(lngs = { "en" }, values = { "Stop all running downloads" })
@@ -6114,7 +6114,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Loading Menu & Toolbar..." })
     String MenuBar_loading();
 
-    @Default(lngs = { "en" }, values = { "MyJDownloader Download list right click menu Manager" })
+    @Default(lngs = { "en" }, values = { "MyRegardsDownloader Download list right click menu Manager" })
     String MenuManagerMYJDDownloadTableContext_getName();
 
     @Default(lngs = { "en" }, values = { "Remote Menu Manager" })
@@ -6150,7 +6150,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Speech2Text" })
     String lit_speedtotext();
 
-    @Default(lngs = { "en" }, values = { "Furthermore, JDownloader makes use of several 3rd party resources and libraries." })
+    @Default(lngs = { "en" }, values = { "Furthermore, RegardsDownloader makes use of several 3rd party resources and libraries." })
     String about_3rdparty();
 
     @Default(lngs = { "en" }, values = { "Router IP" })
@@ -6282,7 +6282,7 @@ public interface GuiTranslation extends TranslateInterface {
 
     String YOUTUBE_CONFIG_PANEL_TABLE_RESOLUTION();
 
-    @Default(lngs = { "en" }, values = { "Please choose which media file combination your are interested in.\r\nExample: If JDownloader should not even offer you any 3gp videos or subtitles, simply disable these types below." })
+    @Default(lngs = { "en" }, values = { "Please choose which media file combination your are interested in.\r\nExample: If RegardsDownloader should not even offer you any 3gp videos or subtitles, simply disable these types below." })
     String YoutubeDashConfigPanel_allowedtypoes_quick();
 
     @Default(lngs = { "en" }, values = { "Let's get into detail. This table shows you all media file options remaining from your selection above. If there is anything left you do not want, simple disable it by clicking the checkbox.\r\nMerge ID:\r\nYou will not see all of these variants in the linkgrabber because several variants will be encapsulated according to their Merge ID. For each unique Merge ID, there will be one entry, that contains the best variant available." })
@@ -6311,7 +6311,7 @@ public interface GuiTranslation extends TranslateInterface {
     @Default(lngs = { "en" }, values = { "Quality Rating" })
     String YOUTUBE_CONFIG_PANEL_TABLE_PRIORITY();
 
-    @Default(lngs = { "en" }, values = { "JDownloader will not create an extra link for each of the variants above, but will try to add an link for each of the collection entries below. Each of them is a collection of one or more variants. JDownloader will choose the best of them and add it to the linkgrabber.\r\nHow to see which variants are in a collection -> Select it and the table above will show the contained variants\r\nHow to add a new collection -> Select the desired variants above > right click > Add link collection\r\nHow to delete collections -> right click > Delete" })
+    @Default(lngs = { "en" }, values = { "RegardsDownloader will not create an extra link for each of the variants above, but will try to add an link for each of the collection entries below. Each of them is a collection of one or more variants. RegardsDownloader will choose the best of them and add it to the linkgrabber.\r\nHow to see which variants are in a collection -> Select it and the table above will show the contained variants\r\nHow to add a new collection -> Select the desired variants above > right click > Add link collection\r\nHow to delete collections -> right click > Delete" })
     String YoutubeDashConfigPanel_links_description();
 
     @Default(lngs = { "en" }, values = { "Add a Link Collection" })
@@ -6359,7 +6359,7 @@ public interface GuiTranslation extends TranslateInterface {
 
     String youtube_variant_selection_dialog_title_additional(String title);
 
-    @Default(lngs = { "en" }, values = { "Select at least one new variant. JDownloader will create a new link for every selected entry." })
+    @Default(lngs = { "en" }, values = { "Select at least one new variant. RegardsDownloader will create a new link for every selected entry." })
     String youtube_add_variant_help();
 
     @Default(lngs = { "en" }, values = { "Choose a Variant for %s2 %s1 Link/s" })
@@ -6395,7 +6395,7 @@ public interface GuiTranslation extends TranslateInterface {
 
     String youtube_variant_add_variant_dialog_help();
 
-    @Default(lngs = { "en" }, values = { "Choose at least one Variant. JDownloader then will try to add a new Variant link for each selected video." })
+    @Default(lngs = { "en" }, values = { "Choose at least one Variant. RegardsDownloader then will try to add a new Variant link for each selected video." })
 
     String youtube_add_variants_help(int linksCount);
 

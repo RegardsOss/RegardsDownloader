@@ -1,4 +1,4 @@
-AutoDetectAction_run_failed=JDownloader ne može pronaći LiveHeader skriptu za rekonekciju koja radi.\r\n Molimo provjerite jeste li unijeli točne podatke, i imate li dinamičku IP vezu.
+AutoDetectAction_run_failed=RegardsDownloader ne može pronaći LiveHeader skriptu za rekonekciju koja radi.\r\n Molimo provjerite jeste li unijeli točne podatke, i imate li dinamičku IP vezu.
 BadQueryException=Kriva pretraga.\r\nUvjerite se da uzorak za pretraživanje nije dugačak 1 ili 2 znaka.
 DataCompareDialog_DataCompareDialog_=Usporedi informacije rutera
 DataCompareDialog_layoutDialogContent__desc=Molimo provjerite sljedeće podatke, i pokušajte ispuniti prazna polja što točnije.
@@ -17,7 +17,7 @@ DataCompareDialog_layoutDialogContent_router_desc=Ove informacije su vrlo važne
 DataCompareDialog_layoutDialogContent_user=Korisničko ime
 DataCompareDialog_layoutDialogContent_user_help=Unesite korisničko ime za web sučelje...
 DataCompareDialog_layoutDialogContent_webinterface=Web sučelje rutera
-DataCompareDialog_layoutDialogContent_webinterface_desc=Za izvesti rekonekciju, JDownloader-u treba prijava na ruter preko web sučelja.\r\nObično možete pronaći podatke za prijavu na stražnjoj strani routera.\r\nAko nije poznato, obratite se mrežnom administratoru
+DataCompareDialog_layoutDialogContent_webinterface_desc=Za izvesti rekonekciju, RegardsDownloader-u treba prijava na ruter preko web sučelja.\r\nObično možete pronaći podatke za prijavu na stražnjoj strani routera.\r\nAko nije poznato, obratite se mrežnom administratoru
 DataCompareDialog_open_webinterface=Otvoreno web sučelje
 EditScriptAction_EditScriptAction_=Uredite skriptu
 EditScriptAction_EditScriptAction_add=Nova skripta

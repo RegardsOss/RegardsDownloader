@@ -82,7 +82,7 @@ public interface LinkgrabberSettings extends ConfigInterface {
     void setAutoSwitchToDownloadTableOnConfirmDefaultEnabled(boolean b);
 
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DefaultBooleanValue(true)
     @DescriptionForConfigEntry("If false, The AddLinks Dialog in Linkgrabber works on the pasted text, and does not prefilter URLS any more")
     boolean isAddLinksPreParserEnabled();
@@ -90,7 +90,7 @@ public interface LinkgrabberSettings extends ConfigInterface {
     void setAddLinksPreParserEnabled(boolean b);
 
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DefaultBooleanValue(true)
     @DescriptionForConfigEntry("Selecting Views in Linkgrabber Sidebar autoselects the matching links in the table. Set this to false to avoid this.")
     boolean isQuickViewSelectionEnabled();
@@ -133,7 +133,7 @@ public interface LinkgrabberSettings extends ConfigInterface {
     void setVariousPackageLimit(int b);
 
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("AutoConfirm waits a delay before confirming the links. Default is 15000ms")
     @DefaultIntValue(15000)
     int getAutoConfirmDelay();
@@ -187,7 +187,7 @@ public interface LinkgrabberSettings extends ConfigInterface {
 
     @DefaultBooleanValue(true)
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @org.appwork.storage.config.annotations.DescriptionForConfigEntry("show a restore button for filtered links")
     boolean isRestoreButtonEnabled();
 
@@ -225,7 +225,7 @@ public interface LinkgrabberSettings extends ConfigInterface {
 
     @AboutConfig
     @DefaultIntValue(25)
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("How many entries will be in the Packagename quick selection")
     int getPackageNameHistoryLength();
 
@@ -284,7 +284,7 @@ public interface LinkgrabberSettings extends ConfigInterface {
 
     @AboutConfig
     @DescriptionForConfigEntry("if this value is >0, the subfolder option only will be used if the package contains more than subfolderThreshold value links")
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DefaultIntValue(0)
     int getSubfolderThreshold();
 
@@ -292,7 +292,7 @@ public interface LinkgrabberSettings extends ConfigInterface {
 
     @AboutConfig
     @DefaultEnumValue("NAMES")
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     void setSubfolderCount(SubFolderByPackageRule.COUNT count);
 
     SubFolderByPackageRule.COUNT getSubfolderCount();

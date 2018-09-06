@@ -1,6 +1,6 @@
 JDGui_windowClosing_try_answer_totaskbar=Минимизирай към лентата с задачи
 JDGui_windowClosing_try_answer_tray=Скрий към системната област
-JDGui_windowClosing_try_asnwer_close=Изход от JDownloader
+JDGui_windowClosing_try_asnwer_close=Изход от RegardsDownloader
 OnCloseAction_exit=Изход от приложението
 OnCloseAction_totaskbar=Минимизирай към лентата с задачи
 OnCloseAction_totray=Затвори към системната област
@@ -20,7 +20,7 @@ plugins_optional_trayIcon_eta=Остава:
 plugins_optional_trayIcon_progress=Прогрес:
 plugins_optional_trayIcon_speed=Скорост:
 popup_downloadfolder=Отвори папката за изтегляне
-popup_exit=Изход от JDownloader
+popup_exit=Изход от RegardsDownloader
 popup_pause=Паузирай изтеглянията
 popup_premiumtoggle=Премиум е разрешен
 popup_reconnect=Свържи се повторно сега

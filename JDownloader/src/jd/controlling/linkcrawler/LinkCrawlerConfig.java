@@ -17,7 +17,7 @@ public interface LinkCrawlerConfig extends ConfigInterface {
 
     @DefaultIntValue(12)
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("max. number of linkcrawler threads")
     @SpinnerValidator(min = 1, max = 128)
     int getMaxThreads();
@@ -26,7 +26,7 @@ public interface LinkCrawlerConfig extends ConfigInterface {
 
     @DefaultIntValue(20000)
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("max. time in ms before killing an idle linkcrawler thread")
     int getThreadKeepAlive();
 
@@ -34,7 +34,7 @@ public interface LinkCrawlerConfig extends ConfigInterface {
 
     @DefaultIntValue(2 * 1024 * 1024)
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("max. bytes for page request during deep decrypt")
     @SpinnerValidator(min = 1 * 1024 * 1024, max = 5 * 1024 * 1024)
     int getDeepDecryptLoadLimit();

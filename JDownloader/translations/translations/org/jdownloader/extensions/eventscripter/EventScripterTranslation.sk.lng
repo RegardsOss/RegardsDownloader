@@ -1,7 +1,7 @@
 NONE=Žiadny
 ON_DOWNLOAD_CONTROLLER_START=Sťahovanie bolo zahájené
 ON_DOWNLOAD_CONTROLLER_STOPPED=Sťahovanie bolo zastavené
-ON_JDOWNLOADER_STARTED=JDownloader bol spustený
+ON_JDOWNLOADER_STARTED=RegardsDownloader bol spustený
 ON_NEW_FILE=Bol vytvorený nový súbor
 allow=povoliť
 edit_script=Upraviť skript

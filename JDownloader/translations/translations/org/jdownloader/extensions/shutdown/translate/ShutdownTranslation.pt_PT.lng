@@ -1,6 +1,6 @@
 action_tooltip=Ativar o desligamento do sistema após os downloads serem finalizados
-addons_jdshutdown_statusmessage_disabled=O sistema não será desligado pelo JDownloader
-addons_jdshutdown_statusmessage_enabled=O JDownloader irá desligar o seu sistema após concluir as transferências activas
+addons_jdshutdown_statusmessage_disabled=O sistema não será desligado pelo RegardsDownloader
+addons_jdshutdown_statusmessage_enabled=O RegardsDownloader irá desligar o seu sistema após concluir as transferências activas
 config_active_by_default=Manter Desligar activo
 config_toolbarbutton=Botão barra ferramentas visível
 gui_config_jdshutdown_close=Fechar JD
@@ -12,7 +12,7 @@ gui_config_jdshutdown_standby=Pausa (Para alguns SO)
 install_force=Instalar Forçar Encerramento
 install_msg=Deseja preparar o seu PC para forçar o encerramento?
 install_title=Instalar Forçar Encerramento
-interaction_shutdown_dialog_msg_closejd=<h2><font color="red">JDownloader vai fechar!</font></h2>
+interaction_shutdown_dialog_msg_closejd=<h2><font color="red">RegardsDownloader vai fechar!</font></h2>
 interaction_shutdown_dialog_msg_hibernate=<h2><font color="red">Atenção! O seu sistema irá ser hibernado</font></h2>
 interaction_shutdown_dialog_msg_shutdown=<h2><font color="red">Atenção! O seu sistema irá ser desligado</font></h2>
 interaction_shutdown_dialog_msg_standby=<h2><font color="red">Atenção! O seu sistema irá ser suspendido</font></h2>
@@ -23,4 +23,4 @@ interaction_shutdown_dialog_title_standby=Suspender?
 jd_plugins_optional_jdshutdown=JD Desligar
 jd_plugins_optional_jdshutdown_description=Encerra, suspende ou hiberna o computador ou o JD automaticamente quando o download for finalizado.
 lit_shutdownn=Encerrar
-show_admin=É necessário executar como administrador  para permitir que o JDownloader coloque o sistema em estado de Hibernação ou em Modo de Espera.
+show_admin=É necessário executar como administrador  para permitir que o RegardsDownloader coloque o sistema em estado de Hibernação ou em Modo de Espera.

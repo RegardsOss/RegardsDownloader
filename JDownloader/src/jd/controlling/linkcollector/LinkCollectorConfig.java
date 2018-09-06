@@ -10,7 +10,7 @@ public interface LinkCollectorConfig extends ConfigInterface {
 
     @DefaultBooleanValue(true)
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("check links for on/offline status")
     boolean getDoLinkCheck();
 
@@ -18,7 +18,7 @@ public interface LinkCollectorConfig extends ConfigInterface {
 
     @DefaultBooleanValue(true)
     @AboutConfig
-    @RequiresRestart("A JDownloader Restart is Required")
+    @RequiresRestart("A RegardsDownloader restart is required")
     @DescriptionForConfigEntry("use top(true) or bottom(false) position for merge")
     boolean getDoMergeTopBottom();
 

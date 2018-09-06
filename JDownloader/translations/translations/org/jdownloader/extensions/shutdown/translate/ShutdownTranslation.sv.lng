@@ -1,6 +1,6 @@
 action_tooltip=Aktivera för att stänga av datorn när nerladdningarna är klara.
-addons_jdshutdown_statusmessage_disabled=Datorn stängs INTE av JDownloader
-addons_jdshutdown_statusmessage_enabled=JDownloader kommer at att stänga av datorn efter att nerladdningen är färdig
+addons_jdshutdown_statusmessage_disabled=Datorn stängs INTE av RegardsDownloader
+addons_jdshutdown_statusmessage_enabled=RegardsDownloader kommer at att stänga av datorn efter att nerladdningen är färdig
 config_active_by_default=Fortsätt ha Avstängning aktiverad
 config_toolbarbutton=Toolbar Button synlig
 gui_config_jdshutdown_close=Stäng JD
@@ -12,7 +12,7 @@ gui_config_jdshutdown_standby=Standby (Inte för alla OS)
 install_force=Installera Tvingande nerstängning
 install_msg=Vill du anpassa din dator för tvingande nerstängning?
 install_title=Installera Tvingande nerstängning
-interaction_shutdown_dialog_msg_closejd=<h2><font color="red">JDownloader kommer att avslutas!</font></h2>
+interaction_shutdown_dialog_msg_closejd=<h2><font color="red">RegardsDownloader kommer att avslutas!</font></h2>
 interaction_shutdown_dialog_msg_hibernate=<h2><font color="red">Systemet kommer att försättas i viloläge!</font></h2>
 interaction_shutdown_dialog_msg_shutdown=<h2><font color="red">Systemet kommer att stängas av!</font></h2>
 interaction_shutdown_dialog_msg_standby=<h2><font color="red">Systemet kommer att sättas i standby!</font></h2>
@@ -21,8 +21,8 @@ interaction_shutdown_dialog_title_hibernate=Viloläge?
 interaction_shutdown_dialog_title_shutdown=Stänga av?
 interaction_shutdown_dialog_title_standby=Standby?
 jd_plugins_optional_jdshutdown=JD Avstängning
-jd_plugins_optional_jdshutdown_description=Automatiskt stänga av, viloläge eller avsluta JDownloader när nerladdningar är klar.
+jd_plugins_optional_jdshutdown_description=Automatiskt stänga av, viloläge eller avsluta RegardsDownloader när nerladdningar är klar.
 lit_shutdownn=Stäng av
-show_admin=Administrator rättigheter krävs för att konfigurera JDownloader fö Viloläge eller Standby Mode
+show_admin=Administrator rättigheter krävs för att konfigurera RegardsDownloader fö Viloläge eller Standby Mode
 shutdown_toggle_action_disable=Avaktivera ShutdownExtension efter nerladdning
 shutdown_toggle_action_enable=Aktivera ShutdownExtension efter nerladdningar

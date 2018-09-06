@@ -51,5 +51,5 @@ jd_plugins_optional_schedule_maingui_edit=편집
 showcaptcha_choose_file=이미지파일 선택
 showcaptcha_chooser_title=JD :: 자동방지코드 보이기
 train_choose_folder=폴더 선택
-train_chooser_title=JDownloader :: TrainAll
+train_chooser_title=RegardsDownloader :: TrainAll
 train_method=자동다운로드방지코드 방식 선택

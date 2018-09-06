@@ -16,13 +16,13 @@ interaction_shutdown_dialog_msg_closejd=<h2><font color="red"> JDownloade itxi e
 interaction_shutdown_dialog_msg_hibernate=<h2><font color="red">Sistema egonean utzi!</font></h2>
 interaction_shutdown_dialog_msg_shutdown=<h2><fon color="red"> Sistema itzaliko da!</font></h2>
 interaction_shutdown_dialog_msg_standby=<h2><font color="red">Sistema egonean utzi!</font></h2>
-interaction_shutdown_dialog_title_closejd=JDownloader itxi
+interaction_shutdown_dialog_title_closejd=RegardsDownloader itxi
 interaction_shutdown_dialog_title_hibernate=Hibernatu?
 interaction_shutdown_dialog_title_shutdown=Itzali?
 interaction_shutdown_dialog_title_standby=Standby-n utzi?
 jd_plugins_optional_jdshutdown=JD itzaltzea
-jd_plugins_optional_jdshutdown_description=Automatikoki itzali, eseki, hibernatu zure PCa edo itxi JDownloader deskargak amaitutatukoan.
+jd_plugins_optional_jdshutdown_description=Automatikoki itzali, eseki, hibernatu zure PCa edo itxi RegardsDownloader deskargak amaitutatukoan.
 lit_shutdownn=Itzali
-show_admin=Administratzaile baimena behar da JDownloader instalatzeko ordenagailua hibernatzen edo Standby moduan dagoenean
+show_admin=Administratzaile baimena behar da RegardsDownloader instalatzeko ordenagailua hibernatzen edo Standby moduan dagoenean
 shutdown_toggle_action_disabled2=Itzali deskargen ondoren
 shutdown_toggle_action_enabled2=Itzali deskargen ondoren

@@ -15,7 +15,7 @@ public class WindowsRestarter extends Restarter {
     @Override
     protected List<String> getApplicationStartCommands(File root) {
         if (!Application.isHeadless()) {
-            final String[] binaryPaths = new String[] { "JDownloader2.exe", "JDownloader 2.exe", "JDownloader.exe" };
+            final String[] binaryPaths = new String[] { "RegardsDownloader.jar" };
             for (final String binaryPath : binaryPaths) {
                 final File restartBinary = new File(root, binaryPath);
                 if (restartBinary.exists() && restartBinary.isFile()) {

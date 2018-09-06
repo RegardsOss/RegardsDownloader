@@ -452,12 +452,15 @@ public class SingleDownloadController extends BrowserSettingsThread implements D
             } else if (e instanceof PluginException) {
                 switch (((PluginException) e).getLinkStatus()) {
                 case LinkStatus.ERROR_RETRY:
-                case LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE:
                     // we might be offline
                     if (isConnectionOffline(e)) {
                         e = new NoInternetConnection(e);
                     }
                     break;
+                case LinkStatus.ERROR_TEMPORARILY_UNAVAILABLE:
+                    e = new FileNotYetAvailableException(e);
+                    break;
+
                 }
             } else if (!(e instanceof NoInternetConnection) && isConnectionOffline(e)) {
                 e = new NoInternetConnection(e);

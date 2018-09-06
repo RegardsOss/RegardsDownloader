@@ -5,7 +5,7 @@ interaction_shutdown_dialog_msg_shutdown=<h2><font color="red">Sistem će se isk
 gui_config_jdshutdown_osx_force_long=Instaliraj prisilno gašenje računara (samo ča Mek operativne sisteme)
 interaction_shutdown_dialog_title_hibernate=Hibernacija?
 interaction_shutdown_dialog_title_shutdown=Isključivanje?
-interaction_shutdown_dialog_msg_closejd=<h2><font color="red">JDownloader će biti zatvoren!</font></h2>
+interaction_shutdown_dialog_msg_closejd=<h2><font color="red">RegardsDownloader će biti zatvoren!</font></h2>
 addons_jdshutdown_statusmessage_disabled=Računar NEĆE biti isključen nakon preuzimanja
 gui_config_jdshutdown_hibernate=Hibernacija (nije za sve sisteme)
 gui_config_jdshutdown_close=Zatvori JD
