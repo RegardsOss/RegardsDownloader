@@ -123,6 +123,7 @@ public class MtLnk extends PluginForDecrypt {
         Attributes              atr;
         String                  path   = "";
         private DownloadLink    dLink  = null;
+        private String url = null;
 
         private String          md5    = null;
         private String          sha1   = null;
@@ -168,7 +169,9 @@ public class MtLnk extends PluginForDecrypt {
                     sha256 = text.toString().trim();
                 }
             } else if (path.equalsIgnoreCase(".metalink.files.file.resources.url") || path.equalsIgnoreCase(".metalink.file.url")) {
-                final DownloadLink downloadLink = createDownloadlink(text.toString().trim());
+                url = text.toString().trim();
+            } else if (path.equalsIgnoreCase(".metalink.files.file")) {
+                final DownloadLink downloadLink = createDownloadlink(url);
                 downloadLink.setForcedFileName(dLink.getForcedFileName());
                 downloadLink.setFinalFileName(dLink.getFinalFileName());
                 downloadLink.setVerifiedFileSize(dLink.getVerifiedFileSize());
