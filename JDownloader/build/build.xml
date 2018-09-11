@@ -1,4 +1,4 @@
-<project default="all" basedir="../..">
+<project default="all" basedir="..">
     <!-- Dependencies -->
     <property name="dep.awu" value="../AppWorkUtils"/>
     <property name="debug" value="true"/>
@@ -429,6 +429,7 @@ extensions/translator.jar
             </fileset>
         </copy>
         <delete dir="${dist}/tmp"/>
+        <delete file="${download}/RegardsDownloader.zip"/>
         <zip destfile="${download}/RegardsDownloader.zip">
             <fileset dir="${download}"/>
         </zip>
