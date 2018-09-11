@@ -77,27 +77,33 @@ import jd.gui.swing.jdgui.views.settings.panels.urlordertable.UrlOrderTable;
 
 public class GUISettings extends AbstractConfigPanel implements StateUpdateListener {
 
-    private static final long                     serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    private SettingsButton                        lng;
+    private SettingsButton lng;
 
-    private SettingsButton                        resetDialogs;
-    private SettingsButton                        contextMenuManagerDownloadList;
-    private SettingsButton                        contextMenuManagerLinkgrabber;
-    private SettingsButton                        toolbarManager;
-    private SettingsButton                        mainMenuManager;
-    private SettingsButton                        trayMenuManager;
-    private SettingsButton                        resetDialogPosition;
+    private SettingsButton resetDialogs;
 
-    private ComboBox<FrameState>                  focus;
+    private SettingsButton contextMenuManagerDownloadList;
+
+    private SettingsButton contextMenuManagerLinkgrabber;
+
+    private SettingsButton toolbarManager;
+
+    private SettingsButton mainMenuManager;
+
+    private SettingsButton trayMenuManager;
+
+    private SettingsButton resetDialogPosition;
+
+    private ComboBox<FrameState> focus;
 
     private ComboBox<NewLinksInLinkgrabberAction> linkgrabberfocus;
 
-    private boolean                               setting;
+    private boolean setting;
 
-    private SettingsButton                        downloadBottomManager;
+    private SettingsButton downloadBottomManager;
 
-    private SettingsButton                        linkgrabberBottomManager;
+    private SettingsButton linkgrabberBottomManager;
 
     public String getTitle() {
         return _GUI.T.GUISettings_getTitle();
@@ -107,6 +113,7 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
         super();
 
         lng = new SettingsButton(new AppAction() {
+
             {
                 String value = TranslationFactory.getDesiredLanguage();
                 Locale loc = TranslationFactory.stringToLocale(value);
@@ -138,7 +145,8 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
 
                     @Override
                     public void run() throws Exception {
-                        List<String> list = TranslationFactory.listAvailableTranslations(JdownloaderTranslation.class, GuiTranslation.class);
+                        List<String> list = TranslationFactory
+                                .listAvailableTranslations(JdownloaderTranslation.class, GuiTranslation.class);
                         Collections.sort(list, new Comparator<String>() {
 
                             @Override
@@ -181,13 +189,22 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
 
                 UIOManager.I().show(null, p);
 
-                ComboBoxDialog comboDialog = new ComboBoxDialog(0, _GUI.T.languages_dialog_title(), _GUI.T.languages_dialog_title(), languages.get().toArray(new String[] {}), languages.get().indexOf(TranslationFactory.getDesiredLanguage()), new AbstractIcon(IconKey.ICON_LANGUAGE, 32), _GUI.T.languages_dialog_change_and_restart(), null, null) {
+                ComboBoxDialog comboDialog = new ComboBoxDialog(0, _GUI.T.languages_dialog_title(),
+                                                                _GUI.T.languages_dialog_title(),
+                                                                languages.get().toArray(new String[] {}),
+                                                                languages.get().indexOf(
+                                                                        TranslationFactory.getDesiredLanguage()),
+                                                                new AbstractIcon(IconKey.ICON_LANGUAGE, 32),
+                                                                _GUI.T.languages_dialog_change_and_restart(), null,
+                                                                null) {
+
                     @Override
                     protected ListCellRenderer getRenderer(final ListCellRenderer orgRenderer) {
                         return new ListCellRenderer() {
 
                             @Override
-                            public Component getListCellRendererComponent(JList list, Object v, int index, boolean isSelected, boolean cellHasFocus) {
+                            public Component getListCellRendererComponent(JList list, Object v, int index,
+                                    boolean isSelected, boolean cellHasFocus) {
                                 if (v instanceof String) {
                                     String value = (String) v;
                                     Locale loc = TranslationFactory.stringToLocale(value);
@@ -207,10 +224,12 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
                                             set = set + "(" + value + ")";
                                         }
                                     }
-                                    return orgRenderer.getListCellRendererComponent(list, set, index, isSelected, cellHasFocus);
+                                    return orgRenderer
+                                            .getListCellRendererComponent(list, set, index, isSelected, cellHasFocus);
 
                                 }
-                                return orgRenderer.getListCellRendererComponent(list, v, index, isSelected, cellHasFocus);
+                                return orgRenderer
+                                        .getListCellRendererComponent(list, v, index, isSelected, cellHasFocus);
 
                             }
 
@@ -230,7 +249,11 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
                     if (!newLng.equals(TranslationFactory.getDesiredLanguage())) {
 
                         try {
-                            Dialog.getInstance().showConfirmDialog(0, _GUI.T.GUISettings_save_language_changed_restart_required_title(), _GUI.T.GUISettings_save_language_changed_restart_required_msg(), NewTheme.getInstance().getIcon("language", 32), null, null);
+                            Dialog.getInstance().showConfirmDialog(0,
+                                                                   _GUI.T.GUISettings_save_language_changed_restart_required_title(),
+                                                                   _GUI.T.GUISettings_save_language_changed_restart_required_msg(),
+                                                                   NewTheme.getInstance().getIcon("language", 32), null,
+                                                                   null);
                             JSonStorage.saveTo(Application.getResource("cfg/language.json"), newLng);
                             RestartController.getInstance().asyncRestart(new SmartRlyRestartRequest(true));
                         } catch (DialogClosedException e2) {
@@ -307,6 +330,7 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
         // });
 
         resetDialogs = new SettingsButton(new AppAction() {
+
             {
                 setName(_GUI.T.GUISettings_GUISettings_resetdialogs_());
 
@@ -325,6 +349,7 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
             }
         });
         resetDialogPosition = new SettingsButton(new AppAction() {
+
             {
                 setName(_GUI.T.GUISettings_GUISettings_resetdialog_positions_());
                 // setEnabled(false);
@@ -383,7 +408,11 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
                     }
                 }).length > 0) {
                     try {
-                        Dialog.getInstance().showConfirmDialog(0, _GUI.T.jd_gui_swing_jdgui_settings_ConfigPanel_restartquestion_title(), _GUI.T.jd_gui_swing_jdgui_settings_ConfigPanel_restartquestion(), NewTheme.getInstance().getIcon("desktop", 32), null, null);
+                        Dialog.getInstance().showConfirmDialog(0,
+                                                               _GUI.T.jd_gui_swing_jdgui_settings_ConfigPanel_restartquestion_title(),
+                                                               _GUI.T.jd_gui_swing_jdgui_settings_ConfigPanel_restartquestion(),
+                                                               NewTheme.getInstance().getIcon("desktop", 32), null,
+                                                               null);
                         RestartController.getInstance().asyncRestart(new SmartRlyRestartRequest(true));
                     } catch (DialogClosedException e2) {
 
@@ -395,6 +424,7 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
             }
         });
         contextMenuManagerDownloadList = new SettingsButton(new AppAction() {
+
             {
                 setName(_GUI.T.gui_config_menumanager_downloadlist());
 
@@ -416,6 +446,7 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
         });
 
         contextMenuManagerLinkgrabber = new SettingsButton(new AppAction() {
+
             {
                 setName(_GUI.T.gui_config_menumanager_linkgrabber());
 
@@ -436,6 +467,7 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
             }
         });
         toolbarManager = new SettingsButton(new AppAction() {
+
             {
                 setName(_GUI.T.gui_config_menumanager_toolbar());
 
@@ -456,6 +488,7 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
         });
 
         mainMenuManager = new SettingsButton(new AppAction() {
+
             {
                 setName(_GUI.T.gui_config_menumanager_mainmenu());
 
@@ -475,6 +508,7 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
         });
 
         trayMenuManager = new SettingsButton(new AppAction() {
+
             {
                 setName(_GUI.T.gui_config_menumanager_traymenu());
 
@@ -494,6 +528,7 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
         });
 
         downloadBottomManager = new SettingsButton(new AppAction() {
+
             {
                 setName(_GUI.T.gui_config_menumanager_downloadBottom());
 
@@ -514,6 +549,7 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
         });
 
         linkgrabberBottomManager = new SettingsButton(new AppAction() {
+
             {
                 setName(_GUI.T.gui_config_menumanager_linkgrabberBottom());
 
@@ -567,13 +603,24 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
         // TO_FRONT,
         // TO_BACK,
         // TO_FRONT_FOCUSED;
-        focus = new ComboBox<FrameState>(new FrameState[] { FrameState.OS_DEFAULT, FrameState.TO_BACK, FrameState.TO_FRONT, FrameState.TO_FRONT_FOCUSED }, new String[] { _GUI.T.GUISettings_GUISettings_framestate_os_default(System.getProperty("os.name")), _GUI.T.GUISettings_GUISettings_framestate_back(), _GUI.T.GUISettings_GUISettings_framestate_front(), _GUI.T.GUISettings_GUISettings_framestate_focus() }) {
+        focus = new ComboBox<FrameState>(
+                new FrameState[] { FrameState.OS_DEFAULT, FrameState.TO_BACK, FrameState.TO_FRONT,
+                        FrameState.TO_FRONT_FOCUSED },
+                new String[] { _GUI.T.GUISettings_GUISettings_framestate_os_default(System.getProperty("os.name")),
+                        _GUI.T.GUISettings_GUISettings_framestate_back(),
+                        _GUI.T.GUISettings_GUISettings_framestate_front(),
+                        _GUI.T.GUISettings_GUISettings_framestate_focus() }) {
 
         };
         focus.addStateUpdateListener(this);
         addPair(_GUI.T.GUISettings_GUISettings_dialog_focus(), null, focus);
 
-        linkgrabberfocus = new ComboBox<NewLinksInLinkgrabberAction>(new NewLinksInLinkgrabberAction[] { NewLinksInLinkgrabberAction.NOTHING, NewLinksInLinkgrabberAction.TO_FRONT, NewLinksInLinkgrabberAction.FOCUS }, new String[] { _GUI.T.GUISettings_GUISettings_newlinks_nothing(), _GUI.T.GUISettings_GUISettings_newlinks_front(), _GUI.T.GUISettings_GUISettings_newlinks_focus() });
+        linkgrabberfocus = new ComboBox<NewLinksInLinkgrabberAction>(
+                new NewLinksInLinkgrabberAction[] { NewLinksInLinkgrabberAction.NOTHING,
+                        NewLinksInLinkgrabberAction.TO_FRONT, NewLinksInLinkgrabberAction.FOCUS },
+                new String[] { _GUI.T.GUISettings_GUISettings_newlinks_nothing(),
+                        _GUI.T.GUISettings_GUISettings_newlinks_front(),
+                        _GUI.T.GUISettings_GUISettings_newlinks_focus() });
         linkgrabberfocus.addStateUpdateListener(this);
         addPair(_GUI.T.GUISettings_GUISettings_dialog_linkgrabber_on_new_links(), null, linkgrabberfocus);
 
@@ -581,7 +628,8 @@ public class GUISettings extends AbstractConfigPanel implements StateUpdateListe
 
     protected void loadLanguages() {
 
-        List<String> list = TranslationFactory.listAvailableTranslations(JdownloaderTranslation.class, GuiTranslation.class);
+        List<String> list = TranslationFactory
+                .listAvailableTranslations(JdownloaderTranslation.class, GuiTranslation.class);
         Collections.sort(list, new Comparator<String>() {
 
             @Override

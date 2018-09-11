@@ -79,11 +79,6 @@ public class Main {
             java.security.Security.setProperty("networkaddress.cache.negative.ttl", 0 + "");
         } catch (final Throwable e) {
         }
-        try {
-            copySVNtoHome();
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
         Dialog.getInstance().setLafManager(LookAndFeelController.getInstance());
 
         IO.setErrorHandler(new IOErrorHandler() {
@@ -125,77 +120,6 @@ public class Main {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-    }
-
-    public static void copySVNtoHome() {
-        try {
-            if (!Application.isJared(null) && Application.getRessourceURL("org/jdownloader/update/JDUpdateClient.class") == null || System.getProperty("copysvn") != null) {
-
-                File workspace = new File(Main.class.getResource("/").toURI()).getParentFile();
-                if (workspace.getName().equals("JDownloaderUpdater")) {
-                    workspace = new File(workspace.getParentFile(), "JDownloader");
-                }
-                File svnEntriesFile = new File(workspace, ".svn/entries");
-                if (svnEntriesFile.exists()) {
-                    long lastMod = svnEntriesFile.lastModified();
-                    try {
-                        lastMod = Long.parseLong(Regex.getLines(IO.readFileToString(svnEntriesFile))[3].trim());
-                    } catch (Throwable e) {
-
-                    }
-
-                    long lastUpdate = -1;
-                    File lastSvnUpdateFile = Application.getResource("dev/lastSvnUpdate");
-                    if (lastSvnUpdateFile.exists()) {
-                        try {
-                            lastUpdate = Long.parseLong(IO.readFileToString(lastSvnUpdateFile));
-                        } catch (Throwable e) {
-
-                        }
-                    }
-                    if (lastMod > lastUpdate) {
-                        copyResource(workspace, "themes/themes", "themes");
-                        copyResource(workspace, "ressourcen/jd", "jd");
-                        copyResource(workspace, "ressourcen/tools", "tools");
-                        copyResource(workspace, "translations/translations", "translations");
-                        File jdJar = Application.getResource("JDownloader.jar");
-                        jdJar.delete();
-                        IO.copyFile(new File(workspace, "dev/JDownloader.jar"), jdJar);
-                        lastSvnUpdateFile.delete();
-                        lastSvnUpdateFile.getParentFile().mkdirs();
-                        IO.writeStringToFile(lastSvnUpdateFile, lastMod + "");
-                    }
-                }
-                // URL mainClass = Application.getRessourceURL("org", true);
-                //
-                // File svnJar = new File(new File(mainClass.toURI()).getParentFile().getParentFile(), "dev/JDownloader.jar");
-                // FileCreationManager.getInstance().delete(jdjar, null);
-                // IO.copyFile(svnJar, jdjar);
-                //
-                // }
-
-            }
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void copyResource(File workspace, String from, String to) throws IOException {
-        System.out.println("Copy SVN Resources " + new File(workspace, from) + " to " + Application.getResource(to));
-        IO.copyFolderRecursive(new File(workspace, from), Application.getResource(to), true, new FileFilter() {
-
-            @Override
-            public boolean accept(File pathname) {
-                if (pathname.getAbsolutePath().contains(".svn")) {
-                    return false;
-                } else {
-                    System.out.println("Copy " + pathname);
-                    return true;
-                }
-
-            }
-
-        }, SYNC.NONE);
     }
 
     public static void main(String[] args) {

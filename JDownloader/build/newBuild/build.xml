@@ -4,13 +4,12 @@
     <property name="debug" value="true"/>
 
 
-    <property name="working" value="update"/>
+    <property name="working" value="out"/>
 
     <property name="cls" value="${working}/bin"/>
     <property name="dist" value="${working}/dist"/>
-    <property name="res" value="ressourcen"/>
-    <property name="pluginres" value="${dist}/pluginressourcen"/>
-
+    <property name="res" value="ressources"/>
+    <property name="download" value="download"/>
 
     <path id="classpath">
         <fileset dir="${cls}"/>
@@ -22,8 +21,7 @@
 
     <!-- Deletes the old build -->
     <target name="clean">
-
-        <delete dir="${working}/bin"/>
+        <delete dir="${working}"/>
         <delete dir="${dist}"/>
         <mkdir dir="${dist}"/>
         <mkdir dir="${working}"/>
@@ -33,9 +31,7 @@
     <target name="compile" depends="clean">
         <mkdir dir="${cls}"/>
 
-
         <!-- Build dependencies -->
-
         <javac srcdir="${dep.awu}/src" excludes="**/test/**" verbose="false" debug="${debug}" destdir="${cls}"
                encoding="UTF-8" includeantruntime="false">
             <classpath refid="classpath"/>
@@ -50,15 +46,15 @@
 
         </javac>
         <echo message="Finished."/>
-
-
     </target>
-
 
     <!-- Copies all the additional ressources  -->
     <target name="copy_res" depends="clean">
         <copy todir="${dist}/jd">
-            <fileset dir="${res}/jd" includes="**/*"/>
+            <fileset dir="${res}/jd" includes="**/*">
+                <exclude name="${res}/jd/captcha/**/*"/>
+            </fileset>
+
         </copy>
         <copy todir="${dist}/libs">
             <fileset dir="${res}/libs" includes="**/*">
@@ -74,13 +70,17 @@
 
         <copy todir="${dist}">
             <fileset dir="themes" includes="**/*"/>
+            <fileset dir="scripts" includes="*"/>
         </copy>
+        <exec executable="chmod">
+            <arg value="+x"/>
+            <arg value="${dist}/regardsDownloader.sh"/>
+        </exec>
 
         <copy todir="${dist}/licenses">
             <fileset dir="${res}/licenses" includes="**/*"/>
             <fileset dir="${res}/libs/" includes="**/*.info"/>
             <fileset dir="${dep.awu}/libs/" includes="**/*.info"/>
-            <!--<fileset dir="${dep.jdc}/libs/" includes="**/*.info" />-->
         </copy>
 
         <copy todir="${dist}/tools">
@@ -90,19 +90,19 @@
             <fileset dir="${res}" includes="*.html, *.txt, *.exe, *.bat, *.properties"/>
         </copy>
 
-        <mkdir dir="${dist}/java"/>
         <mkdir dir="${dist}/tmp"/>
 
-
+        <!-- Copy all translations (in fact only English and French) -->
         <mkdir dir="${dist}/translations"/>
-
         <copy todir="${dist}/translations">
-            <fileset dir="${dep.awu}/src" includes="**/*.lng"/>
-            <fileset dir="src" includes="**/*.lng"/>
+            <fileset dir="${dep.awu}/src" includes="**/*.en.lng"/>
+            <fileset dir="${dep.awu}/src" includes="**/*.fr.lng"/>
+            <fileset dir="src" includes="**/*.en.lng"/>
+            <fileset dir="src" includes="**/*.fr.lng"/>
         </copy>
         <copy todir="${dist}">
-
-            <fileset dir="translations" includes="**/*.lng"/>
+            <fileset dir="translations" includes="**/*.en.lng"/>
+            <fileset dir="translations" includes="**/*.fr.lng"/>
 
         </copy>
 
@@ -115,77 +115,57 @@
             <attribute name="Created-By" value="JD-Team and AppWork GmbH"/>
         </manifest>
         <jar file="${dist}/libs/JDHttp.jar" manifest="${dist}/Manifest.MF">
-
-
             <fileset dir="${cls}">
                 <include name="jd/http/**/*"/>
             </fileset>
         </jar>
         <jar file="${dist}/libs/JDGUI.jar" manifest="${dist}/Manifest.MF">
-
             <fileset dir="${cls}">
                 <include name="jd/gui/**"/>
             </fileset>
         </jar>
-        <jar file="${dist}/libs/JAntiCaptcha.jar" manifest="${dist}/Manifest.MF">
-
-            <fileset dir="${cls}">
-                <include name="jd/captcha/**"/>
-                <exclude name="jd/captcha/methods/**"/>
-            </fileset>
-        </jar>
+        <!--<jar file="${dist}/libs/JAntiCaptcha.jar" manifest="${dist}/Manifest.MF">-->
+        <!--<fileset dir="${cls}">-->
+        <!--<include name="jd/captcha/**"/>-->
+        <!--<exclude name="jd/captcha/methods/**"/>-->
+        <!--</fileset>-->
+        <!--</jar>-->
         <jar file="${dist}/libs/JDUtils.jar" manifest="${dist}/Manifest.MF">
-
             <fileset dir="${cls}">
                 <include name="jd/nutils/**"/>
             </fileset>
         </jar>
-
         <jar file="${dist}/libs/Dynamics.jar" manifest="${dist}/Manifest.MF">
-
             <fileset dir="${cls}">
                 <include name="org/jdownloader/dynamic/**/*"/>
             </fileset>
         </jar>
-
         <jar file="${dist}/libs/cons.jar" manifest="${dist}/Manifest.MF">
             <fileset dir="${cls}">
                 <include name="org/jdownloader/container/**/*"/>
             </fileset>
         </jar>
-
         <!--laf-->
-
         <jar file="${dist}/libs/laf/syntheticaJDCustom.jar" manifest="${dist}/Manifest.MF">
-
             <fileset dir="${cls}">
-
                 <include name="org/jdownloader/gui/laf/**/*"/>
                 <exclude name="org/jdownloader/gui/laf/plain/**/*"/>
             </fileset>
-
             <fileset dir="src">
-
                 <include name="org/jdownloader/gui/laf/**/*"/>
                 <exclude name="org/jdownloader/gui/laf/plain/**/*"/>
                 <exclude name="**/*.java"/>
             </fileset>
-
         </jar>
-
         <jar file="${dist}/libs/laf/syntheticaJDPlain.jar" manifest="${dist}/Manifest.MF">
-
             <fileset dir="${cls}">
                 <include name="org/jdownloader/gui/laf/plain/**/*"/>
             </fileset>
-
             <fileset dir="src">
                 <include name="org/jdownloader/gui/laf/plain/**/*"/>
                 <exclude name="**/*.java"/>
             </fileset>
-
         </jar>
-
 
         <delete file="${dist}/Manifest.MF" failonerror="true"/>
         <pathconvert pathsep=" " dirsep="/" property="class-path">
@@ -198,13 +178,10 @@
         <manifest file="${dist}/Manifest.MF">
             <attribute name="Created-By" value="JD-Team and AppWork GmbH"/>
             <attribute name="Main-Class" value="jd.Main"/>
-            <!-- plugins that serialize own classes have to be put in the classpath -->
-
         </manifest>
         <!--CORE-->
 
         <jar file="${dist}/Core.jar" manifest="${dist}/Manifest.MF">
-
             <fileset dir="${cls}">
                 <include name="**/*.class"/>
                 <include name="**/*.txt"/>
@@ -240,9 +217,7 @@
                 <include name="**/*.css"/>
                 <include name="org/jdownloader/captcha/v2/challenge/recaptcha/v2/example/*.jpg"/>
                 <include name="org/jdownloader/captcha/v2/solver/browser/html/**/*"/>
-
             </fileset>
-
             <fileset dir="${cls}">
                 <include name="jd/plugins/hoster/RTMPDownload.class"/>
             </fileset>
@@ -254,17 +229,16 @@
         </jar>
         <delete file="${dist}/Manifest.MF" failonerror="true"/>
         <delete file="${working}/version.nfo" failonerror="true"/>
-        <echo file="${working}/version.nfo">${updateclient.revision}</echo>
+        <!--<echo file="${working}/version.nfo">${updateclient.revision}</echo>-->
 
         <pathconvert pathsep="${line.separator}" dirsep="/" property="cp">
             <path>
                 <fileset dir="${dist}/libs" includes="**/*.jar"/>
             </path>
             <mapper type="regexp" from="[\\/]dist[\\/](libs[\\/].*)" to="\1"/>
-
         </pathconvert>
         <delete file="${working}/classpath" failonerror="true"/>
-        <echo file="${working}/classpath">Core.jar${line.separator}${cp}${line.separator}${cpe}</echo>
+        <!--<echo file="${working}/classpath">Core.jar${line.separator}${cp}${line.separator}${cpe}</echo>-->
         <!--launcher-->
         <manifest file="${dist}/Manifest.MF">
             <attribute name="Created-By" value="Centre National d'Études Spatiales"/>
@@ -330,12 +304,12 @@ extensions/translator.jar
         <jar file="${dist}/RegardsDownloader.jar" manifest="${dist}/Manifest.MF">
             <zipfileset src="${dep.awu}/libs/miglayout.jar" excludes="META-INF/*"/>
             <zipfileset src="${dep.awu}/libs/proxyVole.jar" excludes="META-INF/*"/>
-            <fileset dir="${working}">
-                <include name="version.nfo"/>
-                <include name="classpath"/>
-            </fileset>
+            <!--<fileset dir="${working}">-->
+            <!--&lt;!&ndash;<include name="version.nfo"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<include name="classpath"/>&ndash;&gt;-->
+            <!--</fileset>-->
             <fileset dir="${cls}">
-                <include name="classpath"/>
+                <!--<include name="classpath"/>-->
                 <include name="org/jdownloader/logging/**/*"/>
                 <include name="org/jdownloader/updatev2/**/*"/>
                 <include name="org/jdownloader/update/**/*.class"/>
@@ -356,7 +330,6 @@ extensions/translator.jar
 
             <fileset dir="${dep.awu}/src">
                 <include name="org/appwork/utils/net/effective_tld_names.dat"/>
-
             </fileset>
 
             <fileset dir="themes">
@@ -384,12 +357,10 @@ extensions/translator.jar
                 <include name="**/*"/>
             </fileset>
         </copy>
-
     </target>
 
     <!-- Use this to build an addon -->
     <macrodef name="buildAddon" description="Function for creating an optional addon">
-
         <attribute name="package"/>
         <attribute name="include"/>
         <sequential>
@@ -448,14 +419,25 @@ extensions/translator.jar
         <delete file="${dist}/Manifest.MF" failonerror="true"/>
     </target>
 
+    <target name="zip" depends="jarOptionals"
+            description="Creates deliverable zip file containing RegardsDownloader application">
+        <mkdir dir="${download}/RegardsDownloader"/>
+        <copy todir="${download}/RegardsDownloader">
+            <fileset  dir="${dist}/">
+                <include name="**/*"/>
+                <exclude name="${dist}/tmp"/>
+            </fileset>
+        </copy>
+        <delete dir="${dist}/tmp"/>
+        <zip destfile="${download}/RegardsDownloader.zip">
+            <fileset dir="${download}"/>
+        </zip>
+    </target>
 
-    <target name="all" depends="clean,compile,copy_res,jarMain,copy_compiled,jarReconnectOptionals,jarOptionals">
+    <target name="all" depends="clean,compile,copy_res,jarMain,copy_compiled,jarReconnectOptionals,jarOptionals,zip">
         <echo message="Finished."/>
     </target>
-    <target name="withoutsign"
-            depends="clean,compile,copy_res,jarReconnectOptionals,jarOptionals,jarMain,copy_compiled">
-        <echo message="Finished."/>
-    </target>
+
     <target name="updater" depends="clean,compile,copy_compiled">
         <echo message="Finished."/>
     </target>
