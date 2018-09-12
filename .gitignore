@@ -25,3 +25,5 @@ AppRegardsDownloader/bin/
 AppRegardsDownloader/out/
 
 AppRegardsDownloader/\.idea/
+
+AppRegardsDownloader/download/
