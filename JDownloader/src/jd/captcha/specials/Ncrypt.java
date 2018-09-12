@@ -16,21 +16,19 @@
 
 package jd.captcha.specials;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
+import org.jdownloader.logging.LogController;
 
 import jd.captcha.JACMethod;
 import jd.captcha.JAntiCaptcha;
 import jd.captcha.pixelgrid.Captcha;
-import jd.captcha.utils.AnimatedGifEncoder;
 import jd.captcha.utils.GifDecoder;
 import jd.utils.JDUtilities;
-
-import org.jdownloader.logging.LogController;
 
 public class Ncrypt {
     public static void main(final String args[]) throws IOException {
@@ -88,14 +86,14 @@ public class Ncrypt {
                 final BufferedImage frame = d.getFrame(j);
                 frames[j] = frame;
             }
-            final AnimatedGifEncoder e = new AnimatedGifEncoder();
-            e.start(file.getAbsolutePath());
-            e.setRepeat(0);
-            e.setDelay(delay);
-            for (int j = 0; j < n; j++) {
-                e.addFrame(frames[j]);
-            }
-            e.finish();
+//            final AnimatedGifEncoder e = new AnimatedGifEncoder();
+//            e.start(file.getAbsolutePath());
+//            e.setRepeat(0);
+//            e.setDelay(delay);
+//            for (int j = 0; j < n; j++) {
+//                e.addFrame(frames[j]);
+//            }
+//            e.finish();
         } catch (final Throwable e) {
             LogController.CL().log(e);
         }

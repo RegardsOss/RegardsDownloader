@@ -4,9 +4,6 @@ import org.appwork.utils.event.DefaultEvent;
 
 public abstract class RemoteAPIInternalEvent extends DefaultEvent {
 
-    public static enum Type {
-    }
-
     public RemoteAPIInternalEvent() {
         super(null);
     }
