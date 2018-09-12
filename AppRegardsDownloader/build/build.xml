@@ -433,6 +433,7 @@ extensions/translator.jar
         <zip destfile="${download}/RegardsDownloader.zip">
             <fileset dir="${download}"/>
         </zip>
+        <delete dir="${download}/RegardsDownloader"/>
     </target>
 
     <target name="all" depends="clean,compile,copy_res,jarMain,copy_compiled,jarReconnectOptionals,jarOptionals,zip">
