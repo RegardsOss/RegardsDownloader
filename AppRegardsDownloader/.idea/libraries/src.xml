@@ -1,0 +1,24 @@
+<component name="libraryTable">
+  <library name="src">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/ressources/libs_ext" />
+      <root url="file://$PROJECT_DIR$/ressources/libs/UPNP" />
+      <root url="file://$PROJECT_DIR$/ressources/libs/dbus" />
+      <root url="file://$PROJECT_DIR$/ressources/libs" />
+      <root url="jar://$PROJECT_DIR$/ressources/libs/laf/synthetica.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ressources/libs/laf/syntheticaSimple2D.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file://$PROJECT_DIR$/ressources/libs/dbus" />
+    </NATIVE>
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../AppWorkUtils/src" />
+      <root url="jar://$USER_HOME$/.ideaLibSources/proxy-vole-1.0.3-sources.jar!/" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/ressources/libs" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/ressources/libs/dbus" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/ressources/libs/UPNP" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/ressources/libs_ext" recursive="false" />
+  </library>
+</component>

@@ -19,3 +19,9 @@ AppWorkUtils/dist/
 AppWorkUtils/\.idea/
 
 JDownloader/out/
+
+AppRegardsDownloader/bin/
+
+AppRegardsDownloader/download/
+
+AppRegardsDownloader/out/

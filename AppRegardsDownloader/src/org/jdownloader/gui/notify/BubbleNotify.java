@@ -123,11 +123,11 @@ public class BubbleNotify {
             types.add(new UpdatesBubbleSupport());
             types.add(new ReconnectBubbleSupport());
 
-            types.add(new CaptchaBubbleSupport());
+//            types.add(new CaptchaBubbleSupport());
             types.add(new StartDownloadsBubbleSupport());
             types.add(new StartStopPauseBubbleSupport());
 
-            types.add(CESBubbleSupport.getInstance());
+//            types.add(CESBubbleSupport.getInstance());
         } else {
             ballooner = null;
         }

@@ -88,7 +88,7 @@ public abstract class AbstractConfigPanel extends SwitchPanel {
         LAFOptions.getInstance().applyConfigDescriptionTextColor(txt);
 
         txt.setText(description);
-        add(txt, "gaptop 0,spanx,growx,pushx,gapleft " + getLeftGap() + ",gapbottom 5,wmin 10");
+        add(txt, "gaptop 0,spanx,growx,pushx,gapleft " + getLeftGap() + ",gapbottom 5,wmin 10, h 40::");
 
         return txt;
     }
