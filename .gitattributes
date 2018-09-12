@@ -1,1 +1,1 @@
-*.zip filter=lfs diff=lfs merge=lfs -text
+RegardsDownloader.zip filter=lfs diff=lfs merge=lfs -text
